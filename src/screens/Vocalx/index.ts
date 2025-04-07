@@ -1,0 +1,1 @@
+export { Vocalx } from "./Vocalx";
