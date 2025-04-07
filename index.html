@@ -16,9 +16,14 @@
       }
       
       @keyframes pulse {
-        0% {transform: scale(1); opacity: 1;}
-        50% {transform: scale(1.1); opacity: 0.8;}
-        100% {transform: scale(1); opacity: 1;}
+        0% {transform: scale(1); opacity: 0.7;}
+        50% {transform: scale(1.5); opacity: 0.3;}
+        100% {transform: scale(1); opacity: 0.7;}
+      }
+      
+      @keyframes ripple {
+        0% {transform: scale(0.8); opacity: 1;}
+        100% {transform: scale(2.5); opacity: 0;}
       }
       
       @keyframes glow {
@@ -98,7 +103,8 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background-color: white;
+        background-color: #ff3366;
+        z-index: 2;
       }
       
       .ai-button .pulse-ring {
@@ -108,9 +114,30 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background-color: white;
+        background-color: #ff3366;
         opacity: 0.7;
         animation: pulse 2s infinite;
+      }
+      
+      /* Multiple ripple rings for enhanced effect */
+      .ai-button .ripple {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: transparent;
+        border: 2px solid #ff3366;
+        animation: ripple 2s infinite;
+      }
+      
+      .ai-button .ripple:nth-child(2) {
+        animation-delay: 0.5s;
+      }
+      
+      .ai-button .ripple:nth-child(3) {
+        animation-delay: 1s;
       }
     </style>
     <link href="tailwind.css" rel="stylesheet" />
@@ -151,9 +178,14 @@
       <!-- Text -->
       <span>Talk to AI</span>
       
-      <!-- Pulsing Circle Animation -->
-      <span class="pulse-ring"></span>
-      <span class="pulse-dot"></span>
+      <!-- Enhanced Pulsing Animation -->
+      <div style="position: absolute; top: -4px; right: -4px;">
+        <span class="pulse-dot"></span>
+        <span class="pulse-ring"></span>
+        <span class="ripple"></span>
+        <span class="ripple"></span>
+        <span class="ripple"></span>
+      </div>
     </button>
   </body>
 </html>
