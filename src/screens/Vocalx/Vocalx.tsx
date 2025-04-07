@@ -234,12 +234,96 @@ export const Vocalx = (): JSX.Element => {
 
       {/* Features Section */}
       <section id="features" className="flex w-full items-center justify-center px-4 sm:px-8 md:px-16 lg:px-[70px] py-8 sm:py-12 md:py-16 relative"> {/* Added id="features", responsive padding */}
-        <div className="flex w-full max-w-[1300px] items-center justify-center relative opacity-80"> {/* Added justify-center */}
+        {/* Desktop version - visible on md screens and above */}
+        <div className="hidden md:flex w-full max-w-[1300px] items-center justify-center relative opacity-80"> {/* Added justify-center, hidden on mobile */}
           <img
             className="w-full h-auto object-cover"
             alt="Features"
             src="/features.png"
           />
+        </div>
+        
+        {/* Mobile version - visible only on screens smaller than md */}
+        <div className="flex md:hidden w-full flex-col max-w-[1300px]">
+          <h2 className="text-center text-3xl font-bold mb-8">Our Features</h2>
+          
+          {/* Feature 1 */}
+          <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
+            <div className="flex items-start">
+              <div className="w-1/4 mr-4 flex-shrink-0">
+                <img src="/rectangle-682.png" alt="Qualify leads" className="w-full h-auto rounded" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-1">Qualify leads at scale</h3>
+                <p className="text-sm text-gray-700">AI instantly identifies motivated sellers and filters out unqualified leads.</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Feature 2 */}
+          <div className="mb-8 bg-purple-50 rounded-lg p-4 shadow-sm">
+            <div className="flex items-start">
+              <div className="w-1/4 mr-4 flex-shrink-0">
+                <img src="/rectangle-683.png" alt="Automated campaigns" className="w-full h-auto rounded" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-1">6-month automated email campaigns</h3>
+                <p className="text-sm text-gray-700">Ensures continuous engagement and follow-ups.</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Feature 3 */}
+          <div className="mb-8 bg-green-50 rounded-lg p-4 shadow-sm">
+            <div className="flex items-start">
+              <div className="w-1/4 mr-4 flex-shrink-0">
+                <img src="/rectangle-684.png" alt="Reduce costs" className="w-full h-auto rounded" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-1">Reduce operational costs</h3>
+                <p className="text-sm text-gray-700">A fraction of the cost compared to human teams.</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Feature 4 */}
+          <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
+            <div className="flex items-start">
+              <div className="w-1/4 mr-4 flex-shrink-0">
+                <img src="/rectangle-685.png" alt="Concurrent calls" className="w-full h-auto rounded" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-1">Handle 15+ concurrent calls</h3>
+                <p className="text-sm text-gray-700">Where human teams can handle one call at a time, AI engages multiple leads simultaneously.</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Feature 5 */}
+          <div className="mb-4 bg-purple-50 rounded-lg p-4 shadow-sm">
+            <div className="flex items-start">
+              <div className="w-1/4 mr-4 flex-shrink-0">
+                <img src="/wave-particle.png" alt="Fast responses" className="w-full h-auto rounded" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-1">Lightning-fast responses</h3>
+                <p className="text-sm text-gray-700">AI reaches out within 2 minutes of lead submission, increasing conversions by 8%.</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Feature 6 */}
+          <div className="bg-green-50 rounded-lg p-4 shadow-sm">
+            <div className="flex items-start">
+              <div className="w-1/4 mr-4 flex-shrink-0">
+                <img src="/wave.png" alt="Peak hour performance" className="w-full h-auto rounded" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-1">Peak hour performance</h3>
+                <p className="text-sm text-gray-700">Handles 4,000 to 5,000 messages daily, qualifying leads and forwarding the best ones to your sales team.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
