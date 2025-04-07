@@ -4,7 +4,7 @@ export const ContactUs = (): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Basic submit handler - prevents default and logs.
-  // Add actual form submission logic here (e.g., API call).
+  // Add actual form submission logic here (e.g., API call).sss
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
     console.log('Form submitted');
