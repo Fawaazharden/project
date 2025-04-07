@@ -9,10 +9,10 @@ export const ContactUs = (): JSX.Element => {
   
   // Navigation items - same as main page for consistency
   const navItems = [
-    { title: "Features", href: "#features" },
-    { title: "Use Cases", href: "#use-cases" },
-    { title: "Testimonials", href: "#testimonials" },
-    { title: "Pricing", href: "#pricing" },
+    { title: "Features", href: "/#features" },
+    { title: "Use Cases", href: "/#use-cases" },
+    { title: "Testimonials", href: "/#testimonials" },
+    { title: "Pricing", href: "/#pricing" },
     { title: "Contact Us", href: "/contact" },
   ];
   const [isSubmitted, setIsSubmitted] = useState(false);
