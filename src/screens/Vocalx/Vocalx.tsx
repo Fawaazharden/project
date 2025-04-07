@@ -128,7 +128,7 @@ export const Vocalx = (): JSX.Element => {
             <img
               src="/screenshot-2025-03-26-224229-1.png" // Assuming this is the correct logo path
               alt="Vocalx Labs Logo"
-              className="h-8 sm:h-10" // Responsive height
+              className="h-10 sm:h-10" // Increased mobile height, kept sm height
             />
           </div>
           {/* Desktop Nav Links */}
@@ -546,7 +546,7 @@ export const Vocalx = (): JSX.Element => {
             <img
               src="/screenshot-2025-03-26-224229-1.png" // Assuming this is the correct logo path
               alt="Vocalx Labs Logo"
-              className="h-7 sm:h-8 mb-3 sm:mb-4 mx-auto md:mx-0" // Responsive height/margin
+              className="h-8 sm:h-8 mb-3 sm:mb-4 mx-auto md:mx-0" // Increased mobile height, kept sm height
             />
             <p className="text-xs sm:text-sm">&copy; {new Date().getFullYear()} Vocalx Labs. All rights reserved.</p> {/* Responsive size */}
             {/* Add Email Link */}
