@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 export const ContactUs = (): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isCalendlyLoading, setIsCalendlyLoading] = useState(false);
 
   // Basic submit handler - prevents default and logs.
   // Add actual form submission logic here (e.g., API call).sss
@@ -11,6 +12,7 @@ export const ContactUs = (): JSX.Element => {
     // Placeholder for actual submission logic
     // alert('Form submitted! (Placeholder)'); // Simple feedback - replaced by showing Calendly
     setIsSubmitted(true);
+    setIsCalendlyLoading(true);
   };
 
   // Effect to load Calendly script when the component mounts or isSubmitted changes
@@ -22,6 +24,7 @@ export const ContactUs = (): JSX.Element => {
       if (document.getElementById(scriptId)) {
         // If script exists, potentially re-initialize Calendly if needed
         // (window as any).Calendly?.initInlineWidgets(); // Uncomment if re-initialization is necessary
+        setIsCalendlyLoading(false);
         return;
       }
 
@@ -29,6 +32,15 @@ export const ContactUs = (): JSX.Element => {
       script.id = scriptId;
       script.src = 'https://assets.calendly.com/assets/external/widget.js';
       script.async = true;
+      
+      // Add event listener to detect when Calendly is loaded
+      script.onload = () => {
+        // Give a small delay to allow Calendly to initialize
+        setTimeout(() => {
+          setIsCalendlyLoading(false);
+        }, 1000);
+      };
+      
       document.body.appendChild(script);
 
       // Cleanup function to remove the script when the component unmounts
@@ -46,6 +58,14 @@ export const ContactUs = (): JSX.Element => {
       };
     }
   }, [isSubmitted]);
+
+  // Loading spinner component
+  const LoadingSpinner = () => (
+    <div className="flex flex-col items-center justify-center my-8">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
+      <p className="text-gray-700 text-lg">Loading calendar...</p>
+    </div>
+  );
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-8">
@@ -82,9 +102,17 @@ export const ContactUs = (): JSX.Element => {
           <p className="text-lg text-gray-700 mb-8 text-center max-w-2xl">
             Your message has been sent. Please book a meeting with us below.
           </p>
+          
+          {/* Show loading spinner while Calendly is loading */}
+          {isCalendlyLoading && <LoadingSpinner />}
+          
           {/* Calendly inline widget begin */}
           {/* Added w-full and max-w-4xl for better responsiveness */}
-          <div className="calendly-inline-widget w-full max-w-4xl" data-url="https://calendly.com/danielgrayson087/30min?hide_event_type_details=1&hide_gdpr_banner=1" style={{ minWidth: '320px', height: '700px' }}></div>
+          <div
+            className={`calendly-inline-widget w-full max-w-4xl ${isCalendlyLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}
+            data-url="https://calendly.com/danielgrayson087/30min?hide_event_type_details=1&hide_gdpr_banner=1"
+            style={{ minWidth: '320px', height: '700px' }}
+          ></div>
           {/* Script is now loaded via useEffect */}
           {/* Calendly inline widget end */}
         </>
