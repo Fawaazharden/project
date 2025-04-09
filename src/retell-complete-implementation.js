@@ -17,8 +17,53 @@
 
 import { RetellWebClient } from 'retell-client-js-sdk';
 
-// Initialize Retell Web Client
-const retellWebClient = new RetellWebClient();
+// Initialize Retell Web Client with logging configuration
+const retellWebClient = new RetellWebClient({
+  // Common logging configuration options that might be supported
+  logLevel: 'error', // Only show errors, not info or debug messages
+  debug: false,      // Disable debug mode
+  verbose: false,    // Disable verbose logging
+  silent: true,      // Silence non-critical logs
+  logging: false     // Disable logging altogether
+});
+
+// Suppress all console output from the SDK
+(function() {
+  // Save original console methods
+  const originalMethods = {
+    log: console.log,
+    info: console.info,
+    warn: console.warn,
+    error: console.error,
+    debug: console.debug
+  };
+
+  // Function to check if a log should be filtered
+  const shouldFilter = (args) => {
+    const logString = args.map(arg =>
+      typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+    ).join(' ');
+    
+    return (
+      logString.includes('retell-client') ||
+      logString.includes('silence detected') ||
+      logString.includes('publishing track') ||
+      logString.includes('web_call_') ||
+      logString.includes('disconnect from room') ||
+      logString.includes('roomID') ||
+      logString.includes('participant: \'client\'')
+    );
+  };
+
+  // Override all console methods
+  for (const method in originalMethods) {
+    console[method] = function(...args) {
+      if (!shouldFilter(args)) {
+        originalMethods[method].apply(console, args);
+      }
+    };
+  }
+})();
 
 /**
  * Step 3: Translate cURL to JavaScript Fetch
