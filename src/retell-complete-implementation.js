@@ -10,9 +10,9 @@
  * 3. Translate cURL to JavaScript Fetch
  * 4. Add Call Logic to the "Talk to AI" Button
  * 5. Add Visual Feedback (Animations) to the "Talk to AI" Button
- * 7. Security Considerations
- * 
+ *
  * Note: Step 6 (Testing) is not included as it's a manual process.
+ * Note: Step 7 (Security Considerations) has been removed as requested.
  */
 
 import { RetellWebClient } from 'retell-client-js-sdk';
@@ -67,14 +67,12 @@ const retellWebClient = new RetellWebClient({
 
 /**
  * Step 3: Translate cURL to JavaScript Fetch
- * 
+ *
  * This function fetches the access token using the Retell API directly.
- * Note: This approach exposes the API key in client-side JavaScript,
- * which is not recommended for production. See the secure implementation below.
- * 
+ *
  * @returns {Promise<string>} The access token needed to start the call
  */
-async function getAccessTokenDirect() {
+async function getAccessToken() {
   const response = await fetch('https://api.retellai.com/v2/create-web-call', {
     method: 'POST',
     headers: {
@@ -87,56 +85,6 @@ async function getAccessTokenDirect() {
   });
   const data = await response.json();
   return data.access_token;
-}
-
-/**
- * Step 7: Security Considerations
- * 
- * This function fetches the access token from a secure backend server
- * instead of directly calling the Retell API. This keeps the API key
- * secure on the server side.
- * 
- * @returns {Promise<string>} The access token needed to start the call
- */
-async function getAccessTokenSecure() {
-  try {
-    const response = await fetch('http://localhost:3000/api/create-web-call', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Server responded with status: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    
-    if (!data.access_token) {
-      throw new Error('No access token received from server');
-    }
-    
-    return data.access_token;
-  } catch (error) {
-    console.error('Error getting access token from backend:', error);
-    throw error;
-  }
-}
-
-/**
- * Use the secure implementation by default
- * Set this to false to use the direct implementation for testing
- */
-const USE_SECURE_IMPLEMENTATION = true;
-
-/**
- * Get access token using either the secure or direct implementation
- */
-async function getAccessToken() {
-  if (USE_SECURE_IMPLEMENTATION) {
-    return getAccessTokenSecure();
-  } else {
-    return getAccessTokenDirect();
-  }
 }
 
 /**
@@ -231,13 +179,6 @@ function initializeCallButton() {
     // Attach the initial click event to "Talk to AI"
     talkButton.onclick = startCall;
     console.log('Call button initialized successfully');
-    
-    // Log which implementation is being used
-    if (USE_SECURE_IMPLEMENTATION) {
-      console.log('Using secure implementation (backend server)');
-    } else {
-      console.log('Using direct implementation (not recommended for production)');
-    }
   } else {
     console.error('Talk to AI button not found');
   }
@@ -249,8 +190,6 @@ document.addEventListener('DOMContentLoaded', initializeCallButton);
 // Export functions for potential use in other files
 export {
   getAccessToken,
-  getAccessTokenDirect,
-  getAccessTokenSecure,
   startCall,
   initializeCallButton
 };

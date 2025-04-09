@@ -16,25 +16,17 @@ The implementation follows the step-by-step guide from the PRD:
 
 5. **Add Visual Feedback**: Added CSS classes and animations to show different button states.
 
-7. **Security Considerations**: Implemented a backend server to securely handle token retrieval without exposing the API key.
+Note: Step 7 (Security Considerations) has been removed as requested.
 
 ## Project Structure
-
 - **src/**: Contains the frontend implementation
   - **src/step3-fetch-token.js**: Token retrieval implementation
   - **src/step4-call-logic.js**: Call logic implementation
   - **src/step5-visual-feedback.js**: Visual feedback implementation
-  - **src/step7-security-implementation.js**: Security implementation
-  - **src/retell-complete-implementation.js**: Combined implementation of all steps
-
-- **retell-backend/**: Contains the backend server implementation
-  - **retell-backend/server.js**: Express server for secure token retrieval
-  - **retell-backend/package.json**: Backend dependencies and scripts
+  - **src/retell-complete-implementation.js**: Combined implementation of Steps 1-5
   - **retell-backend/README.md**: Backend documentation
 
 ## Running the Project
-
-### Frontend
 
 1. Install dependencies:
    ```
@@ -48,39 +40,17 @@ The implementation follows the step-by-step guide from the PRD:
 
 3. Open the landing page in your browser and click the "Talk to AI" button.
 
-### Backend (for secure implementation)
-
-1. Navigate to the backend directory:
-   ```
-   cd retell-backend
-   ```
-
-2. Install dependencies:
-   ```
-   npm install
-   ```
-
-3. Start the server:
-   ```
-   npm start
-   ```
-
 ## Implementation Notes
 
-- The project includes both direct and secure implementations
-- By default, the secure implementation is used (requires the backend server to be running)
-- To use the direct implementation for testing, set `USE_SECURE_IMPLEMENTATION = false` in `src/retell-complete-implementation.js`
-- For production, always use the secure implementation and deploy the backend server to a secure environment
+- The project uses a direct implementation that calls the Retell API from the client-side
+- This approach is suitable for development and testing
+- The console logging from the Retell SDK has been reduced using configuration options and filtering
 
 ## Security Considerations
 
-- The direct implementation exposes the API key in client-side JavaScript, which is not recommended for production
-- The secure implementation keeps the API key on the server side
-- For production, consider:
-  - Using environment variables for API keys
-  - Adding authentication to the backend API
-  - Implementing rate limiting to prevent abuse
-  - Setting up proper CORS configuration to restrict access
+- Note: Step 7 (Security Considerations) has been removed as requested
+- The current implementation exposes the API key in client-side JavaScript, which is not recommended for production
+- For a production environment, consider implementing a backend server to handle token retrieval securely
 
 ## Additional Resources
 
