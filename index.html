@@ -16,14 +16,14 @@
       }
       
       @keyframes pulse {
-        0% {transform: scale(1); opacity: 0.7;}
-        50% {transform: scale(1.5); opacity: 0.3;}
-        100% {transform: scale(1); opacity: 0.7;}
+        0% {transform: scale(1); opacity: 0.9;}
+        50% {transform: scale(2); opacity: 0.4;}
+        100% {transform: scale(1); opacity: 0.9;}
       }
       
       @keyframes ripple {
         0% {transform: scale(0.8); opacity: 1;}
-        100% {transform: scale(2.5); opacity: 0;}
+        100% {transform: scale(3); opacity: 0;}
       }
       
       @keyframes glow {
@@ -56,7 +56,7 @@
         transition: all 0.3s ease;
         z-index: 9999;
         animation: glow 3s infinite, bounceOnce 2s ease-in-out 1s 1;
-        overflow: hidden; /* Ensure content doesn't overflow */
+        overflow: visible; /* Allow content to overflow for the pulsing dot */
       }
       
       /* Style for the button text to ensure it's properly contained */
@@ -107,40 +107,48 @@
         animation: soundWave 1.5s ease-in-out infinite;
       }
       
+      /* Standalone pulsing dot positioned outside the button */
       .ai-button .pulse-dot {
         position: absolute;
-        top: -4px;
-        right: -4px;
-        width: 12px;
-        height: 12px;
+        top: -10px;
+        right: -10px;
+        width: 14px;
+        height: 14px;
         border-radius: 50%;
         background-color: #ff3366;
-        z-index: 2;
+        z-index: 10000; /* Ensure it's above all other elements */
+        display: block; /* Ensure the dot is visible */
+        box-shadow: 0 0 10px #ff3366;
       }
       
       .ai-button .pulse-ring {
         position: absolute;
-        top: -4px;
-        right: -4px;
-        width: 12px;
-        height: 12px;
+        top: -10px;
+        right: -10px;
+        width: 14px;
+        height: 14px;
         border-radius: 50%;
         background-color: #ff3366;
         opacity: 0.7;
         animation: pulse 2s infinite;
+        display: block; /* Ensure the ring is visible */
+        z-index: 9999; /* Ensure proper stacking */
+        box-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
       }
       
       /* Multiple ripple rings for enhanced effect */
       .ai-button .ripple {
         position: absolute;
-        top: -4px;
-        right: -4px;
-        width: 12px;
-        height: 12px;
+        top: -10px;
+        right: -10px;
+        width: 14px;
+        height: 14px;
         border-radius: 50%;
         background-color: transparent;
         border: 2px solid #ff3366;
         animation: ripple 2s infinite;
+        display: block; /* Ensure the ripple is visible */
+        z-index: 9998; /* Ensure proper stacking */
       }
       
       .ai-button .ripple:nth-child(2) {
@@ -212,7 +220,8 @@
       </div>
       
       <!-- Enhanced Pulsing Animation -->
-      <div style="position: absolute; top: -4px; right: -4px;">
+      <!-- Pulsing dot container positioned outside the button -->
+      <div style="position: absolute; top: 0; right: 0; display: block; pointer-events: none; z-index: 10000; overflow: visible;">
         <span class="pulse-dot"></span>
         <span class="pulse-ring"></span>
         <span class="ripple"></span>
