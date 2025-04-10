@@ -262,8 +262,8 @@ export const Vocalx = (): JSX.Element => {
           
           {/* Feature 2 */}
           <div className="mb-8 bg-purple-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start">
-              <div className="w-1/4 mr-4 flex-shrink-0">
+            <div className="flex items-start flex-row-reverse">
+              <div className="w-1/4 ml-4 flex-shrink-0">
                 <img src="/4.png" alt="Automated campaigns" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
@@ -288,8 +288,8 @@ export const Vocalx = (): JSX.Element => {
           
           {/* Feature 4 */}
           <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start">
-              <div className="w-1/4 mr-4 flex-shrink-0">
+            <div className="flex items-start flex-row-reverse">
+              <div className="w-1/4 ml-4 flex-shrink-0">
                 <img src="/6.png" alt="Concurrent calls" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
@@ -314,8 +314,8 @@ export const Vocalx = (): JSX.Element => {
           
           {/* Feature 6 */}
           <div className="bg-green-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start">
-              <div className="w-1/4 mr-4 flex-shrink-0">
+            <div className="flex items-start flex-row-reverse">
+              <div className="w-1/4 ml-4 flex-shrink-0">
                 <img src="/8.png" alt="Peak hour performance" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
