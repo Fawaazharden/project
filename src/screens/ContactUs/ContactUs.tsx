@@ -44,12 +44,12 @@ export const ContactUs = (): JSX.Element => {
     // For Netlify Forms, we'll let the form submit naturally after our processing
     // Create a hidden form that Netlify can process
     const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
+    const formDataForSubmit = new FormData(form);
     
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString(),
+      body: new URLSearchParams(formDataForSubmit as any).toString(),
     })
       .then(() => {
         console.log("Form successfully submitted to Netlify");
