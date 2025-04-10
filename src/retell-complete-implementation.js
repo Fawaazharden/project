@@ -94,7 +94,7 @@ async function getAccessToken() {
  * managing the button state and visual feedback.
  */
 async function startCall() {
-  const talkButton = document.querySelector('.ai-button');
+  const talkButton = document.getElementById('retell-ai-button');
   if (!talkButton) {
     console.error('Talk to AI button not found');
     return;
@@ -102,7 +102,7 @@ async function startCall() {
 
   // Disable the button and update its text
   talkButton.disabled = true;
-  const buttonText = talkButton.querySelector('span');
+  const buttonText = document.getElementById('button-text');
   if (buttonText) {
     buttonText.textContent = 'Starting...';
   }
@@ -172,8 +172,8 @@ async function startCall() {
  * This function should be called when the DOM is loaded
  */
 function initializeCallButton() {
-  // Find the "Talk to AI" button
-  const talkButton = document.querySelector('.ai-button');
+  // Find the "Talk to AI" button by ID
+  const talkButton = document.getElementById('retell-ai-button');
   
   if (talkButton) {
     // Attach the initial click event to "Talk to AI"

@@ -251,7 +251,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/rectangle-682.png" alt="Qualify leads" className="w-full h-auto rounded" />
+                <img src="/3.png" alt="Qualify leads" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Qualify leads at scale</h3>
@@ -264,7 +264,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-8 bg-purple-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/rectangle-683.png" alt="Automated campaigns" className="w-full h-auto rounded" />
+                <img src="/4.png" alt="Automated campaigns" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">6-month automated email campaigns</h3>
@@ -277,7 +277,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-8 bg-green-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/rectangle-684.png" alt="Reduce costs" className="w-full h-auto rounded" />
+                <img src="/5.png" alt="Reduce costs" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Reduce operational costs</h3>
@@ -290,7 +290,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/rectangle-685.png" alt="Concurrent calls" className="w-full h-auto rounded" />
+                <img src="/6.png" alt="Concurrent calls" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Handle 15+ concurrent calls</h3>
@@ -303,7 +303,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-4 bg-purple-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/wave-particle.png" alt="Fast responses" className="w-full h-auto rounded" />
+                <img src="/7.png" alt="Fast responses" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Lightning-fast responses</h3>
@@ -316,7 +316,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="bg-green-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/wave.png" alt="Peak hour performance" className="w-full h-auto rounded" />
+                <img src="/8.png" alt="Peak hour performance" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Peak hour performance</h3>
