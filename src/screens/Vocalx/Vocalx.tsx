@@ -244,7 +244,7 @@ export const Vocalx = (): JSX.Element => {
           <img
             className="w-full h-auto object-cover"
             alt="Features"
-            src="/features.png"
+            src="/Features1.png"
           />
         </div>
         
