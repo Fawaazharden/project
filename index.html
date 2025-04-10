@@ -177,6 +177,13 @@
         background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
         box-shadow: 0 4px 20px rgba(220, 53, 69, 0.5);
       }
+      
+      /* Hide pulsing dot when call is ongoing */
+      .ai-button.ongoing .pulse-dot,
+      .ai-button.ongoing .pulse-ring,
+      .ai-button.ongoing .ripple {
+        display: none !important;
+      }
     </style>
     <link href="tailwind.css" rel="stylesheet" />
     <!-- Removed duplicate tailwind link -->
@@ -187,7 +194,7 @@
     <script type="module" src="./src/retell-complete-implementation.js"></script>
 
     <!-- Enhanced Sticky AI Voice Button with Custom CSS -->
-    <button id="retell-ai-button" class="ai-button" aria-label="Start AI Voice Assistant">
+    <button id="retell-ai-button" class="ai-button" aria-label="Start AI Voice Assistant" onclick="toggleCallState(this)">
       <div class="button-content" style="display: flex; align-items: center; justify-content: center;">
         <!-- Animated Sound Wave Icon -->
         <div class="wave-icon">
@@ -229,5 +236,21 @@
         <span class="ripple"></span>
       </div>
     </button>
+
+    <!-- JavaScript to toggle call state for demonstration -->
+    <script>
+      function toggleCallState(button) {
+        // Toggle between normal and ongoing states
+        if (button.classList.contains('ongoing')) {
+          // If currently in ongoing state, switch back to normal
+          button.classList.remove('ongoing');
+          document.getElementById('button-text').textContent = 'Talk to AI';
+        } else {
+          // If in normal state, switch to ongoing (simulating call started)
+          button.classList.add('ongoing');
+          document.getElementById('button-text').textContent = 'End Call';
+        }
+      }
+    </script>
   </body>
 </html>
