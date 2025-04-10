@@ -189,6 +189,13 @@
     <!-- Removed duplicate tailwind link -->
   </head>
   <body>
+    <!-- Hidden form for Netlify Forms detection -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+    </form>
+    
     <div id="app"></div>
     <script type="module" src="./src/index.tsx"></script>
     <script type="module" src="./src/retell-complete-implementation.js"></script>
