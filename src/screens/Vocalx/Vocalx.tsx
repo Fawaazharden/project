@@ -192,17 +192,22 @@ export const Vocalx = (): JSX.Element => {
 
         {/* Hero Content */}
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center pt-16 px-4"> {/* Original Hero Content styles */}
+          {/* Chip Button */}
+          <div className="mb-4 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 shadow-sm inline-flex items-center text-sm">
+            <span className="text-white font-semibold">
+              Team wasting time on bad leads?
+            </span>
+          </div>
           {/* Main Heading */}
-          <h1 className="text-7xl font-extrabold text-black leading-tight mb-6 [font-family:'Inter',Helvetica]"> {/* Original Main Heading styles */}
-            Amplify Your Voice with <br />
-            <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
-              AI-Powered
-            </span> Innovation
+          <h1 className="text-[2.19rem] sm:text-5xl md:text-6xl font-extrabold text-black leading-tight mb-5 [font-family:'Inter',Helvetica]"> {/* Custom size between 3xl and 4xl for mobile */}
+            Let AI <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+              Qualify Leads
+            </span> <br />
+            So You Don't Have To
           </h1>
           {/* Subheading */}
           <p className="text-xl text-gray-800 max-w-3xl [font-family:'Inter',Helvetica] font-medium"> {/* Original Subheading styles */}
-            Empowering creators, educators, and businesses with cutting-edge voice technology
-          </p>
+          We deploy AI voice and SMS to screen prospects automatically, sending only the best leads your way via CRM sync          </p>
         </div>
 
         {/* CTA Button After Hero Text */}
@@ -254,8 +259,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/3.png" alt="Qualify leads" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Qualify leads at scale</h3>
-                <p className="text-sm text-gray-700">AI instantly identifies motivated sellers and filters out unqualified leads.</p>
+                <h3 className="font-semibold text-lg mb-1">Too Many Bad Leads?</h3>
+                <p className="text-sm text-gray-700">We filter out the unqualified ones so your team speaks only talks to the right people.</p>
               </div>
             </div>
           </div>
@@ -267,8 +272,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/4.png" alt="Automated campaigns" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">6-month automated email campaigns</h3>
-                <p className="text-sm text-gray-700">Ensures continuous engagement and follow-ups.</p>
+                <h3 className="font-semibold text-lg mb-1">Leads Stop Responding?</h3>
+                <p className="text-sm text-gray-700">We run smart 6-month SMS follow-ups, so leads hear from you often and don’t forget who you are</p>
               </div>
             </div>
           </div>
@@ -280,8 +285,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/5.png" alt="Reduce costs" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Reduce operational costs</h3>
-                <p className="text-sm text-gray-700">A fraction of the cost compared to human teams.</p>
+                <h3 className="font-semibold text-lg mb-1">Team Can’t Handle Volume?</h3>
+                <p className="text-sm text-gray-700">Your team can take one call at a time, our AI takes 15+, giving you more chances to close deals fast</p>
               </div>
             </div>
           </div>
@@ -293,8 +298,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/6.png" alt="Concurrent calls" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Handle 15+ concurrent calls</h3>
-                <p className="text-sm text-gray-700">Where human teams can handle one call at a time, AI engages multiple leads simultaneously.</p>
+                <h3 className="font-semibold text-lg mb-1">Hiring Too Expensive?</h3>
+                <p className="text-sm text-gray-700">Skip the cost of building a big team. Our AI works 24/7, handles more leads, and costs much less</p>
               </div>
             </div>
           </div>
@@ -306,8 +311,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/7.png" alt="Fast responses" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Lightning-fast responses</h3>
-                <p className="text-sm text-gray-700">AI reaches out within 2 minutes of lead submission, increasing conversions by 8%.</p>
+                <h3 className="font-semibold text-lg mb-1">Too Slow to Reply?</h3>
+                <p className="text-sm text-gray-700">Speed matters. Our AI calls or texts every new lead within 2 minutes, so they don’t go cold</p>
               </div>
             </div>
           </div>
@@ -319,8 +324,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/8.png" alt="Peak hour performance" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Peak hour performance</h3>
-                <p className="text-sm text-gray-700">Handles 4,000 to 5,000 messages daily, qualifying leads and forwarding the best ones to your sales team.</p>
+                <h3 className="font-semibold text-lg mb-1">Overwhelmed During Busy Hours?</h3>
+                <p className="text-sm text-gray-700">AI handles 8,000–12,000 messages daily. It qualifies leads and sends only the best to your team</p>
               </div>
             </div>
           </div>
