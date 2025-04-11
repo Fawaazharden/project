@@ -61,26 +61,27 @@ export const Vocalx = (): JSX.Element => {
 
   // Updated Pricing plan features for a single comprehensive plan
   const pricingFeatures = [
-    "Advanced AI Voice Generation",
-    "Multiple Languages & Accents",
-    "Custom Voice Cloning (Add-on)",
-    "API Access",
-    "Priority Support",
-    "Generous Usage Limits",
-    "Team Collaboration Tools",
+    "AI Voice Agent, fully customized for your business",
+    "AI SMS System that nurtures and follows up automatically",
+    "6-Month Drip Campaign – built to engage cold leads back to life",
+    "Automated Email Sequences that convert passively",
+    "CRM Syncing – all lead data, always up to date",
+    "API Access – connect with anything",
+    "Priority Support – direct access to our expert team",
+    "Full System Customization – tailored to your flow, not cookie-cutter",
   ];
 
   // Updated Pricing plans data to a single plan
   const pricingPlans = [
     {
       id: 1,
-      name: "Standard Plan", // Renamed to clarify it's the base plan
-      price: "$499", // Updated price
-      pricePeriod: "/month", // Added period
-      description: "Starting from", // Added description for price
+      name: "Standard Plan – Everything You Need to Scale", // Updated name
+      price: "$499", // Price remains the same
+      pricePeriod: "/month", // Period remains the same
+      description: "Starting", // Updated description for price
       features: pricingFeatures,
       highlighted: true, // Keep it highlighted
-      buttonText: "Get Started", // Updated button text
+      buttonText: "Get Started", // Button text remains the same
     },
   ];
 
