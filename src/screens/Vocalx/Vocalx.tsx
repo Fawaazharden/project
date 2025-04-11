@@ -79,7 +79,7 @@ export const Vocalx = (): JSX.Element => {
       id: 1,
       title: "Real Estate",
       description:
-        "Lorem Ipsum is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The Industry's Standard Dummy Text Ever Since The 1500s, When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type Specimen Book.",
+        "Real estate teams using our AI system saw a 3x increase in lead response rates and 2x more qualified appointments booked. How? Instant AI calls, smart SMS follow-ups, and zero leads slipping through the cracks.",
       image: "/ranim.mp4", // Changed to video path
       textColor: "text-white" // Position data removed
       // position: "top-[25px] left-[34px]",
@@ -89,7 +89,8 @@ export const Vocalx = (): JSX.Element => {
       id: 2,
       title: "Help Desk",
       description:
-        "Lorem Ipsum is Simply Dummy Text Of The Printing And Typesetting Industry.",
+        "Help desk teams cut response time by 70% and reduced ticket overload by automating FAQs and follow-ups with AI voice and SMS."
+,
       image: "/help.mp4", // Changed to video path
       textColor: "text-[#954ad2]" // Position data removed
       // position: "top-[26px] left-[704px]",
@@ -99,7 +100,7 @@ export const Vocalx = (): JSX.Element => {
       id: 3,
       title: "Consulting",
       description:
-        "Lorem Ipsum is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The Industry's Standard Dummy Text",
+        "Consulting firms doubled their qualified lead flow and cut manual outreach by 80% using our AI voice + SMS system. How? AI pre-screens prospects, follows up automatically, and syncs only ready-to-convert leads to the team.",
       image: "/consul.mp4", // Changed to video path
       textColor: "text-[#26509c]" // Position data removed
       // position: "top-[668px] left-[34px]",
@@ -347,11 +348,9 @@ export const Vocalx = (): JSX.Element => {
         {/* Section Header */}
         <div className="w-full max-w-3xl mx-auto text-center mb-8 sm:mb-10 md:mb-12"> {/* Responsive margin */}
           <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-black text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4"> {/* Responsive size, margin */}
-            Bring Your Words to Life with AI Voices
-          </h2>
+          Your Competition’s Closing Deals with AI - Are You?</h2>
           <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-base sm:text-lg leading-relaxed"> {/* Responsive size */}
-            Create lifelike speech in any tone, language, or style. Our advanced AI voice technology captures human emotions, inflections, and context, delivering natural and expressive audio for any project.
-          </p>
+          Your top competitors already have AI working 24/7, calling new leads in seconds, following up for months, and syncing everything to their CRM automatically. While you’re chasing leads, they’re closing them          </p>
         </div>
 
         {/* Use Case Cards Grid */}
@@ -412,10 +411,10 @@ export const Vocalx = (): JSX.Element => {
       <section id="testimonials" className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center relative py-12 sm:py-16 px-4 sm:px-8"> {/* Added id="testimonials", responsive padding, max-width */}
         <div className="w-full max-w-3xl text-center mb-10 md:mb-12"> {/* Adjusted max-width */}
           <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]"> {/* Responsive size */}
-            What Our Happy Client Say
+          What Real Teams Are Saying
           </h2>
           <p className="text-center [font-family:'Inter',Helvetica] font-medium text-[#272727] text-base sm:text-lg tracking-[0] leading-relaxed sm:leading-[30px] mt-4 sm:mt-6"> {/* Responsive size, leading, margin */}
-            Things&nbsp;&nbsp;That Make It The Best Place To Start Trading
+          Proof from the field: real results, real businesses, and zero fluff
           </p>
         </div>
 
