@@ -27,24 +27,35 @@ export const Vocalx = (): JSX.Element => {
   const testimonials = [
     {
       id: 1,
-      name: "Robin Ayala Doe",
-      text: "Why truly, I've found the JOY of AI. It's the point at which my better half does it. There is no sincerer love than the adoration for sustenance.",
+      name: "Mark R.",
+      text: "We used to miss out on deals because we couldn't follow up fast enough. Now, leads are getting contacted instantly and our booked appointments have tripled.",
+      position: "Real Estate Investor",
       image: "/image.png",
       groupImage: "/group-2.png",
     },
     {
       id: 2,
-      name: "John De marli",
-      text: "any individuals have eaten in this kitchen and have proceeded to lead typical, solid lives. The route to a man's heart is through his stomach.",
+      name: "Aisha K.",
+      text: "Our team was buried in tickets. Since setting this up, response times dropped and we finally have breathing room to handle the complex stuff.",
+      position: "Help Desk Lead – SaaS Company",
       image: "/rectangle-1.svg",
       groupImage: "/group-1.png",
     },
     {
       id: 3,
-      name: "Rowhan Smith",
-      text: "You don't need to cook extravagant or muddled perfect works of art, simply great sustenance from new fixings.",
+      name: "David S.",
+      text: "We were wasting hours chasing people who were never going to convert. Now we're only speaking with the right clients and closing more deals, faster.",
+      position: "Founder – Consulting Agency Owner",
       image: "/rectangle.svg",
       groupImage: "/group.png",
+    },
+    {
+      id: 4,
+      name: "Lena M.",
+      text: "We needed a way to reach more landowners without growing our team. This system helped us scale outreach and focus only on the ones ready to move.",
+      position: "Acquisitions Director – Mineral Acquisition",
+      image: "/rectangle.svg", // Reusing the same image for the 4th testimonial
+      groupImage: "/group.png", // Reusing the same group image for the 4th testimonial
     },
   ];
 
@@ -418,15 +429,15 @@ export const Vocalx = (): JSX.Element => {
           </p>
         </div>
 
-        <Carousel className="w-full max-w-xs sm:max-w-xl md:max-w-4xl lg:max-w-[1330px]"> {/* Responsive max-width */}
-          <CarouselContent>
+        <Carousel className="w-full max-w-xs sm:max-w-xl md:max-w-4xl lg:max-w-[1330px]" opts={{ loop: true }}> {/* Added loop option */}
+          <CarouselContent className="-ml-4 md:-ml-6"> {/* Adjusted margin for better spacing */}
             {testimonials.map((testimonial) => (
               <CarouselItem
                 key={testimonial.id}
-                className="pl-4 sm:basis-1/2 lg:basis-1/3" // Added pl-4 for spacing
+                className="pl-4 sm:basis-1/2 lg:basis-1/4" // Updated to show 4 items on large screens
               >
-                <Card className="h-auto sm:h-[270px] mt-[30px] rounded-3xl"> {/* Responsive height */}
-                  <CardContent className="flex flex-col items-center justify-center p-6">
+                <Card className="h-auto sm:h-[380px] mt-[30px] rounded-3xl"> {/* Fixed height based on content elements */}
+                  <CardContent className="flex flex-col items-center justify-start p-6 h-full">
                     <div className="relative">
                       <img
                         className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] absolute -top-[50px] sm:-top-[60px] left-1/2 transform -translate-x-1/2" // Responsive size/position
@@ -434,7 +445,7 @@ export const Vocalx = (): JSX.Element => {
                         src={testimonial.image}
                       />
                     </div>
-                    <div className="flex items-center justify-center mt-4 mb-2">
+                    <div className="flex items-center justify-center mt-4 mb-2 h-6"> {/* Added fixed height */}
                       <div className="flex">
                         {[...Array(5)].map((_, i) => (
                           <img
@@ -446,16 +457,21 @@ export const Vocalx = (): JSX.Element => {
                         ))}
                       </div>
                     </div>
-                    <img
-                      className="w-[84px] h-[58px] mb-2"
-                      alt="Group"
-                      src={testimonial.groupImage}
-                    />
-                    <h3 className="[font-family:'Cabinet_Grotesk-Extrabold',Helvetica] font-normal text-[#060606] text-lg sm:text-xl text-center"> {/* Responsive size */}
+                    <div className="h-[60px] flex items-center justify-center mb-2"> {/* Added container with fixed height */}
+                      <img
+                        className="w-[84px] h-[58px]"
+                        alt="Group"
+                        src={testimonial.groupImage}
+                      />
+                    </div>
+                    <h3 className="[font-family:'Cabinet_Grotesk-Extrabold',Helvetica] font-normal text-[#060606] text-lg sm:text-xl text-center h-7"> {/* Added fixed height */}
                       {testimonial.name}
                     </h3>
-                    <p className="[font-family:'Manrope',Helvetica] font-normal text-[#898989] text-base sm:text-lg text-center leading-relaxed sm:leading-[30px] mt-3 sm:mt-4"> {/* Responsive size, leading, margin */}
-                      {testimonial.text}
+                    <p className="[font-family:'Cabinet_Grotesk-Medium',Helvetica] font-normal text-[#454545] text-sm sm:text-base text-center mt-1 h-12 flex items-center justify-center"> {/* Added fixed height and centering */}
+                      {testimonial.position}
+                    </p>
+                    <p className="[font-family:'Manrope',Helvetica] font-normal text-[#898989] text-sm sm:text-base text-center leading-tight sm:leading-normal mt-3 sm:mt-4 h-[180px] flex items-center justify-center"> {/* Added fixed height and centering */}
+                      "{testimonial.text}"
                     </p>
                   </CardContent>
                 </Card>
@@ -476,10 +492,10 @@ export const Vocalx = (): JSX.Element => {
           <div className="text-center mb-12">
             {/* Updated Pricing Header Copywriting */}
             <h2 className="[font-family:'Inter',Helvetica] font-black text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]">
-              Find the Right Plan
+            Your Last Missed Lead Could’ve Paid for This
             </h2>
             <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-lg sm:text-xl mt-4">
-              Start with our standard features and explore options for your specific needs.
+            Convert just one extra deal and this system more than covers itself
             </p>
           </div>
 
