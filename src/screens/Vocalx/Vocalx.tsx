@@ -236,7 +236,7 @@ export const Vocalx = (): JSX.Element => {
         {/* Spline Animation with Logo Overlay */}
         <div className="relative w-full h-[300px]"> {/* Original Spline container styles */}
           <iframe
-            src='https://my.spline.design/flowingribboncopy-l1NwcvIUybSw6ZP2UtLbvwnR/'
+            src='https://my.spline.design/flowingribboncopy-pbztJStlEiiN827dLOxwPd1N/'
             frameBorder='0'
             width='100%'
             height='100%'
