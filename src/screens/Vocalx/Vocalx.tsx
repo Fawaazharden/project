@@ -141,7 +141,7 @@ export const Vocalx = (): JSX.Element => {
             <img
               src="/screenshot-2025-03-26-224229-1.png" // Assuming this is the correct logo path
               alt="Vocalx Labs Logo"
-              className="h-8 sm:h-10" // Responsive height
+              className="h-10 sm:h-10" // Increased mobile size from h-8 to h-10
             />
           </div>
           {/* Desktop Nav Links */}
