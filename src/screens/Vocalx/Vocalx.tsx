@@ -75,7 +75,7 @@ export const Vocalx = (): JSX.Element => {
   const pricingPlans = [
     {
       id: 1,
-      name: "Standard Plan – Everything You Need to Scale", // Updated name
+      name: "Standard Plan", // Updated name
       price: "$499", // Price remains the same
       pricePeriod: "/month", // Period remains the same
       description: "Starting", // Updated description for price
@@ -121,7 +121,7 @@ export const Vocalx = (): JSX.Element => {
     {
       id: 4,
       title: "Mineral Acquisition",
-      description: "",
+      description: "Mineral acquisition teams increased landowner response rates by 3x and scaled outreach without growing headcount. How? AI calls and texts thousands of leads daily, qualifies interest, and routes only serious sellers to your team",
       image: "/miner.mp4", // Changed image to video path
       textColor: "text-white" // Position data removed
       // position: "top-[669px] left-[656px]",
