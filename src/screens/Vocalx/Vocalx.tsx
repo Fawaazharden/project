@@ -91,7 +91,7 @@ export const Vocalx = (): JSX.Element => {
       id: 1,
       title: "Real Estate",
       description:
-        "Real estate teams using our AI system saw a 3x increase in lead response rates and 2x more qualified appointments booked. How? Instant AI calls, smart SMS follow-ups, and zero leads slipping through the cracks.",
+        "Real estate teams using our AI system saw a 3x increase in lead response rates and 2x more qualified appointments booked",
       image: "/ranim.mp4", // Changed to video path
       textColor: "text-white" // Position data removed
       // position: "top-[25px] left-[34px]",
@@ -104,7 +104,7 @@ export const Vocalx = (): JSX.Element => {
         "Help desk teams cut response time by 70% and reduced ticket overload by automating FAQs and follow-ups with AI voice and SMS."
 ,
       image: "/help.mp4", // Changed to video path
-      textColor: "text-[#954ad2]" // Position data removed
+      textColor: "text-white" // Changed to white for better contrast
       // position: "top-[26px] left-[704px]",
       // descPosition: "top-[78px] left-[704px]",
     },
@@ -112,7 +112,7 @@ export const Vocalx = (): JSX.Element => {
       id: 3,
       title: "Consulting",
       description:
-        "Consulting firms doubled their qualified lead flow and cut manual outreach by 80% using our AI voice + SMS system. How? AI pre-screens prospects, follows up automatically, and syncs only ready-to-convert leads to the team.",
+        "Consulting firms doubled their qualified lead flow and cut manual outreach by 80% using our AI voice + SMS system.",
       image: "/consul.mp4", // Changed to video path
       textColor: "text-[#26509c]" // Position data removed
       // position: "top-[668px] left-[34px]",
@@ -121,7 +121,7 @@ export const Vocalx = (): JSX.Element => {
     {
       id: 4,
       title: "Mineral Acquisition",
-      description: "Mineral acquisition teams increased landowner response rates by 3x and scaled outreach without growing headcount. How? AI calls and texts thousands of leads daily, qualifies interest, and routes only serious sellers to your team",
+      description: "Mineral acquisition teams increased landowner response rates by 3x and scaled outreach without growing headcount",
       image: "/miner.mp4", // Changed image to video path
       textColor: "text-white" // Position data removed
       // position: "top-[669px] left-[656px]",
@@ -388,20 +388,25 @@ export const Vocalx = (): JSX.Element => {
                     src={card.image}
                   />
                 )}
+                
                 {/* Text Content Overlay */}
-                <div className="absolute inset-0 z-10 p-6 sm:p-8 flex flex-col justify-start bg-gradient-to-t from-black/50 to-transparent"> {/* Added overlay gradient and adjusted padding */}
-                  <h3
-                    className={`[font-family:'Inter',Helvetica] font-extrabold ${card.textColor} text-2xl sm:text-3xl mb-2 sm:mb-3`} // Responsive size, margin
-                  >
-                    {card.title}
-                  </h3>
-                  {card.description && (
-                    <p
-                      className={`[font-family:'Inter',Helvetica] font-medium ${card.textColor} text-sm sm:text-base leading-relaxed max-w-md opacity-90`} // Responsive size, added opacity
+                <div className="absolute top-0 left-0 right-0 z-10 p-6 sm:p-8 flex flex-col">
+                  
+                  {/* Content container positioned at the top */}
+                  <div className="relative z-10 flex flex-col">
+                    <h3
+                      className={`[font-family:'Inter',Helvetica] font-extrabold text-white text-2xl sm:text-3xl mb-2 sm:mb-3 text-shadow-lg [text-shadow:0_0_1px_black,0_0_2px_black,0_0_3px_black]`} // Added text outline effect
                     >
-                      {card.description}
-                    </p>
-                  )}
+                      {card.title}
+                    </h3>
+                    {card.description && (
+                      <p
+                        className={`[font-family:'Inter',Helvetica] font-medium text-white text-sm sm:text-base leading-relaxed max-w-md text-shadow-lg [text-shadow:0_0_1px_black,0_0_2px_black,0_0_3px_black]`} // Added text outline effect
+                      >
+                        {card.description}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -541,12 +546,16 @@ export const Vocalx = (): JSX.Element => {
                     ))}
                   </div>
 
-                  {/* Updated Button */}
-                  <Button
-                    className="mt-8 w-full sm:w-auto bg-white text-[#717fe8] hover:bg-gray-100 text-lg font-semibold py-3 px-8 rounded-lg" // Adjusted styles, size, padding
-                  >
-                    {plan.buttonText}
-                  </Button>
+                  {/* Updated Button - Centered and linked to Contact Us */}
+                  <div className="flex justify-center">
+                    <Link to="/contact">
+                      <Button
+                        className="mt-8 w-full sm:w-auto bg-white text-[#717fe8] hover:bg-gray-100 text-lg font-semibold py-3 px-8 rounded-lg" // Adjusted styles, size, padding
+                      >
+                        {plan.buttonText}
+                      </Button>
+                    </Link>
+                  </div>
                 </CardContent>
               </Card>
             ))}
