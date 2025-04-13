@@ -91,7 +91,7 @@ export const Vocalx = (): JSX.Element => {
       id: 1,
       title: "Real Estate",
       description:
-        "Real estate teams using our AI system saw a 3x increase in lead response rates and 2x more qualified appointments booked",
+        "Real estate teams using our AI system saw a 3x increase in lead response rates and 2x more qualified appointments booked.",
       image: "/ranim.mp4", // Changed to video path
       textColor: "text-white" // Position data removed
       // position: "top-[25px] left-[34px]",
@@ -121,7 +121,7 @@ export const Vocalx = (): JSX.Element => {
     {
       id: 4,
       title: "Mineral Acquisition",
-      description: "Mineral acquisition teams increased landowner response rates by 3x and scaled outreach without growing headcount",
+      description: "Mineral acquisition teams increased landowner response rates by 3x and scaled outreach without growing headcount.",
       image: "/miner.mp4", // Changed image to video path
       textColor: "text-white" // Position data removed
       // position: "top-[669px] left-[656px]",
