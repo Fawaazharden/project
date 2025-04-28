@@ -256,7 +256,7 @@ export const Vocalx = (): JSX.Element => {
         <div className="hidden md:flex w-full max-w-[1300px] items-center justify-center relative opacity-80"> {/* Added justify-center, hidden on mobile */}
           <img
             className="w-full h-auto object-cover"
-            alt="Features"
+            alt="Overview of Vocalxlabs AI lead qualification features"
             src="/Features1.png"
           />
         </div>
@@ -269,7 +269,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/3.png" alt="Qualify leads" className="w-full h-auto rounded" />
+                <img src="/3.png" alt="Illustration showing AI filtering qualified leads" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Too Many Bad Leads?</h3>
@@ -282,7 +282,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-8 bg-purple-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start flex-row-reverse">
               <div className="w-1/4 ml-4 flex-shrink-0">
-                <img src="/4.png" alt="Automated campaigns" className="w-full h-auto rounded" />
+                <img src="/4.png" alt="Illustration of automated SMS follow-up campaigns" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Leads Stop Responding?</h3>
@@ -295,7 +295,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-8 bg-green-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/5.png" alt="Reduce costs" className="w-full h-auto rounded" />
+                <img src="/5.png" alt="Illustration showing cost reduction compared to manual lead handling" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Team Can’t Handle Volume?</h3>
@@ -308,7 +308,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start flex-row-reverse">
               <div className="w-1/4 ml-4 flex-shrink-0">
-                <img src="/6.png" alt="Concurrent calls" className="w-full h-auto rounded" />
+                <img src="/6.png" alt="Illustration showing AI handling multiple concurrent calls" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Hiring Too Expensive?</h3>
@@ -321,7 +321,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="mb-4 bg-purple-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start">
               <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/7.png" alt="Fast responses" className="w-full h-auto rounded" />
+                <img src="/7.png" alt="Illustration representing fast AI lead response times" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Too Slow to Reply?</h3>
@@ -334,7 +334,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="bg-green-50 rounded-lg p-4 shadow-sm">
             <div className="flex items-start flex-row-reverse">
               <div className="w-1/4 ml-4 flex-shrink-0">
-                <img src="/8.png" alt="Peak hour performance" className="w-full h-auto rounded" />
+                <img src="/8.png" alt="Illustration showing AI handling peak hour lead volume" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Overwhelmed During Busy Hours?</h3>
@@ -384,7 +384,7 @@ export const Vocalx = (): JSX.Element => {
                 ) : (
                   <img
                     className="absolute inset-0 w-full h-full object-cover" // Image as background
-                    alt={card.title} // Use title for alt text
+                    alt={`Vocalxlabs AI solution for ${card.title}`} // Enhanced alt text with keywords
                     src={card.image}
                   />
                 )}
@@ -447,7 +447,7 @@ export const Vocalx = (): JSX.Element => {
                     <div className="relative">
                       <img
                         className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] absolute -top-[50px] sm:-top-[60px] left-1/2 transform -translate-x-1/2" // Responsive size/position
-                        alt={testimonial.name}
+                        alt={`Photo of ${testimonial.name}`}
                         src={testimonial.image}
                       />
                     </div>
@@ -466,7 +466,7 @@ export const Vocalx = (): JSX.Element => {
                     <div className="h-[60px] flex items-center justify-center mb-2"> {/* Added container with fixed height */}
                       <img
                         className="w-[84px] h-[58px]"
-                        alt="Group"
+                        alt={`Company logo or group associated with ${testimonial.name}`}
                         src={testimonial.groupImage}
                       />
                     </div>
@@ -609,6 +609,40 @@ export const Vocalx = (): JSX.Element => {
           </nav>
         </div>
       </footer>
+      
+      {/* Schema.org structured data for SEO */}
+      <script type="application/ld+json">
+        {JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Vocalxlabs",
+            "url": "https://www.vocalxlabs.com",
+            "logo": "https://www.vocalxlabs.com/screenshot-2025-03-26-224229-1.png",
+            "description": "Vocalxlabs provides AI-powered voice agents and automated SMS tools to enhance sales efficiency and lead management for businesses.",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "Sales Inquiry",
+              "email": "team@vocalxlabs.com"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "serviceType": "Lead Management Automation",
+            "provider": {
+              "@type": "Organization",
+              "name": "Vocalxlabs"
+            },
+            "name": "AI Voice Agent & Automated SMS Lead Management",
+            "description": "AI voice agents and automated SMS to instantly engage, qualify, and follow up with leads, syncing data with your CRM.",
+            "audience": {
+              "@type": "Audience",
+              "audienceType": ["Businesses", "Real Estate Agencies", "Consulting Firms", "Support Services", "Mineral Acquisition Companies", "Insurance Agencies"]
+            }
+          }
+        ])}
+      </script>
     </div>
   );
 };
