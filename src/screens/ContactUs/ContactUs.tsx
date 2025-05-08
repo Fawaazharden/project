@@ -298,7 +298,7 @@ export const ContactUs = (): JSX.Element => {
           {/* Added w-full and max-w-4xl for better responsiveness */}
           <div
             className={`calendly-inline-widget w-full max-w-4xl rounded-2xl overflow-hidden shadow-xl ${isCalendlyLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}
-            data-url="https://calendly.com/danielgrayson087/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=717fe8"
+            data-url="https://calendly.com/danielgrayson087/15mins?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=717fe8"
             style={{ minWidth: '320px', height: '700px' }}
           ></div>
           {/* Script is now loaded via useEffect */}
