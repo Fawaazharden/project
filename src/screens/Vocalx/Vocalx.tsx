@@ -1,5 +1,5 @@
 import { CheckIcon, MenuIcon, XIcon } from "lucide-react"; // Added MenuIcon, XIcon
-import React, { useState } from "react"; // Added useState
+import React, { useState, useEffect } from "react"; // Added useEffect
 import { Link } from "react-router-dom"; // Import Link
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
@@ -13,6 +13,16 @@ import {
 
 export const Vocalx = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
+  const [showPopup, setShowPopup] = useState(false); // State for popup modal
+
+  // Show popup after 7 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 7000); // 7 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Navigation items - Removed width, will use spacing utilities
   const navItems = [
@@ -286,7 +296,7 @@ export const Vocalx = (): JSX.Element => {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Leads Stop Responding?</h3>
-                <p className="text-sm text-gray-700">We run smart 6-month SMS follow-ups, so leads hear from you often and don’t forget who you are</p>
+                <p className="text-sm text-gray-700">We run smart 6-month SMS follow-ups, so leads hear from you often and don't forget who you are</p>
               </div>
             </div>
           </div>
@@ -298,7 +308,7 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/5.png" alt="Illustration showing cost reduction compared to manual lead handling" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Team Can’t Handle Volume?</h3>
+                <h3 className="font-semibold text-lg mb-1">Team Can't Handle Volume?</h3>
                 <p className="text-sm text-gray-700">Your team can take one call at a time, our AI takes 15+, giving you more chances to close deals fast</p>
               </div>
             </div>
@@ -325,7 +335,7 @@ export const Vocalx = (): JSX.Element => {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Too Slow to Reply?</h3>
-                <p className="text-sm text-gray-700">Speed matters. Our AI calls or texts every new lead within 2 minutes, so they don’t go cold</p>
+                <p className="text-sm text-gray-700">Speed matters. Our AI calls or texts every new lead within 2 minutes, so they don't go cold</p>
               </div>
             </div>
           </div>
@@ -360,9 +370,9 @@ export const Vocalx = (): JSX.Element => {
         {/* Section Header */}
         <div className="w-full max-w-3xl mx-auto text-center mb-8 sm:mb-10 md:mb-12"> {/* Responsive margin */}
           <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-black text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4"> {/* Responsive size, margin */}
-          Your Competition’s Closing Deals with AI - Are You?</h2>
+          Your Competition's Closing Deals with AI - Are You?</h2>
           <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-base sm:text-lg leading-relaxed"> {/* Responsive size */}
-          Your top competitors already have AI working 24/7, calling new leads in seconds, following up for months, and syncing everything to their CRM automatically. While you’re chasing leads, they’re closing them          </p>
+          Your top competitors already have AI working 24/7, calling new leads in seconds, following up for months, and syncing everything to their CRM automatically. While you're chasing leads, they're closing them          </p>
         </div>
 
         {/* Use Case Cards Grid */}
@@ -498,7 +508,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="text-center mb-12">
             {/* Updated Pricing Header Copywriting */}
             <h2 className="[font-family:'Inter',Helvetica] font-black text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]">
-            Your Last Missed Lead Could’ve Paid for This
+            Your Last Missed Lead Could've Paid for This
             </h2>
             <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-lg sm:text-xl mt-4">
             Convert just one extra deal and this system more than covers itself
@@ -609,6 +619,156 @@ export const Vocalx = (): JSX.Element => {
           </nav>
         </div>
       </footer>
+      
+      {/* Popup Modal */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[10000] p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full relative transform transition-all duration-300 animate-in">
+            {/* Close button */}
+            <button
+              onClick={() => setShowPopup(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10"
+              aria-label="Close popup"
+            >
+              <XIcon className="w-4 h-4 text-gray-600" />
+            </button>
+            
+            {/* Modal content */}
+            <div className="p-8">
+              <div className="text-center mb-6">
+                <div className="mx-auto mb-4 w-16 h-16 bg-gradient-to-br from-[#717fe8] to-[#954ad2] rounded-full flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-white"
+                  >
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-2 [font-family:'Inter',Helvetica]">
+                  Talk to Our AI Assistant
+                </h2>
+                <p className="text-gray-600 text-sm">
+                  Real-time demo. No wait.
+                </p>
+              </div>
+              
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const form = e.target as HTMLFormElement;
+                  const formData = new FormData(form);
+                  const fullname = formData.get('fullname') as string;
+                  const phone = formData.get('phone') as string;
+                  const countryCode = formData.get('countryCode') as string;
+                  
+                  if (!fullname.trim() || !phone.trim()) {
+                    const messageBox = document.getElementById('popup-message');
+                    if (messageBox) {
+                      messageBox.textContent = "Please fill in all fields.";
+                      messageBox.className = "text-red-600 mt-4 text-center text-sm";
+                    }
+                    return;
+                  }
+
+                  const payload = { fullname: fullname.trim(), phone: countryCode + phone.trim() };
+
+                  try {
+                    const res = await fetch('https://services.leadconnectorhq.com/hooks/qmXJdLQTCzANbI5LCD8t/webhook-trigger/940b8d1f-df28-4e85-a4c4-2d1b011fdb2a', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(payload)
+                    });
+
+                    const messageBox = document.getElementById('popup-message');
+                    if (res.ok) {
+                      if (messageBox) {
+                        messageBox.textContent = "✅ Form submitted successfully!";
+                        messageBox.className = "text-green-600 mt-4 text-center text-sm";
+                      }
+                      form.reset();
+                      // Close popup after successful submission
+                      setTimeout(() => setShowPopup(false), 2000);
+                    } else {
+                      if (messageBox) {
+                        messageBox.textContent = "❌ Something went wrong. Please try again.";
+                        messageBox.className = "text-red-600 mt-4 text-center text-sm";
+                      }
+                    }
+                  } catch (err) {
+                    const messageBox = document.getElementById('popup-message');
+                    if (messageBox) {
+                      messageBox.textContent = "❌ Submission error. Check your connection.";
+                      messageBox.className = "text-red-600 mt-4 text-center text-sm";
+                    }
+                    console.error(err);
+                  }
+                }}
+                className="space-y-4"
+              >
+                <div>
+                  <label htmlFor="popup-fullname" className="block text-sm font-medium text-gray-700 mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="popup-fullname"
+                    name="fullname"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#717fe8] focus:border-[#717fe8] outline-none transition-colors"
+                    placeholder="So we know how to greet you"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="popup-phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
+                  </label>
+                  <div className="flex items-center">
+                    <select 
+                      name="countryCode"
+                      id="popup-countryCode"
+                      className="h-full px-3 py-3 border border-r-0 border-gray-300 rounded-l-xl focus:ring-2 focus:ring-[#717fe8] focus:border-[#717fe8] outline-none transition-colors bg-gray-50 text-sm"
+                      defaultValue="+1"
+                    >
+                      <option value="+1">+1 (US)</option>
+                      <option value="+44">+44 (UK)</option>
+                      <option value="+61">+61 (AU)</option>
+                      <option value="+91">+91 (IN)</option>
+                      <option value="+1_CA">+1 (CA)</option> {/* Differentiate Canadian +1 */}
+                      {/* Add more common country codes as needed */}
+                    </select>
+                    <input
+                      type="tel"
+                      id="popup-phone"
+                      name="phone"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-r-xl focus:ring-2 focus:ring-[#717fe8] focus:border-[#717fe8] outline-none transition-colors"
+                      placeholder="We'll call this number in seconds"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-[#717fe8] to-[#954ad2] text-white font-semibold py-3 px-4 rounded-xl hover:from-[#6270e5] hover:to-[#8a44c9] transition-all transform hover:scale-[1.02] shadow-lg"
+                >
+                  Start Demo Call
+                </button>
+              </form>
+
+              <div id="popup-message" className="text-center mt-4 text-sm"></div>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Schema.org structured data for SEO */}
       <script type="application/ld+json">
