@@ -345,6 +345,18 @@ export const ContactUs = (): JSX.Element => {
                 </a>
               )
             ))}
+            <Link
+              to="/privacy-policy"
+              className="text-xs sm:text-sm hover:text-white"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              to="/terms"
+              className="text-xs sm:text-sm hover:text-white"
+            >
+              Terms
+            </Link>
           </nav>
         </div>
       </footer>
