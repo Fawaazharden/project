@@ -5,6 +5,134 @@
   .all-\[unset\] {
     all: unset;
   }
+
+  /* Blog Post Styles */
+  .blog-post {
+    @apply max-w-4xl mx-auto px-6 py-8;
+  }
+
+  .blog-header {
+    @apply mb-8 border-b border-gray-200 pb-6;
+  }
+
+  .blog-header h1 {
+    @apply text-4xl font-bold text-gray-900 mb-4;
+  }
+
+  .blog-subtitle {
+    @apply text-xl text-gray-600 mb-6 leading-relaxed;
+  }
+
+  .blog-meta {
+    @apply flex flex-wrap gap-4 text-sm text-gray-500;
+  }
+
+  .blog-meta .author {
+    @apply font-semibold;
+  }
+
+  .blog-meta .read-time {
+    @apply px-2 py-1 bg-gray-100 rounded;
+  }
+
+  .blog-meta .publish-date {
+    @apply text-gray-600;
+  }
+
+  .blog-content {
+    @apply prose prose-lg max-w-none;
+  }
+
+  .blog-content p {
+    @apply mb-6 leading-relaxed text-gray-700;
+  }
+
+  .section-number {
+    @apply text-2xl font-bold text-gray-900 mt-12 mb-6 border-b-2 border-blue-500 pb-2;
+  }
+
+  .blog-content h3 {
+    @apply text-xl font-semibold text-gray-900 mt-8 mb-4;
+  }
+
+  .blog-content h4 {
+    @apply text-lg font-medium text-gray-900 mt-6 mb-3;
+  }
+
+  /* Key Insight Box */
+  .key-insight {
+    @apply bg-blue-50 border-l-4 border-blue-500 p-6 my-8 rounded-r-lg;
+  }
+
+  .key-insight p {
+    @apply text-blue-900 mb-0 font-medium;
+  }
+
+  /* Warning Box */
+  .warning-box {
+    @apply bg-yellow-50 border-l-4 border-yellow-500 p-6 my-8 rounded-r-lg;
+  }
+
+  .warning-box p {
+    @apply text-yellow-900 mb-0 font-medium;
+  }
+
+  /* Comparison Table */
+  .comparison-table {
+    @apply my-8 overflow-x-auto;
+  }
+
+  .comparison-table h4 {
+    @apply text-lg font-semibold text-gray-900 mb-4;
+  }
+
+  .comparison-table table {
+    @apply w-full border-collapse border border-gray-300 bg-white;
+  }
+
+  .comparison-table th {
+    @apply bg-gray-100 border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900;
+  }
+
+  .comparison-table td {
+    @apply border border-gray-300 px-4 py-3 text-gray-700;
+  }
+
+  .comparison-table td:first-child {
+    @apply font-semibold bg-gray-50;
+  }
+
+  /* Benefit Lists */
+  .benefit-list {
+    @apply list-decimal list-inside space-y-3 my-6 pl-4;
+  }
+
+  .benefit-list li {
+    @apply text-gray-700 leading-relaxed;
+  }
+
+  .xai-benefits {
+    @apply list-disc list-inside space-y-2 my-6 pl-4;
+  }
+
+  .xai-benefits li {
+    @apply text-gray-700 leading-relaxed;
+  }
+
+  /* Links */
+  .blog-content a {
+    @apply text-blue-600 hover:text-blue-800 underline transition-colors duration-200;
+  }
+
+  /* Images */
+  .blog-content img {
+    @apply rounded-lg shadow-md my-8 max-w-full h-auto;
+  }
+
+  /* Strong text */
+  .blog-content strong {
+    @apply font-semibold text-gray-900;
+  }
 }
 
 :root {
