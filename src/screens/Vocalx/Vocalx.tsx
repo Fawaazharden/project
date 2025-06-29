@@ -86,7 +86,7 @@ export const Vocalx = (): JSX.Element => {
     {
       id: 1,
       name: "Standard Plan", // Updated name
-      price: "$799", // Price remains the same
+      price: "$499", // Price remains the same
       pricePeriod: "/month", // Period remains the same
       description: "Starting", // Updated description for price
       features: pricingFeatures,
