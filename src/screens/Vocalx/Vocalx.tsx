@@ -14,6 +14,7 @@ import {
 export const Vocalx = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
   const [showPopup, setShowPopup] = useState(false); // State for popup modal
+  const [showOfferBanner, setShowOfferBanner] = useState(true); // State for offer banner
   const [timeLeft, setTimeLeft] = useState({ hours: 47, minutes: 23, seconds: 45 }); // Countdown timer
 
   // Show popup after 7 seconds
@@ -162,8 +163,51 @@ export const Vocalx = (): JSX.Element => {
 
   return (
     <div className="flex flex-col items-center justify-center relative bg-white overflow-x-hidden"> {/* Added overflow-x-hidden */}
-      {/* Header Section - Updated based on Figma visual */}
-      <header className="w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0"> {/* Removed lg horizontal padding */}
+      {/* Limited Time Offer Banner - Sticky */}
+      {showOfferBanner && (
+        <div className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 py-4 px-4 overflow-hidden shadow-lg">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center text-center sm:text-left gap-4 relative">
+            <div className="flex items-center gap-2">
+              <Zap className="w-5 h-5 text-yellow-300 animate-pulse" />
+              <span className="text-white font-bold text-lg">🔥 LIMITED TIME:</span>
+              <span className="text-white font-semibold">Save $200/month - Only 13 spots left!</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-white">
+                <Clock className="w-4 h-4" />
+                <span className="text-sm font-medium">Ends in:</span>
+              </div>
+              <div className="flex gap-1">
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                  {String(timeLeft.hours).padStart(2, '0')}
+                </div>
+                <span className="text-white font-bold">:</span>
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                  {String(timeLeft.minutes).padStart(2, '0')}
+                </div>
+                <span className="text-white font-bold">:</span>
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                  {String(timeLeft.seconds).padStart(2, '0')}
+                </div>
+              </div>
+            </div>
+            
+            {/* Close button - positioned absolutely */}
+            <button
+              onClick={() => setShowOfferBanner(false)}
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+              aria-label="Close offer banner"
+            >
+              <XIcon className="w-4 h-4 text-white" />
+            </button>
+          </div>
+          {/* Animated background elements for urgency */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
+        </div>
+      )}
+
+      {/* Header Section - Add padding to account for sticky banner */}
+      <header className={`w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0 ${showOfferBanner ? 'pt-20' : ''}`}> {/* Removed lg horizontal padding */}
         {/* Navigation */}
         <nav className="w-full max-w-7xl mx-auto lg:max-w-none lg:mx-0 lg:px-8 flex items-center justify-between py-6"> {/* Explicitly remove max-width/mx-auto for lg, add padding */}
           {/* Logo */}
@@ -233,38 +277,6 @@ export const Vocalx = (): JSX.Element => {
             </div>
           </div>
         )}
-
-        {/* Limited Time Offer Banner */}
-        <div className="w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 py-4 px-4 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center text-center sm:text-left gap-4">
-            <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-yellow-300 animate-pulse" />
-              <span className="text-white font-bold text-lg">🔥 LIMITED TIME:</span>
-              <span className="text-white font-semibold">Save $200/month - Only 47 spots left!</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-white">
-                <Clock className="w-4 h-4" />
-                <span className="text-sm font-medium">Ends in:</span>
-              </div>
-              <div className="flex gap-1">
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
-                  {String(timeLeft.hours).padStart(2, '0')}
-                </div>
-                <span className="text-white font-bold">:</span>
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
-                  {String(timeLeft.minutes).padStart(2, '0')}
-                </div>
-                <span className="text-white font-bold">:</span>
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
-                  {String(timeLeft.seconds).padStart(2, '0')}
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Animated background elements for urgency */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
-        </div>
 
         {/* Hero Content */}
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center pt-16 px-4"> {/* Original Hero Content styles */}
@@ -569,7 +581,7 @@ export const Vocalx = (): JSX.Element => {
             Your Last Missed Lead Could've Paid for This
             </h2>
             <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-lg sm:text-xl mt-4">
-            Convert just one extra deal and this system more than covers itself. <span className="text-red-600 font-semibold">Act fast - only 47 spots remaining!</span>
+            Convert just one extra deal and this system more than covers itself. <span className="text-red-600 font-semibold">Act fast - only 13 spots remaining!</span>
             </p>
           </div>
 
@@ -603,7 +615,7 @@ export const Vocalx = (): JSX.Element => {
                         <span className="text-xl opacity-90">{plan.pricePeriod}</span>
                      </div>
                      {/* Urgency Message */}
-                     <p className="text-sm opacity-90 mt-2">⚡ 47 spots left at this price</p>
+                     <p className="text-sm opacity-90 mt-2">⚡ 13 spots left at this price</p>
                   </div>
 
 

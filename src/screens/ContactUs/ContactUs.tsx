@@ -292,7 +292,7 @@ export const ContactUs = (): JSX.Element => {
                 type="submit"
                 className="bg-gradient-to-r from-[#717fe8] to-[#954ad2] hover:from-[#5a67d8] hover:to-[#7e3eb3] text-white font-semibold text-lg py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:ring-offset-2 w-full"
               >
-                Schedule a Meeting
+                Submit
               </button>
             </div>
           </form>
