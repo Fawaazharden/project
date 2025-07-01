@@ -22,6 +22,7 @@ export const ContactUs = (): JSX.Element => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     message: ''
   });
 
@@ -262,8 +263,20 @@ export const ContactUs = (): JSX.Element => {
                 className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
               />
             </div>
+            <div className="mb-4">
+              <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Phone Number(with country code)</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+                className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
+              />
+            </div>
             <div className="mb-6">
-              <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Message</label>
+              <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Additional Notes</label>
               <textarea
                 id="message"
                 name="message"

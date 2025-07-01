@@ -1,4 +1,4 @@
-import { CheckIcon, MenuIcon, XIcon } from "lucide-react"; // Added MenuIcon, XIcon
+import { CheckIcon, MenuIcon, XIcon, Clock, Zap } from "lucide-react"; // Added Clock, Zap icons
 import React, { useState, useEffect } from "react"; // Added useEffect
 import { Link } from "react-router-dom"; // Import Link
 import { Button } from "../../components/ui/button";
@@ -14,6 +14,7 @@ import {
 export const Vocalx = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
   const [showPopup, setShowPopup] = useState(false); // State for popup modal
+  const [timeLeft, setTimeLeft] = useState({ hours: 47, minutes: 23, seconds: 45 }); // Countdown timer
 
   // Show popup after 7 seconds
   useEffect(() => {
@@ -22,6 +23,26 @@ export const Vocalx = (): JSX.Element => {
     }, 7000); // 7 seconds
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // Countdown timer effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev.seconds > 0) {
+          return { ...prev, seconds: prev.seconds - 1 };
+        }
+        if (prev.minutes > 0) {
+          return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+        }
+        if (prev.hours > 0) {
+          return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        }
+        return prev;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Navigation items - Removed width, will use spacing utilities
@@ -86,12 +107,12 @@ export const Vocalx = (): JSX.Element => {
     {
       id: 1,
       name: "Standard Plan", // Updated name
-      price: "$499", // Price remains the same
+      price: "$299", // Limited time offer price
       pricePeriod: "/month", // Period remains the same
-      description: "Starting", // Updated description for price
+      description: "Limited Time", // Updated description for price
       features: pricingFeatures,
       highlighted: true, // Keep it highlighted
-      buttonText: "Get Started", // Button text remains the same
+      buttonText: "Claim This Deal", // Updated button text for urgency
     },
   ];
 
@@ -212,6 +233,38 @@ export const Vocalx = (): JSX.Element => {
             </div>
           </div>
         )}
+
+        {/* Limited Time Offer Banner */}
+        <div className="w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 py-4 px-4 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center text-center sm:text-left gap-4">
+            <div className="flex items-center gap-2">
+              <Zap className="w-5 h-5 text-yellow-300 animate-pulse" />
+              <span className="text-white font-bold text-lg">🔥 LIMITED TIME:</span>
+              <span className="text-white font-semibold">Save $200/month - Only 47 spots left!</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-white">
+                <Clock className="w-4 h-4" />
+                <span className="text-sm font-medium">Ends in:</span>
+              </div>
+              <div className="flex gap-1">
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                  {String(timeLeft.hours).padStart(2, '0')}
+                </div>
+                <span className="text-white font-bold">:</span>
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                  {String(timeLeft.minutes).padStart(2, '0')}
+                </div>
+                <span className="text-white font-bold">:</span>
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                  {String(timeLeft.seconds).padStart(2, '0')}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Animated background elements for urgency */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
+        </div>
 
         {/* Hero Content */}
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center pt-16 px-4"> {/* Original Hero Content styles */}
@@ -506,12 +559,17 @@ export const Vocalx = (): JSX.Element => {
         <div className="flex flex-col items-center justify-center gap-8 px-[60px]"> {/* Original Pricing container styles */}
           {/* Updated Pricing Header */}
           <div className="text-center mb-12">
+            {/* Limited Time Offer Badge */}
+            <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-red-100 text-red-800 rounded-full text-sm font-semibold">
+              <Zap className="w-4 h-4" />
+              <span>LIMITED TIME: $200 OFF</span>
+            </div>
             {/* Updated Pricing Header Copywriting */}
             <h2 className="[font-family:'Inter',Helvetica] font-black text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]">
             Your Last Missed Lead Could've Paid for This
             </h2>
             <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-lg sm:text-xl mt-4">
-            Convert just one extra deal and this system more than covers itself
+            Convert just one extra deal and this system more than covers itself. <span className="text-red-600 font-semibold">Act fast - only 47 spots remaining!</span>
             </p>
           </div>
 
@@ -533,12 +591,19 @@ export const Vocalx = (): JSX.Element => {
                   {/* Updated Price Display */}
                   <div className="mb-8">
                      <p className="text-lg opacity-90">{plan.description}</p>
+                     {/* Original Price Strikethrough */}
+                     <div className="flex items-center gap-2 mt-2">
+                       <span className="text-lg opacity-70 line-through">$499/month</span>
+                       <span className="bg-yellow-300 text-red-800 px-2 py-1 rounded text-xs font-bold">SAVE $200</span>
+                     </div>
                      <div className="flex items-baseline gap-x-2 mt-1">
                         <span className="[font-family:'Cabinet_Grotesk-Extrabold',Helvetica] font-normal text-5xl sm:text-6xl">
                           {plan.price}
                         </span>
                         <span className="text-xl opacity-90">{plan.pricePeriod}</span>
                      </div>
+                     {/* Urgency Message */}
+                     <p className="text-sm opacity-90 mt-2">⚡ 47 spots left at this price</p>
                   </div>
 
 
