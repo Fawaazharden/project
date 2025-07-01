@@ -1,0 +1,10 @@
+# Redirects for Single Page Application (SPA)
+# This tells Netlify to serve index.html for all routes and let React Router handle client-side routing
+
+/*    /index.html   200
+
+# API routes (if you have any Netlify functions)
+/api/*  /.netlify/functions/:splat  200
+
+# Contact form endpoint (for netlify functions)
+/api/contact  /.netlify/functions/contact  200 
