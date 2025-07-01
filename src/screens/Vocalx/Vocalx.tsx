@@ -165,37 +165,42 @@ export const Vocalx = (): JSX.Element => {
     <div className="flex flex-col items-center justify-center relative bg-white overflow-x-hidden"> {/* Added overflow-x-hidden */}
       {/* Limited Time Offer Banner - Sticky */}
       {showOfferBanner && (
-        <div className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 py-4 px-4 overflow-hidden shadow-lg">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center text-center sm:text-left gap-4 relative">
-            <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-yellow-300 animate-pulse" />
-              <span className="text-white font-bold text-lg">🔥 LIMITED TIME:</span>
-              <span className="text-white font-semibold">Save $200/month - Only 13 spots left!</span>
+        <div className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 py-3 px-4 shadow-lg">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center sm:text-left gap-x-4 gap-y-2 relative">
+            {/* Offer Text Group */}
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1">
+              <div className="flex items-center gap-2">
+                <Zap className="w-5 h-5 text-yellow-300 animate-pulse" />
+                <span className="text-white font-bold text-base sm:text-lg whitespace-nowrap">🔥 LIMITED TIME:</span>
+              </div>
+              <span className="text-white font-semibold text-sm sm:text-base">Save $200/month - Only 13 spots left!</span>
             </div>
-            <div className="flex items-center gap-4">
+
+            {/* Timer Group */}
+            <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-white">
                 <Clock className="w-4 h-4" />
-                <span className="text-sm font-medium">Ends in:</span>
+                <span className="text-xs sm:text-sm font-medium">Ends in:</span>
               </div>
               <div className="flex gap-1">
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-xs sm:text-sm font-bold min-w-[1.75rem] sm:min-w-[2rem] text-center">
                   {String(timeLeft.hours).padStart(2, '0')}
                 </div>
                 <span className="text-white font-bold">:</span>
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-xs sm:text-sm font-bold min-w-[1.75rem] sm:min-w-[2rem] text-center">
                   {String(timeLeft.minutes).padStart(2, '0')}
                 </div>
                 <span className="text-white font-bold">:</span>
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-sm font-bold min-w-[2rem] text-center">
+                <div className="bg-white text-red-600 px-2 py-1 rounded text-xs sm:text-sm font-bold min-w-[1.75rem] sm:min-w-[2rem] text-center">
                   {String(timeLeft.seconds).padStart(2, '0')}
                 </div>
               </div>
             </div>
             
-            {/* Close button - positioned absolutely */}
+            {/* Close button - adjusted for better positioning */}
             <button
               onClick={() => setShowOfferBanner(false)}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+              className="absolute right-0 sm:right-2 top-1/2 transform -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
               aria-label="Close offer banner"
             >
               <XIcon className="w-4 h-4 text-white" />
@@ -207,12 +212,11 @@ export const Vocalx = (): JSX.Element => {
       )}
 
       {/* Header Section - Add padding to account for sticky banner */}
-      <header className={`w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0 ${showOfferBanner ? 'pt-20' : ''}`}> {/* Removed lg horizontal padding */}
+      <header className={`w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0 ${showOfferBanner ? 'pt-24 sm:pt-20' : ''}`}> {/* Adjusted padding top */}
         {/* Navigation */}
         <nav className="w-full max-w-7xl mx-auto lg:max-w-none lg:mx-0 lg:px-8 flex items-center justify-between py-6"> {/* Explicitly remove max-width/mx-auto for lg, add padding */}
           {/* Logo */}
-          {/* Logo */}
-          <div className="flex items-center"> {/* Removed mr-auto, handled by justify-between */}
+          <div className="flex-1 md:flex-none flex items-center"> {/* Let logo container grow on mobile, but not on md+ */}
             <img
               src="/screenshot-2025-03-26-224229-1.png" // Assuming this is the correct logo path
               alt="Vocalx Labs Logo"
@@ -242,7 +246,7 @@ export const Vocalx = (): JSX.Element => {
             ))}
           </div>
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex-1 flex justify-end"> {/* Let button container grow and push content to the end */}
             <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
               {isMobileMenuOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
             </Button>
