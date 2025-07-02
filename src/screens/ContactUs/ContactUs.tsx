@@ -22,8 +22,7 @@ export const ContactUs = (): JSX.Element => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
-    message: ''
+    phone: ''
   });
 
   // Handle input changes
@@ -275,18 +274,6 @@ export const ContactUs = (): JSX.Element => {
                 className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
               />
             </div>
-            <div className="mb-6">
-              <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Additional Notes</label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-                className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
-              ></textarea>
-            </div>
             <div className="flex items-center justify-center">
               <button
                 type="submit"
@@ -299,9 +286,9 @@ export const ContactUs = (): JSX.Element => {
         </>
       ) : (
         <>
-          <h2 className="text-4xl font-extrabold text-black mb-4 [font-family:'Inter',Helvetica]">Thank You!</h2>
+          <h2 className="text-4xl font-extrabold text-black mb-4 [font-family:'Inter',Helvetica]">WAIT!!</h2>
           <p className="text-xl text-gray-800 mb-8 text-center max-w-2xl [font-family:'Inter',Helvetica] font-medium">
-            Your message has been sent. Please book a meeting with our voice AI experts below.
+            You haven't done it yet. Please book a quick meeting at your own convenience.
           </p>
           
           {/* Show loading spinner while Calendly is loading */}

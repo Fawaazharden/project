@@ -200,14 +200,14 @@ export const Vocalx = (): JSX.Element => {
             {/* Close button - adjusted for better positioning */}
             <button
               onClick={() => setShowOfferBanner(false)}
-              className="absolute right-0 sm:right-2 top-1/2 transform -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+              className="absolute right-0 sm:right-2 top-1/2 transform -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors z-10"
               aria-label="Close offer banner"
             >
               <XIcon className="w-4 h-4 text-white" />
             </button>
           </div>
           {/* Animated background elements for urgency */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse pointer-events-none"></div>
         </div>
       )}
 
