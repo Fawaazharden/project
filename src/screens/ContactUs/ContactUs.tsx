@@ -34,36 +34,49 @@ export const ContactUs = (): JSX.Element => {
     }));
   };
 
-  // Submit handler - now configured for Netlify Forms
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // Submit handler - configured for GoHighLevel webhook
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
     
     // Log form data for debugging
     console.log('Form submitted with data:', formData);
     
-    // For Netlify Forms, we'll let the form submit naturally after our processing
-    // Create a hidden form that Netlify can process
-    const form = event.target as HTMLFormElement;
-    const formDataForSubmit = new FormData(form);
-    
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formDataForSubmit as any).toString(),
-    })
-      .then(() => {
-        console.log("Form successfully submitted to Netlify");
+    // Validate required fields
+    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim()) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Prepare payload for GoHighLevel webhook
+    const payload = { 
+      name: formData.name.trim(), 
+      email: formData.email.trim(), 
+      phone: formData.phone.trim() 
+    };
+
+    try {
+      const res = await fetch('https://services.leadconnectorhq.com/hooks/qmXJdLQTCzANbI5LCD8t/webhook-trigger/133b0fc1-cf8f-47b8-8fa2-862eb8910288', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        console.log("Form successfully submitted to GoHighLevel");
         // Show the Calendly widget after successful submission
         setIsSubmitted(true);
         setIsCalendlyLoading(true);
         
         // Optional: Save to localStorage as a backup
         saveToLocalStorage();
-      })
-      .catch((error) => {
-        console.error("Form submission error:", error);
+      } else {
+        console.error("Form submission failed:", res.status, res.statusText);
         alert("There was an error submitting the form. Please try again.");
-      });
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      alert("There was an error submitting the form. Please try again.");
+    }
   };
   
   // Save form data to localStorage as a backup
@@ -219,24 +232,15 @@ export const ContactUs = (): JSX.Element => {
       <div className="w-full max-w-4xl mx-auto flex flex-col items-center p-8">
       {!isSubmitted ? (
         <>
-          <h1 className="text-5xl sm:text-6xl font-extrabold text-black leading-tight mb-6 [font-family:'Inter',Helvetica]">Contact Us</h1>
-          <p className="text-xl text-gray-800 mb-8 text-center max-w-2xl [font-family:'Inter',Helvetica] font-medium">
-            We'd love to hear from you! Reach out with any questions about our AI voice technology.
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black leading-tight mb-6 text-center [font-family:'Inter',Helvetica]">Stop Losing Leads. Start Closing Deals</h1>
+          <p className="text-lg sm:text-xl text-gray-800 mb-8 text-center max-w-2xl [font-family:'Inter',Helvetica] font-medium">
+          Enter your details and we'll show you how it works...
           </p>
-          {/* Contact Form - Modified for Netlify Forms */}
+          {/* Contact Form - Modified for GoHighLevel webhook */}
           <form
-            name="contact"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
             className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl"
           >
-            {/* Hidden fields for Netlify Forms */}
-            <input type="hidden" name="form-name" value="contact" />
-            <div hidden>
-              <input name="bot-field" />
-            </div>
             
             <div className="mb-4">
               <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Name</label>
@@ -246,6 +250,7 @@ export const ContactUs = (): JSX.Element => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
+                placeholder="Enter your full name"
                 required
                 className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
               />
@@ -258,6 +263,7 @@ export const ContactUs = (): JSX.Element => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                placeholder="your.email@example.com"
                 required
                 className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
               />
@@ -270,6 +276,7 @@ export const ContactUs = (): JSX.Element => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
+                placeholder="+1 (555) 123-4567"
                 required
                 className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
               />
