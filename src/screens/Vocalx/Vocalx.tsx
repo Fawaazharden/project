@@ -1,4 +1,4 @@
-import { CheckIcon, MenuIcon, XIcon, Clock, Zap } from "lucide-react"; // Added Clock, Zap icons
+import { CheckIcon, MenuIcon, XIcon } from "lucide-react"; // Removed Clock, Zap icons
 import React, { useState, useEffect } from "react"; // Added useEffect
 import { Link } from "react-router-dom"; // Import Link
 import { Button } from "../../components/ui/button";
@@ -14,8 +14,6 @@ import {
 export const Vocalx = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
   const [showPopup, setShowPopup] = useState(false); // State for popup modal
-  const [showOfferBanner, setShowOfferBanner] = useState(true); // State for offer banner
-  const [timeLeft, setTimeLeft] = useState({ hours: 47, minutes: 23, seconds: 45 }); // Countdown timer
 
   // Show popup after 7 seconds
   useEffect(() => {
@@ -24,26 +22,6 @@ export const Vocalx = (): JSX.Element => {
     }, 7000); // 7 seconds
 
     return () => clearTimeout(timer);
-  }, []);
-
-  // Countdown timer effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 };
-        }
-        if (prev.minutes > 0) {
-          return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        }
-        if (prev.hours > 0) {
-          return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        }
-        return prev;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
   }, []);
 
   // Navigation items - Removed width, will use spacing utilities
@@ -107,13 +85,13 @@ export const Vocalx = (): JSX.Element => {
   const pricingPlans = [
     {
       id: 1,
-      name: "Standard Plan", // Updated name
-      price: "$299", // Limited time offer price
+      name: "Complete AI System", // Updated name
+      price: "$499", // Regular price
       pricePeriod: "/month", // Period remains the same
-      description: "Limited Time", // Updated description for price
+      description: "Everything Included", // Updated description
       features: pricingFeatures,
       highlighted: true, // Keep it highlighted
-      buttonText: "Claim This Deal", // Updated button text for urgency
+      buttonText: "Get Started", // Updated button text
     },
   ];
 
@@ -163,56 +141,10 @@ export const Vocalx = (): JSX.Element => {
 
   return (
     <div className="flex flex-col items-center justify-center relative bg-white overflow-x-hidden"> {/* Added overflow-x-hidden */}
-      {/* Limited Time Offer Banner - Sticky */}
-      {showOfferBanner && (
-        <div className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 py-3 px-4 shadow-lg">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center sm:text-left gap-x-4 gap-y-2 relative">
-            {/* Offer Text Group */}
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1">
-              <div className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-yellow-300 animate-pulse" />
-                <span className="text-white font-bold text-base sm:text-lg whitespace-nowrap">🔥 LIMITED TIME:</span>
-              </div>
-              <span className="text-white font-semibold text-sm sm:text-base">Save $200/month - Only 13 spots left!</span>
-            </div>
 
-            {/* Timer Group */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-white">
-                <Clock className="w-4 h-4" />
-                <span className="text-xs sm:text-sm font-medium">Ends in:</span>
-              </div>
-              <div className="flex gap-1">
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-xs sm:text-sm font-bold min-w-[1.75rem] sm:min-w-[2rem] text-center">
-                  {String(timeLeft.hours).padStart(2, '0')}
-                </div>
-                <span className="text-white font-bold">:</span>
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-xs sm:text-sm font-bold min-w-[1.75rem] sm:min-w-[2rem] text-center">
-                  {String(timeLeft.minutes).padStart(2, '0')}
-                </div>
-                <span className="text-white font-bold">:</span>
-                <div className="bg-white text-red-600 px-2 py-1 rounded text-xs sm:text-sm font-bold min-w-[1.75rem] sm:min-w-[2rem] text-center">
-                  {String(timeLeft.seconds).padStart(2, '0')}
-                </div>
-              </div>
-            </div>
-            
-            {/* Close button - adjusted for better positioning */}
-            <button
-              onClick={() => setShowOfferBanner(false)}
-              className="absolute right-0 sm:right-2 top-1/2 transform -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors z-10"
-              aria-label="Close offer banner"
-            >
-              <XIcon className="w-4 h-4 text-white" />
-            </button>
-          </div>
-          {/* Animated background elements for urgency */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse pointer-events-none"></div>
-        </div>
-      )}
 
-      {/* Header Section - Add padding to account for sticky banner */}
-      <header className={`w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0 ${showOfferBanner ? 'pt-24 sm:pt-20' : ''}`}> {/* Adjusted padding top */}
+      {/* Header Section */}
+      <header className={`w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0`}> {/* Adjusted padding top */}
         {/* Navigation */}
         <nav className="w-full max-w-7xl mx-auto lg:max-w-none lg:mx-0 lg:px-8 flex items-center justify-between py-6"> {/* Explicitly remove max-width/mx-auto for lg, add padding */}
           {/* Logo */}
@@ -575,17 +507,12 @@ export const Vocalx = (): JSX.Element => {
         <div className="flex flex-col items-center justify-center gap-8 px-[60px]"> {/* Original Pricing container styles */}
           {/* Updated Pricing Header */}
           <div className="text-center mb-12">
-            {/* Limited Time Offer Badge */}
-            <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-red-100 text-red-800 rounded-full text-sm font-semibold">
-              <Zap className="w-4 h-4" />
-              <span>LIMITED TIME: $200 OFF</span>
-            </div>
             {/* Updated Pricing Header Copywriting */}
             <h2 className="[font-family:'Inter',Helvetica] font-black text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]">
             Your Last Missed Lead Could've Paid for This
             </h2>
             <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-lg sm:text-xl mt-4">
-            Convert just one extra deal and this system more than covers itself. <span className="text-red-600 font-semibold">Act fast - only 13 spots remaining!</span>
+            Convert just one extra deal and this system more than covers itself.
             </p>
           </div>
 
@@ -607,19 +534,12 @@ export const Vocalx = (): JSX.Element => {
                   {/* Updated Price Display */}
                   <div className="mb-8">
                      <p className="text-lg opacity-90">{plan.description}</p>
-                     {/* Original Price Strikethrough */}
-                     <div className="flex items-center gap-2 mt-2">
-                       <span className="text-lg opacity-70 line-through">$499/month</span>
-                       <span className="bg-yellow-300 text-red-800 px-2 py-1 rounded text-xs font-bold">SAVE $200</span>
-                     </div>
-                     <div className="flex items-baseline gap-x-2 mt-1">
+                     <div className="flex items-baseline gap-x-2 mt-4">
                         <span className="[font-family:'Cabinet_Grotesk-Extrabold',Helvetica] font-normal text-5xl sm:text-6xl">
                           {plan.price}
                         </span>
                         <span className="text-xl opacity-90">{plan.pricePeriod}</span>
                      </div>
-                     {/* Urgency Message */}
-                     <p className="text-sm opacity-90 mt-2">⚡ 13 spots left at this price</p>
                   </div>
 
 
