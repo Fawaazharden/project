@@ -1,5 +1,5 @@
 import { CheckIcon, MenuIcon, XIcon } from "lucide-react"; // Removed Clock, Zap icons
-import React, { useState, useEffect } from "react"; // Added useEffect
+import { useState, useEffect } from "react"; // Added useEffect
 import { Link } from "react-router-dom"; // Import Link
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
@@ -30,15 +30,16 @@ export const Vocalx = (): JSX.Element => {
     { title: "Use Cases", href: "#use-cases" }, // Added href
     { title: "Testimonials", href: "#testimonials" }, // Added href
     { title: "Pricing", href: "#pricing" }, // Added href
+    { title: "FAQ", href: "#faq" },
     { title: "Contact Us", href: "/contact" }, // Keep route for Contact Us
   ];
 
-  // Testimonial data
+  // Testimonial data (real estate focused)
   const testimonials = [
     {
       id: 1,
       name: "Mark R.",
-      text: "We used to miss out on deals because we couldn't follow up fast enough. Now, leads are getting contacted instantly and our booked appointments have tripled.",
+      text: "Instant response and real qualification. Our listing appointments jumped and agents stopped chasing tire‑kickers.",
       position: "Real Estate Investor",
       image: "/image.png",
       groupImage: "/group-2.png",
@@ -46,46 +47,46 @@ export const Vocalx = (): JSX.Element => {
     {
       id: 2,
       name: "Aisha K.",
-      text: "Our team was buried in tickets. Since setting this up, response times dropped and we finally have breathing room to handle the complex stuff.",
-      position: "Help Desk Lead – SaaS Company",
+      text: "Every Zillow and Facebook lead gets a call in minutes. We now only meet serious sellers and financed buyers.",
+      position: "Team Lead – Boutique Brokerage",
       image: "/rectangle-1.svg",
       groupImage: "/group-1.png",
     },
     {
       id: 3,
       name: "David S.",
-      text: "We were wasting hours chasing people who were never going to convert. Now we're only speaking with the right clients and closing more deals, faster.",
-      position: "Founder – Consulting Agency Owner",
+      text: "Our ISA costs were creeping up. This system replaced first‑touch and books meetings right on our calendar.",
+      position: "Broker/Owner",
       image: "/rectangle.svg",
       groupImage: "/group.png",
     },
     {
       id: 4,
       name: "Lena M.",
-      text: "We needed a way to reach more landowners without growing our team. This system helped us scale outreach and focus only on the ones ready to move.",
-      position: "Acquisitions Director – Mineral Acquisition",
+      text: "Old database came back to life. Past leads re‑engaged and we picked up two listings in 30 days.",
+      position: "Operations – Top 1% Team",
       image: "/rectangle.svg", // Reusing the same image for the 4th testimonial
       groupImage: "/group.png", // Reusing the same group image for the 4th testimonial
     },
   ];
 
-  // Updated Pricing plan features for a single comprehensive plan
+  // Updated Pricing plan features for real estate
   const pricingFeatures = [
-    "AI Voice Agent, fully customized for your business",
-    "AI SMS System that nurtures and follows up automatically",
-    "6-Month Drip Campaign – built to engage cold leads back to life",
-    "Automated Email Sequences that convert passively",
-    "CRM Syncing – all lead data, always up to date",
-    "API Access – connect with anything",
-    "Priority Support – direct access to our expert team",
-    "Full System Customization – tailored to your flow, not cookie-cutter",
+    "Instant response for new seller & buyer leads (call/text in under 2 minutes)",
+    "Qualification: timeline, budget, financing, area, property details, motivation",
+    "Live transfer or calendar booking for listings and showings",
+    "6‑month SMS + email nurture that revives cold leads",
+    "CRM syncing – notes, transcripts and statuses kept up to date",
+    "Call recordings & transcripts for team coaching",
+    "Custom scripts for your market and branding",
+    "Priority onboarding and support",
   ];
 
   // Updated Pricing plans data to a single plan
   const pricingPlans = [
     {
       id: 1,
-      name: "Complete AI System", // Updated name
+      name: "Real Estate AI System", // Updated name
       price: "$499", // Regular price
       pricePeriod: "/month", // Period remains the same
       description: "Everything Included", // Updated description
@@ -95,24 +96,47 @@ export const Vocalx = (): JSX.Element => {
     },
   ];
 
-  // Use case cards data
+  // FAQ items (real estate focused)
+  const faqs = [
+    {
+      q: "How fast do you contact new real estate leads?",
+      a: "We call or text new seller and buyer leads within 2 minutes, 24/7.",
+    },
+    {
+      q: "What questions does the AI ask to qualify?",
+      a: "Timeline, motivation, property details, area, budget/financing, and next steps—fully customized to your scripts.",
+    },
+    {
+      q: "Can it book listing appointments and showings?",
+      a: "Yes. We live‑transfer hot leads or book directly on your team’s calendar.",
+    },
+    {
+      q: "Does it sync with our CRM?",
+      a: "We push notes, dispositions, and transcripts to your CRM so your pipeline stays clean.",
+    },
+    {
+      q: "Will this replace our ISAs?",
+      a: "It replaces first‑touch and long‑term follow‑up so ISAs can focus on high‑value conversations.",
+    },
+  ];
+
+  // Use case cards data (all real estate scenarios)
   const useCaseCards = [
     {
       id: 1,
-      title: "Real Estate",
+      title: "Seller Leads",
       description:
-        "Real estate teams using our AI system saw a 3x increase in lead response rates and 2x more qualified appointments booked.",
+        "Instantly contact, qualify, and book listing appointments from seller inquiries.",
       image: "/ranim.mp4", // Changed to video path
-      textColor: "text-white" // Position data removed
+      textColor: "text-white"
       // position: "top-[25px] left-[34px]",
       // descPosition: "top-[78px] left-[34px]",
     },
     {
       id: 2,
-      title: "Help Desk",
+      title: "Buyer Leads",
       description:
-        "Help desk teams cut response time by 70% and reduced ticket overload by automating FAQs and follow-ups with AI voice and SMS."
-,
+        "Screen budget, financing, timeline, and area. Route only serious buyers to your team.",
       image: "/help.mp4", // Changed to video path
       textColor: "text-white" // Changed to white for better contrast
       // position: "top-[26px] left-[704px]",
@@ -120,9 +144,9 @@ export const Vocalx = (): JSX.Element => {
     },
     {
       id: 3,
-      title: "Consulting",
+      title: "FSBO & Expired",
       description:
-        "Consulting firms doubled their qualified lead flow and cut manual outreach by 80% using our AI voice + SMS system.",
+        "Automated outreach that opens conversations and books listing appointments without extra headcount.",
       image: "/consul.mp4", // Changed to video path
       textColor: "text-[#26509c]" // Position data removed
       // position: "top-[668px] left-[34px]",
@@ -130,8 +154,8 @@ export const Vocalx = (): JSX.Element => {
     },
     {
       id: 4,
-      title: "Mineral Acquisition",
-      description: "Mineral acquisition teams increased landowner response rates by 3x and scaled outreach without growing headcount.",
+      title: "Database Reactivation",
+      description: "Revive cold leads and past clients with long‑term drips and smart follow‑ups.",
       image: "/miner.mp4", // Changed image to video path
       textColor: "text-white" // Position data removed
       // position: "top-[669px] left-[656px]",
@@ -142,6 +166,25 @@ export const Vocalx = (): JSX.Element => {
   return (
     <div className="flex flex-col items-center justify-center relative bg-white overflow-x-hidden"> {/* Added overflow-x-hidden */}
 
+
+      {/* Sticky Offer Bar */}
+      <div className="w-full fixed top-0 left-0 right-0 z-[1000]">
+        <div className="bg-red-600 text-white">
+          <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 px-4 py-2 text-sm sm:text-base">
+            <span className="font-semibold">
+              Next 3 real estate teams get our full AI system + 20 motivated seller leads — on us.
+            </span>
+            <Link
+              to="/contact"
+              className="bg-white/15 hover:bg-white/25 transition-colors rounded-full px-3 py-1 font-semibold underline underline-offset-2 whitespace-nowrap"
+            >
+              Claim your spot
+            </Link>
+          </div>
+        </div>
+      </div>
+      {/* Spacer to avoid content being hidden behind fixed bar */}
+      <div className="h-10" />
 
       {/* Header Section */}
       <header className={`w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0`}> {/* Adjusted padding top */}
@@ -219,7 +262,7 @@ export const Vocalx = (): JSX.Element => {
           {/* Chip Button */}
           <div className="mb-4 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 shadow-sm inline-flex items-center text-sm">
             <span className="text-white font-semibold">
-              Team wasting time on bad leads?
+              Wasting time on unqualified real estate leads?
             </span>
           </div>
           {/* Main Heading */}
@@ -231,7 +274,7 @@ export const Vocalx = (): JSX.Element => {
           </h1>
           {/* Subheading */}
           <p className="text-xl text-gray-800 max-w-3xl [font-family:'Inter',Helvetica] font-medium"> {/* Original Subheading styles */}
-          We deploy AI voice and SMS to screen prospects automatically, sending only the best leads your way via CRM sync          </p>
+          We deploy AI voice and SMS to screen seller and buyer prospects, book listing appointments and showings, and sync every detail to your CRM.          </p>
         </div>
 
         {/* CTA Button After Hero Text */}
@@ -274,7 +317,7 @@ export const Vocalx = (): JSX.Element => {
         
         {/* Mobile version - visible only on screens smaller than md */}
         <div className="flex md:hidden w-full flex-col max-w-[1300px]">
-          <h2 className="text-center text-3xl font-bold mb-8">Our Features</h2>
+          <h2 className="text-center text-3xl font-bold mb-8">Built for Real Estate Teams</h2>
           
           {/* Feature 1 */}
           <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
@@ -283,8 +326,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/3.png" alt="Illustration showing AI filtering qualified leads" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Too Many Bad Leads?</h3>
-                <p className="text-sm text-gray-700">We filter out the unqualified ones so your team speaks only talks to the right people.</p>
+                <h3 className="font-semibold text-lg mb-1">Too Many Tire‑Kickers?</h3>
+                <p className="text-sm text-gray-700">We filter out renters and low‑intent inquiries so your agents focus on real sellers and buyers.</p>
               </div>
             </div>
           </div>
@@ -297,7 +340,7 @@ export const Vocalx = (): JSX.Element => {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-lg mb-1">Leads Stop Responding?</h3>
-                <p className="text-sm text-gray-700">We run smart 6-month SMS follow-ups, so leads hear from you often and don't forget who you are</p>
+                <p className="text-sm text-gray-700">6‑month SMS nurture keeps seller and buyer leads warm until they’re ready to move.</p>
               </div>
             </div>
           </div>
@@ -309,8 +352,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/5.png" alt="Illustration showing cost reduction compared to manual lead handling" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Team Can't Handle Volume?</h3>
-                <p className="text-sm text-gray-700">Your team can take one call at a time, our AI takes 15+, giving you more chances to close deals fast</p>
+                <h3 className="font-semibold text-lg mb-1">Agents Swamped?</h3>
+                <p className="text-sm text-gray-700">AI handles first touch at scale, then routes only qualified opportunities to your team.</p>
               </div>
             </div>
           </div>
@@ -322,8 +365,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/6.png" alt="Illustration showing AI handling multiple concurrent calls" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Hiring Too Expensive?</h3>
-                <p className="text-sm text-gray-700">Skip the cost of building a big team. Our AI works 24/7, handles more leads, and costs much less</p>
+                <h3 className="font-semibold text-lg mb-1">Hiring ISAs Expensive?</h3>
+                <p className="text-sm text-gray-700">Replace the first‑contact layer with AI that works 24/7 and never forgets a follow‑up.</p>
               </div>
             </div>
           </div>
@@ -335,8 +378,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/7.png" alt="Illustration representing fast AI lead response times" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Too Slow to Reply?</h3>
-                <p className="text-sm text-gray-700">Speed matters. Our AI calls or texts every new lead within 2 minutes, so they don't go cold</p>
+                <h3 className="font-semibold text-lg mb-1">Slow to First Touch?</h3>
+                <p className="text-sm text-gray-700">Speed wins. We call or text every new portal and ad lead within 2 minutes.</p>
               </div>
             </div>
           </div>
@@ -348,8 +391,8 @@ export const Vocalx = (): JSX.Element => {
                 <img src="/8.png" alt="Illustration showing AI handling peak hour lead volume" className="w-full h-auto rounded" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Overwhelmed During Busy Hours?</h3>
-                <p className="text-sm text-gray-700">AI handles 8,000–12,000 messages daily. It qualifies leads and sends only the best to your team</p>
+                <h3 className="font-semibold text-lg mb-1">After‑Hours Leads?</h3>
+                <p className="text-sm text-gray-700">AI answers, qualifies, and books appointments while your team sleeps.</p>
               </div>
             </div>
           </div>
@@ -371,9 +414,9 @@ export const Vocalx = (): JSX.Element => {
         {/* Section Header */}
         <div className="w-full max-w-3xl mx-auto text-center mb-8 sm:mb-10 md:mb-12"> {/* Responsive margin */}
           <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-black text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4"> {/* Responsive size, margin */}
-          Your Competition's Closing Deals with AI - Are You?</h2>
+          Real Estate Use Cases That Drive Closings</h2>
           <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-base sm:text-lg leading-relaxed"> {/* Responsive size */}
-          Your top competitors already have AI working 24/7, calling new leads in seconds, following up for months, and syncing everything to their CRM automatically. While you're chasing leads, they're closing them          </p>
+          Your top competitors already have AI calling new seller and buyer leads in seconds, nurturing for months, and syncing everything to the CRM automatically. While others chase, they’re closing.          </p>
         </div>
 
         {/* Use Case Cards Grid */}
@@ -509,10 +552,10 @@ export const Vocalx = (): JSX.Element => {
           <div className="text-center mb-12">
             {/* Updated Pricing Header Copywriting */}
             <h2 className="[font-family:'Inter',Helvetica] font-black text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]">
-            Your Last Missed Lead Could've Paid for This
+            Your Last Missed Listing Could've Paid for This
             </h2>
             <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-lg sm:text-xl mt-4">
-            Convert just one extra deal and this system more than covers itself.
+            Convert just one extra listing or buyer deal and this system pays for itself.
             </p>
           </div>
 
@@ -576,6 +619,26 @@ export const Vocalx = (): JSX.Element => {
           <p className="text-center text-gray-500 mt-8 text-sm">
             Need more? <Link to="/contact" className="text-blue-600 hover:underline">Contact us</Link> for enterprise solutions and custom plans.
           </p>
+        </div>
+      </section>
+
+      {/* Footer Section */}
+      {/* FAQ Section */}
+      <section id="faq" className="w-full max-w-7xl mx-auto py-12 sm:py-16 px-4 sm:px-8">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-[#272727] text-3xl sm:text-4xl">Frequently Asked Questions</h2>
+          <p className="text-gray-600 mt-3">Built for real estate teams—quick answers below.</p>
+        </div>
+        <div className="max-w-3xl mx-auto divide-y divide-gray-200">
+          {faqs.map((item, idx) => (
+            <details key={idx} className="py-4 group">
+              <summary className="cursor-pointer flex items-start justify-between gap-4">
+                <span className="font-semibold text-left text-lg text-gray-900">{item.q}</span>
+                <span className="text-[#717fe8] font-bold">+</span>
+              </summary>
+              <p className="mt-2 text-gray-700 leading-relaxed">{item.a}</p>
+            </details>
+          ))}
         </div>
       </section>
 
@@ -792,7 +855,7 @@ export const Vocalx = (): JSX.Element => {
             "name": "Vocalxlabs",
             "url": "https://www.vocalxlabs.com",
             "logo": "https://www.vocalxlabs.com/screenshot-2025-03-26-224229-1.png",
-            "description": "Vocalxlabs provides AI-powered voice agents and automated SMS tools to enhance sales efficiency and lead management for businesses.",
+            "description": "Vocalxlabs provides AI-powered voice agents and automated SMS built for real estate to qualify seller and buyer leads, book appointments, and sync with your CRM.",
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "Sales Inquiry",
@@ -802,16 +865,16 @@ export const Vocalx = (): JSX.Element => {
           {
             "@context": "https://schema.org",
             "@type": "Service",
-            "serviceType": "Lead Management Automation",
+            "serviceType": "Real Estate Lead Qualification Automation",
             "provider": {
               "@type": "Organization",
               "name": "Vocalxlabs"
             },
-            "name": "AI Voice Agent & Automated SMS Lead Management",
-            "description": "AI voice agents and automated SMS to instantly engage, qualify, and follow up with leads, syncing data with your CRM.",
+            "name": "AI Voice Agent & Automated SMS for Real Estate",
+            "description": "AI voice and SMS instantly engage new seller and buyer leads, qualify for timeline, budget and motivation, then book listing appointments and showings with CRM sync.",
             "audience": {
               "@type": "Audience",
-              "audienceType": ["Businesses", "Real Estate Agencies", "Consulting Firms", "Support Services", "Mineral Acquisition Companies", "Insurance Agencies"]
+              "audienceType": ["Real Estate Teams", "Brokerages", "Agents", "ISAs"]
             }
           }
         ])}
