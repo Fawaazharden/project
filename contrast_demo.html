@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Contrast Demo - Use Cases Section</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .text-shadow-original { 
+            text-shadow: 0 0 1px black, 0 0 2px black, 0 0 3px black; 
+        }
+        .text-shadow-improved { 
+            text-shadow: 
+                0 0 1px rgba(0,0,0,0.9), 
+                0 0 3px rgba(0,0,0,0.9), 
+                0 0 5px rgba(0,0,0,0.8),
+                0 0 10px rgba(0,0,0,0.6),
+                1px 1px 0 black,
+                -1px -1px 0 black,
+                1px -1px 0 black,
+                -1px 1px 0 black;
+        }
+        .backdrop-improved {
+            backdrop-filter: blur(4px);
+            background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">Text Contrast Issue Demo</h1>
+        
+        <!-- Current implementation (problematic) -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Current Implementation (Low Contrast)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Seller Leads Card - Original -->
+                <div class="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
+                    <img 
+                        class="absolute inset-0 w-full h-full object-cover" 
+                        alt="Light background making text hard to read"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='light' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffffff;stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:%23f0f0f0;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e0e0e0;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23light)' /%3E%3Ctext x='200' y='200' text-anchor='middle' dominant-baseline='middle' font-size='16' fill='%23cccccc'%3ELight Video Background%3C/text%3E%3C/svg%3E"
+                    />
+                    <div class="absolute top-0 left-0 right-0 z-10 p-6 flex flex-col">
+                        <div class="relative z-10 flex flex-col">
+                            <h3 class="font-extrabold text-white text-3xl mb-3 text-shadow-original">
+                                Seller Leads
+                            </h3>
+                            <p class="font-medium text-white text-base leading-relaxed max-w-md text-shadow-original">
+                                Instantly contact, qualify, and book listing appointments from seller inquiries.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buyer Leads Card - Original -->
+                <div class="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
+                    <img 
+                        class="absolute inset-0 w-full h-full object-cover" 
+                        alt="Bright background making text invisible"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='bright' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23fffacd;stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:%23ffff99;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23ffffe0;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23bright)' /%3E%3Ctext x='200' y='200' text-anchor='middle' dominant-baseline='middle' font-size='16' fill='%23ddddaa'%3EBright Video Background%3C/text%3E%3C/svg%3E"
+                    />
+                    <div class="absolute top-0 left-0 right-0 z-10 p-6 flex flex-col">
+                        <div class="relative z-10 flex flex-col">
+                            <h3 class="font-extrabold text-white text-3xl mb-3 text-shadow-original">
+                                Buyer Leads
+                            </h3>
+                            <p class="font-medium text-white text-base leading-relaxed max-w-md text-shadow-original">
+                                Screen budget, financing, timeline, and area. Route only serious buyers to your team.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Improved implementation -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Improved Implementation (High Contrast)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Seller Leads Card - Improved -->
+                <div class="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
+                    <img 
+                        class="absolute inset-0 w-full h-full object-cover" 
+                        alt="Light background with improved text contrast"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='light' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffffff;stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:%23f0f0f0;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e0e0e0;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23light)' /%3E%3Ctext x='200' y='200' text-anchor='middle' dominant-baseline='middle' font-size='16' fill='%23cccccc'%3ELight Video Background%3C/text%3E%3C/svg%3E"
+                    />
+                    <!-- Dark overlay for better contrast -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent"></div>
+                    
+                    <div class="absolute top-0 left-0 right-0 z-10 p-6 flex flex-col">
+                        <div class="relative z-10 flex flex-col backdrop-improved rounded-xl p-4">
+                            <h3 class="font-extrabold text-white text-3xl mb-3 text-shadow-improved">
+                                Seller Leads
+                            </h3>
+                            <p class="font-medium text-white text-base leading-relaxed max-w-md text-shadow-improved">
+                                Instantly contact, qualify, and book listing appointments from seller inquiries.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buyer Leads Card - Improved -->
+                <div class="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
+                    <img 
+                        class="absolute inset-0 w-full h-full object-cover" 
+                        alt="Bright background with improved text contrast"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='bright' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23fffacd;stop-opacity:1' /%3E%3Cstop offset='50%25' style='stop-color:%23ffff99;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23ffffe0;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23bright)' /%3E%3Ctext x='200' y='200' text-anchor='middle' dominant-baseline='middle' font-size='16' fill='%23ddddaa'%3EBright Video Background%3C/text%3E%3C/svg%3E"
+                    />
+                    <!-- Dark overlay for better contrast -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent"></div>
+                    
+                    <div class="absolute top-0 left-0 right-0 z-10 p-6 flex flex-col">
+                        <div class="relative z-10 flex flex-col backdrop-improved rounded-xl p-4">
+                            <h3 class="font-extrabold text-white text-3xl mb-3 text-shadow-improved">
+                                Buyer Leads
+                            </h3>
+                            <p class="font-medium text-white text-base leading-relaxed max-w-md text-shadow-improved">
+                                Screen budget, financing, timeline, and area. Route only serious buyers to your team.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary of improvements -->
+        <section class="mt-12 bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold mb-4">Improvements Made:</h3>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li><strong>Enhanced Text Shadow:</strong> Added multiple layers of text shadow with varying opacity and offsets</li>
+                <li><strong>Backdrop Filter:</strong> Added blur and semi-transparent background behind text containers</li>
+                <li><strong>Dark Overlay:</strong> Added gradient overlay on the entire video/image to reduce brightness</li>
+                <li><strong>Text Container:</strong> Wrapped text in a semi-transparent container with backdrop filter</li>
+                <li><strong>Border Stroke:</strong> Added outline effect using multiple text-shadow directions</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

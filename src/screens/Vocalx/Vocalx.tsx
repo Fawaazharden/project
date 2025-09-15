@@ -1,4 +1,4 @@
-import { CheckIcon, MenuIcon, XIcon } from "lucide-react"; // Removed Clock, Zap icons
+import { MenuIcon, XIcon, CheckIcon } from "lucide-react"; // CheckIcon used in pricing list
 import { useState, useEffect } from "react"; // Added useEffect
 import { Link } from "react-router-dom"; // Import Link
 import { Button } from "../../components/ui/button";
@@ -34,41 +34,7 @@ export const Vocalx = (): JSX.Element => {
     { title: "Contact Us", href: "/contact" }, // Keep route for Contact Us
   ];
 
-  // Testimonial data (real estate focused)
-  const testimonials = [
-    {
-      id: 1,
-      name: "Mark R.",
-      text: "Instant response and real qualification. Our listing appointments jumped and agents stopped chasing tire‑kickers.",
-      position: "Real Estate Investor",
-      image: "/image.png",
-      groupImage: "/group-2.png",
-    },
-    {
-      id: 2,
-      name: "Aisha K.",
-      text: "Every Zillow and Facebook lead gets a call in minutes. We now only meet serious sellers and financed buyers.",
-      position: "Team Lead – Boutique Brokerage",
-      image: "/rectangle-1.svg",
-      groupImage: "/group-1.png",
-    },
-    {
-      id: 3,
-      name: "David S.",
-      text: "Our ISA costs were creeping up. This system replaced first‑touch and books meetings right on our calendar.",
-      position: "Broker/Owner",
-      image: "/rectangle.svg",
-      groupImage: "/group.png",
-    },
-    {
-      id: 4,
-      name: "Lena M.",
-      text: "Old database came back to life. Past leads re‑engaged and we picked up two listings in 30 days.",
-      position: "Operations – Top 1% Team",
-      image: "/rectangle.svg", // Reusing the same image for the 4th testimonial
-      groupImage: "/group.png", // Reusing the same group image for the 4th testimonial
-    },
-  ];
+  // Testimonials replaced by video embeds; keeping placeholder for potential future use
 
   // Updated Pricing plan features for real estate
   const pricingFeatures = [
@@ -266,15 +232,16 @@ export const Vocalx = (): JSX.Element => {
             </span>
           </div>
           {/* Main Heading */}
-          <h1 className="text-[2.19rem] sm:text-5xl md:text-6xl font-extrabold text-black leading-tight mb-5 [font-family:'Inter',Helvetica]"> {/* Custom size between 3xl and 4xl for mobile */}
-            Let AI <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
-              Qualify Leads
-            </span> <br />
-            So You Don't Have To
+          <h1 className="text-[2.19rem] sm:text-5xl md:text-6xl font-extrabold text-black leading-tight mb-5 tracking-tight [font-family:'Inter',Helvetica]">
+            AI That <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-transparent bg-clip-text">Qualifies Leads</span><br />
+            <span className="bg-gradient-to-r from-gray-900 via-gray-900 to-gray-700 bg-clip-text text-transparent">And Books Appointments For You</span>
           </h1>
           {/* Subheading */}
-          <p className="text-xl text-gray-800 max-w-3xl [font-family:'Inter',Helvetica] font-medium"> {/* Original Subheading styles */}
-          We deploy AI voice and SMS to screen seller and buyer prospects, book listing appointments and showings, and sync every detail to your CRM.          </p>
+          <p className="text-xl text-gray-900 max-w-3xl [font-family:'Inter',Helvetica] font-medium [text-wrap:balance]">
+            Instantly call/text new leads and qualify timeline, budget, motivation.
+            <br className="hidden sm:block" />
+            Live‑transfer or book — auto‑synced to your CRM.
+          </p>
         </div>
 
         {/* CTA Button After Hero Text */}
@@ -283,8 +250,32 @@ export const Vocalx = (): JSX.Element => {
             to="/contact"
             className="bg-[#717fe8] hover:bg-[#5a67d8] text-white font-semibold text-lg py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1"
           >
-            Contact Us
+            Book a 15‑min Demo
           </Link>
+        </div>
+
+        {/* Trust/metrics bar */}
+        <div className="w-full mt-4">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-3 text-center px-4">
+            <div className="rounded-xl border border-gray-200 bg-white py-3 px-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-500">Average first touch</p>
+              <p className="text-2xl sm:text-3xl font-black text-gray-900">
+                <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">under 2 minutes</span>
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white py-3 px-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-500">Availability</p>
+              <p className="text-2xl sm:text-3xl font-black text-gray-900">
+                <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">24/7/365</span>
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white py-3 px-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-500">CRM updates</p>
+              <p className="text-2xl sm:text-3xl font-black text-gray-900">
+                <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">notes + transcripts</span>
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Spline Animation with Logo Overlay */}
@@ -304,98 +295,118 @@ export const Vocalx = (): JSX.Element => {
 
       {/* Removed CTA Button from here (moved above) */}
 
-      {/* Features Section */}
-      <section id="features" className="flex w-full items-center justify-center px-4 sm:px-8 md:px-16 lg:px-[70px] py-8 sm:py-12 md:py-16 relative"> {/* Added id="features", responsive padding */}
-        {/* Desktop version - visible on md screens and above */}
-        <div className="hidden md:flex w-full max-w-[1300px] items-center justify-center relative opacity-80"> {/* Added justify-center, hidden on mobile */}
-          <img
-            className="w-full h-auto object-cover"
-            alt="Overview of Vocalxlabs AI lead qualification features"
-            src="/Features1.png"
-          />
+      {/* Features Section - content first for all breakpoints */}
+      <section id="features" className="w-full px-4 sm:px-8 md:px-16 lg:px-[70px] py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold [font-family:'Inter',Helvetica]">
+              <span className="text-xs sm:text-sm uppercase tracking-widest text-[#717fe8] block mb-2">Why teams switch</span>
+              Built For Real Estate Teams
+            </h2>
+            <p className="mt-3 text-gray-600 text-base sm:text-lg max-w-3xl mx-auto">
+              Replace first‑touch and long‑term follow‑up with an AI system that
+              responds in minutes, qualifies rigorously, and only routes real
+              opportunities to your agents.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {[
+              {
+                title: 'Instant First Touch',
+                desc:
+                  'Every new portal and ad lead gets a call or text in under 2 minutes.',
+              },
+              {
+                title: 'Serious Qualification',
+                desc:
+                  'Timeline, area, property details, budget/financing and motivation captured.',
+              },
+              {
+                title: 'Live Transfer & Booking',
+                desc:
+                  'Hot leads are live‑transferred or booked directly to your calendar.',
+              },
+              {
+                title: 'Nurture That Wins Back Deals',
+                desc:
+                  '6‑month SMS + email drips re‑engage old and unresponsive leads.',
+              },
+              {
+                title: 'CRM Sync',
+                desc:
+                  'Notes, dispositions and transcripts logged so your pipeline stays clean.',
+              },
+              {
+                title: 'Recording & Coaching',
+                desc:
+                  'Call recordings and transcripts help train agents and improve scripts.',
+              },
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="group relative rounded-3xl p-[1px] bg-gradient-to-r from-[#717fe8] to-[#954ad2] shadow-[0_10px_30px_rgba(113,127,232,0.12)] transition-transform duration-300 hover:-translate-y-1"
+              >
+                <div className="relative rounded-3xl bg-white p-6 h-full overflow-hidden">
+                  <div className="pointer-events-none absolute -top-8 -right-6 w-32 h-32 rounded-full bg-gradient-to-br from-[#717fe8]/15 to-transparent blur-2xl"></div>
+                  <div className="relative z-10">
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-[#717fe8] bg-[#717fe8]/10 inline-block px-2 py-1 rounded-full">0{idx + 1}</div>
+                    <h3 className="font-semibold text-xl text-gray-900 mt-2 tracking-tight">{item.title}</h3>
+                    <p className="text-gray-700 mt-1 text-sm sm:text-base">{item.desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="w-full flex justify-center pt-10">
+            <Link
+              to="/contact"
+              className="bg-[#717fe8] hover:bg-[#5a67d8] text-white font-semibold text-lg py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1"
+            >
+              Book a 15‑min Demo
+            </Link>
+          </div>
         </div>
-        
-        {/* Mobile version - visible only on screens smaller than md */}
-        <div className="flex md:hidden w-full flex-col max-w-[1300px]">
-          <h2 className="text-center text-3xl font-bold mb-8">Built for Real Estate Teams</h2>
-          
-          {/* Feature 1 */}
-          <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start">
-              <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/3.png" alt="Illustration showing AI filtering qualified leads" className="w-full h-auto rounded" />
+      </section>
+
+      {/* How it works */}
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl sm:text-4xl font-extrabold [font-family:'Inter',Helvetica]">
+            <span className="text-xs sm:text-sm uppercase tracking-widest text-[#717fe8] block mb-2">Onboarding</span>
+            How It Works
+          </h2>
+          <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
+            Simple setup. Results in days, not months.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              step: '1',
+              title: 'Connect Sources',
+              desc: 'We connect your lead forms, portals and ads plus your CRM/calendar.',
+            },
+            {
+              step: '2',
+              title: 'AI Engages & Qualifies',
+              desc: 'Calls or texts instantly, asks your script, and captures key details.',
+            },
+            {
+              step: '3',
+              title: 'Book & Sync',
+              desc: 'Live‑transfer or book appointments, then log everything to the CRM.',
+            },
+          ].map((i) => (
+            <div key={i.step} className="rounded-2xl border border-gray-200 p-6 bg-white shadow-sm text-center">
+              <div className="mx-auto mb-3 w-12 h-12 rounded-full bg-gradient-to-r from-[#717fe8] to-[#954ad2] text-white flex items-center justify-center font-extrabold text-lg shadow">
+                {i.step}
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Too Many Tire‑Kickers?</h3>
-                <p className="text-sm text-gray-700">We filter out renters and low‑intent inquiries so your agents focus on real sellers and buyers.</p>
-              </div>
+              <h3 className="font-semibold text-lg text-gray-900">{i.title}</h3>
+              <p className="text-gray-700 mt-1 text-sm sm:text-base">{i.desc}</p>
             </div>
-          </div>
-          
-          {/* Feature 2 */}
-          <div className="mb-8 bg-purple-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start flex-row-reverse">
-              <div className="w-1/4 ml-4 flex-shrink-0">
-                <img src="/4.png" alt="Illustration of automated SMS follow-up campaigns" className="w-full h-auto rounded" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Leads Stop Responding?</h3>
-                <p className="text-sm text-gray-700">6‑month SMS nurture keeps seller and buyer leads warm until they’re ready to move.</p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Feature 3 */}
-          <div className="mb-8 bg-green-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start">
-              <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/5.png" alt="Illustration showing cost reduction compared to manual lead handling" className="w-full h-auto rounded" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Agents Swamped?</h3>
-                <p className="text-sm text-gray-700">AI handles first touch at scale, then routes only qualified opportunities to your team.</p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Feature 4 */}
-          <div className="mb-8 bg-blue-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start flex-row-reverse">
-              <div className="w-1/4 ml-4 flex-shrink-0">
-                <img src="/6.png" alt="Illustration showing AI handling multiple concurrent calls" className="w-full h-auto rounded" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Hiring ISAs Expensive?</h3>
-                <p className="text-sm text-gray-700">Replace the first‑contact layer with AI that works 24/7 and never forgets a follow‑up.</p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Feature 5 */}
-          <div className="mb-4 bg-purple-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start">
-              <div className="w-1/4 mr-4 flex-shrink-0">
-                <img src="/7.png" alt="Illustration representing fast AI lead response times" className="w-full h-auto rounded" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">Slow to First Touch?</h3>
-                <p className="text-sm text-gray-700">Speed wins. We call or text every new portal and ad lead within 2 minutes.</p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Feature 6 */}
-          <div className="bg-green-50 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start flex-row-reverse">
-              <div className="w-1/4 ml-4 flex-shrink-0">
-                <img src="/8.png" alt="Illustration showing AI handling peak hour lead volume" className="w-full h-auto rounded" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1">After‑Hours Leads?</h3>
-                <p className="text-sm text-gray-700">AI answers, qualifies, and books appointments while your team sleeps.</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -409,62 +420,39 @@ export const Vocalx = (): JSX.Element => {
         </Link>
       </div>
 
-      {/* Use Cases Section */}
-      <section id="use-cases" className="w-full max-w-7xl mx-auto items-center justify-center gap-8 px-4 sm:px-8 lg:px-[61px] py-12 sm:py-16 flex flex-col relative"> {/* Added id="use-cases", responsive padding, max-width */}
-        {/* Section Header */}
-        <div className="w-full max-w-3xl mx-auto text-center mb-8 sm:mb-10 md:mb-12"> {/* Responsive margin */}
-          <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-black text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4"> {/* Responsive size, margin */}
-          Real Estate Use Cases That Drive Closings</h2>
-          <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-base sm:text-lg leading-relaxed"> {/* Responsive size */}
-          Your top competitors already have AI calling new seller and buyer leads in seconds, nurturing for months, and syncing everything to the CRM automatically. While others chase, they’re closing.          </p>
+      {/* Use Cases Section (text-only) */}
+      <section id="use-cases" className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-[61px] py-12 sm:py-16">
+        <div className="w-full max-w-3xl mx-auto text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-black text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4">
+            Real Estate Use Cases That Drive Closings
+          </h2>
+          <p className="[font-family:'Inter',Helvetica] font-medium text-gray-700 text-base sm:text-lg leading-relaxed">
+            Your competitors are already responding in minutes, nurturing for months, and logging everything to the CRM—so they close while others chase.
+          </p>
         </div>
 
-        {/* Use Case Cards Grid */}
-        <div className="w-full max-w-[1245px] relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-[35px]"> {/* Use grid for responsiveness, adjust gaps */}
-            {useCaseCards.map((card) => (
-              // Card Container - Moved comments outside the returned JSX element
-              <div key={card.id} className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md">
-                {/* Conditionally render video or image */}
-                {card.image.endsWith('.mp4') ? (
-                  <video
-                    className="absolute inset-0 w-full h-full object-cover" // Video as background
-                    src={card.image}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline // Important for mobile playback
-                  />
-                ) : (
-                  <img
-                    className="absolute inset-0 w-full h-full object-cover" // Image as background
-                    alt={`Vocalxlabs AI solution for ${card.title}`} // Enhanced alt text with keywords
-                    src={card.image}
-                  />
-                )}
-                
-                {/* Text Content Overlay */}
-                <div className="absolute top-0 left-0 right-0 z-10 p-6 sm:p-8 flex flex-col">
-                  
-                  {/* Content container positioned at the top */}
-                  <div className="relative z-10 flex flex-col">
-                    <h3
-                      className={`[font-family:'Inter',Helvetica] font-extrabold text-white text-2xl sm:text-3xl mb-2 sm:mb-3 text-shadow-lg [text-shadow:0_0_1px_black,0_0_2px_black,0_0_3px_black]`} // Added text outline effect
-                    >
-                      {card.title}
-                    </h3>
-                    {card.description && (
-                      <p
-                        className={`[font-family:'Inter',Helvetica] font-medium text-white text-sm sm:text-base leading-relaxed max-w-md text-shadow-lg [text-shadow:0_0_1px_black,0_0_2px_black,0_0_3px_black]`} // Added text outline effect
-                      >
-                        {card.description}
-                      </p>
-                    )}
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-[35px] max-w-[1245px] mx-auto">
+          {useCaseCards.map((card, idx) => (
+            <div
+              key={card.id}
+              className="group relative rounded-3xl p-[1px] bg-gradient-to-r from-[#717fe8] to-[#954ad2] shadow-[0_10px_30px_rgba(113,127,232,0.12)] transition-transform duration-300 hover:-translate-y-1"
+            >
+              <div className="relative rounded-3xl bg-white p-6 h-full overflow-hidden">
+                <div className="pointer-events-none absolute -top-8 -right-6 w-32 h-32 rounded-full bg-gradient-to-br from-[#717fe8]/15 to-transparent blur-2xl"></div>
+                <div className="relative z-10">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-[#717fe8] bg-[#717fe8]/10 inline-block px-2 py-1 rounded-full">0{idx + 1}</div>
+                  <h3 className="[font-family:'Inter',Helvetica] font-extrabold text-gray-900 text-2xl sm:text-3xl mt-2 tracking-tight">
+                    {card.title}
+                  </h3>
+                  {card.description && (
+                    <p className="[font-family:'Inter',Helvetica] font-medium text-gray-700 text-sm sm:text-base leading-relaxed mt-2">
+                      {card.description}
+                    </p>
+                  )}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -478,71 +466,38 @@ export const Vocalx = (): JSX.Element => {
         </Link>
       </div>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center relative py-12 sm:py-16 px-4 sm:px-8"> {/* Added id="testimonials", responsive padding, max-width */}
-        <div className="w-full max-w-3xl text-center mb-10 md:mb-12"> {/* Adjusted max-width */}
-          <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]"> {/* Responsive size */}
-          What Real Teams Are Saying
+      {/* Testimonials Section - Video embed */}
+      <section id="testimonials" className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center relative py-12 sm:py-16 px-4 sm:px-8">
+        <div className="w-full max-w-3xl text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-[#272727] text-4xl sm:text-5xl md:text-[56px] tracking-[0] leading-tight">
+            Testimonials
           </h2>
-          <p className="text-center [font-family:'Inter',Helvetica] font-medium text-[#272727] text-base sm:text-lg tracking-[0] leading-relaxed sm:leading-[30px] mt-4 sm:mt-6"> {/* Responsive size, leading, margin */}
-          Proof from the field: real results, real businesses, and zero fluff
+          <p className="text-center [font-family:'Inter',Helvetica] font-medium text-[#272727] text-base sm:text-lg leading-relaxed mt-4">
+            Real teams sharing real outcomes.
           </p>
         </div>
 
-        <Carousel className="w-full max-w-xs sm:max-w-xl md:max-w-4xl lg:max-w-[1330px]" opts={{ loop: true }}> {/* Added loop option */}
-          <CarouselContent className="-ml-4 md:-ml-6"> {/* Adjusted margin for better spacing */}
-            {testimonials.map((testimonial) => (
-              <CarouselItem
-                key={testimonial.id}
-                className="pl-4 sm:basis-1/2 lg:basis-1/4" // Updated to show 4 items on large screens
-              >
-                <Card className="h-auto sm:h-[380px] mt-[30px] rounded-3xl"> {/* Fixed height based on content elements */}
-                  <CardContent className="flex flex-col items-center justify-start p-6 h-full">
-                    <div className="relative">
-                      <img
-                        className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] absolute -top-[50px] sm:-top-[60px] left-1/2 transform -translate-x-1/2" // Responsive size/position
-                        alt={`Photo of ${testimonial.name}`}
-                        src={testimonial.image}
-                      />
-                    </div>
-                    <div className="flex items-center justify-center mt-4 mb-2 h-6"> {/* Added fixed height */}
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <img
-                            key={i}
-                            className="w-[22px] h-[22px]"
-                            alt="Star"
-                            src="/star.svg"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="h-[60px] flex items-center justify-center mb-2"> {/* Added container with fixed height */}
-                      <img
-                        className="w-[84px] h-[58px]"
-                        alt={`Company logo or group associated with ${testimonial.name}`}
-                        src={testimonial.groupImage}
-                      />
-                    </div>
-                    <h3 className="[font-family:'Cabinet_Grotesk-Extrabold',Helvetica] font-normal text-[#060606] text-lg sm:text-xl text-center h-7"> {/* Added fixed height */}
-                      {testimonial.name}
-                    </h3>
-                    <p className="[font-family:'Cabinet_Grotesk-Medium',Helvetica] font-normal text-[#454545] text-sm sm:text-base text-center mt-1 h-12 flex items-center justify-center"> {/* Added fixed height and centering */}
-                      {testimonial.position}
-                    </p>
-                    <p className="[font-family:'Manrope',Helvetica] font-normal text-[#898989] text-sm sm:text-base text-center leading-tight sm:leading-normal mt-3 sm:mt-4 h-[180px] flex items-center justify-center"> {/* Added fixed height and centering */}
-                      "{testimonial.text}"
-                    </p>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="flex justify-center mt-8 gap-4">
-            <CarouselPrevious className="relative static bg-white transform-none rounded-full" />
-            <CarouselNext className="relative static bg-[#8479e4] transform-none rounded-full" />
+        <div className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-xl">
+          <div className="relative pt-[56.25%]">
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src="https://www.youtube.com/embed/videoseries?list=UUP4bnLnLPsoR_g4NkUPP1Uw"
+              title="Vocalx Labs video testimonials"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
           </div>
-        </Carousel>
+        </div>
+
+        <a
+          href="https://www.youtube.com/channel/UCP4bnLnLPsoR_g4NkUPP1Uw"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-block text-[#717fe8] hover:underline"
+        >
+          Watch more on our YouTube channel
+        </a>
       </section>
 
       {/* Pricing Section */}
