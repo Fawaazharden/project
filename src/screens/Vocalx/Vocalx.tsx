@@ -1,19 +1,14 @@
 import { MenuIcon, XIcon, CheckIcon } from "lucide-react"; // CheckIcon used in pricing list
-import { useState, useEffect } from "react"; // Added useEffect
+import { useState, useEffect, useRef } from "react"; // Added useRef
 import { Link } from "react-router-dom"; // Import Link
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../../components/ui/carousel";
 
 export const Vocalx = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
   const [showPopup, setShowPopup] = useState(false); // State for popup modal
+  const offerBarRef = useRef<HTMLDivElement | null>(null);
+  const [offerBarHeight, setOfferBarHeight] = useState(0);
 
   // Show popup after 7 seconds
   useEffect(() => {
@@ -22,6 +17,23 @@ export const Vocalx = (): JSX.Element => {
     }, 7000); // 7 seconds
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // Keep spacer equal to the real banner height across devices
+  useEffect(() => {
+    const el = offerBarRef.current;
+    if (!el) return;
+
+    const update = () => setOfferBarHeight(el.getBoundingClientRect().height || 0);
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener('resize', update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', update);
+    };
   }, []);
 
   // Navigation items - Removed width, will use spacing utilities
@@ -133,8 +145,8 @@ export const Vocalx = (): JSX.Element => {
     <div className="flex flex-col items-center justify-center relative bg-white overflow-x-hidden"> {/* Added overflow-x-hidden */}
 
 
-      {/* Sticky Offer Bar */}
-      <div className="w-full fixed top-0 left-0 right-0 z-[1000]">
+      {/* Sticky Offer Bar (all breakpoints) */}
+      <div ref={offerBarRef} className="w-full fixed top-0 left-0 right-0 z-[1000]">
         <div className="bg-red-600 text-white">
           <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 px-4 py-2 text-sm sm:text-base">
             <span className="font-semibold">
@@ -150,7 +162,7 @@ export const Vocalx = (): JSX.Element => {
         </div>
       </div>
       {/* Spacer to avoid content being hidden behind fixed bar */}
-      <div className="h-10" />
+      <div style={{ height: offerBarHeight }} />
 
       {/* Header Section */}
       <header className={`w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0`}> {/* Adjusted padding top */}
@@ -193,6 +205,8 @@ export const Vocalx = (): JSX.Element => {
             </Button>
           </div>
         </nav>
+
+        
 
         {/* Mobile Navigation Menu */}
         {isMobileMenuOpen && (
