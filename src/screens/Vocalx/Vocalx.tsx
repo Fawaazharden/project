@@ -477,16 +477,58 @@ export const Vocalx = (): JSX.Element => {
           </p>
         </div>
 
-        <div className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-xl">
-          <div className="relative pt-[56.25%]">
-            <iframe
-              className="absolute inset-0 w-full h-full"
-              src="https://www.youtube.com/embed/videoseries?list=UUP4bnLnLPsoR_g4NkUPP1Uw"
-              title="Vocalx Labs video testimonials"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
+        <div className="w-full max-w-6xl mx-auto space-y-12">
+          {/* Row 1: Video left, description right */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="rounded-2xl overflow-hidden shadow-xl">
+              <div className="relative pt-[56.25%]">
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/uAwBPvVf-IY"
+                  title="Vocalx Labs testimonial video 1"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-3">
+                <h3 className="text-2xl font-semibold text-gray-900 [font-family:'Inter',Helvetica]">Dr. Ron Jones</h3>
+                <img
+                  src="/top-agent-zillow.png"
+                  alt="Top Agent on Zillow badge"
+                  className="h-6 sm:h-7 w-auto"
+                  loading="lazy"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                />
+              </div>
+              <p className="mt-3 text-gray-700 leading-relaxed">
+              Dr. Ron Jones is a top agent in Zillow with Keller Williams in Twin Falls, known for his outstanding service, deep local expertise, and a proven track record helping clients buy and sell homes throughout the Magic Valley region.
+              </p>
+            </div>
+          </div>
+
+          {/* Row 2: Zig‑zag (text left, video right) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="order-none md:order-1">
+              <h3 className="text-2xl font-semibold text-gray-900 [font-family:'Inter',Helvetica]">Michael Reynolds</h3>
+              <p className="mt-3 text-gray-700 leading-relaxed">
+              Michael Reynolds is a premier real estate agent in Los Angeles, celebrated for his exceptional client dedication, unparalleled knowledge of the city's dynamic neighborhoods, and a stellar history of guiding buyers and sellers through seamless transactions across the vibrant Greater Los Angeles area.
+              </p>
+            </div>
+            <div className="order-none md:order-2 rounded-2xl overflow-hidden shadow-xl">
+              <div className="relative pt-[56.25%]">
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/IHCZarbiUj0"
+                  title="Vocalx Labs testimonial video 2"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
           </div>
         </div>
 
