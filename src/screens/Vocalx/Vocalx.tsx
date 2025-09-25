@@ -1,5 +1,5 @@
 import { MenuIcon, XIcon, CheckIcon } from "lucide-react"; // CheckIcon used in pricing list
-import { useState, useEffect, useRef } from "react"; // Added useRef
+import { useState, useEffect } from "react"; // Added useRef
 import { Link } from "react-router-dom"; // Import Link
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
@@ -7,8 +7,6 @@ import { Card, CardContent } from "../../components/ui/card";
 export const Vocalx = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
   const [showPopup, setShowPopup] = useState(false); // State for popup modal
-  const offerBarRef = useRef<HTMLDivElement | null>(null);
-  const [offerBarHeight, setOfferBarHeight] = useState(0);
 
   // Show popup after 7 seconds
   useEffect(() => {
@@ -19,22 +17,7 @@ export const Vocalx = (): JSX.Element => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Keep spacer equal to the real banner height across devices
-  useEffect(() => {
-    const el = offerBarRef.current;
-    if (!el) return;
-
-    const update = () => setOfferBarHeight(el.getBoundingClientRect().height || 0);
-    update();
-
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    window.addEventListener('resize', update);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', update);
-    };
-  }, []);
+  
 
   // Navigation items - Removed width, will use spacing utilities
   const navItems = [
@@ -145,24 +128,7 @@ export const Vocalx = (): JSX.Element => {
     <div className="flex flex-col items-center justify-center relative bg-white overflow-x-hidden"> {/* Added overflow-x-hidden */}
 
 
-      {/* Sticky Offer Bar (all breakpoints) */}
-      <div ref={offerBarRef} className="w-full fixed top-0 left-0 right-0 z-[1000]">
-        <div className="bg-red-600 text-white">
-          <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 px-4 py-2 text-sm sm:text-base">
-            <span className="font-semibold">
-              Next 3 real estate teams get our full AI system + 20 motivated seller leads — on us.
-            </span>
-            <Link
-              to="/contact"
-              className="bg-white/15 hover:bg-white/25 transition-colors rounded-full px-3 py-1 font-semibold underline underline-offset-2 whitespace-nowrap"
-            >
-              Claim your spot
-            </Link>
-          </div>
-        </div>
-      </div>
-      {/* Spacer to avoid content being hidden behind fixed bar */}
-      <div style={{ height: offerBarHeight }} />
+      
 
       {/* Header Section */}
       <header className={`w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0`}> {/* Adjusted padding top */}
