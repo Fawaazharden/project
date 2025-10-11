@@ -1,8 +1,102 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, type ReactNode } from 'react';
 
 import { Link } from "react-router-dom";
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, XIcon, CheckIcon } from "lucide-react";
 import { Button } from "../../components/ui/button";
+
+type AnimatedStepProps = { children: ReactNode; direction: 'right' | 'left' };
+const AnimatedStep = ({ children, direction }: AnimatedStepProps) => {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    setVisible(false);
+    const id = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(id);
+  }, [direction, children]);
+  const hiddenTransform = direction === 'right' ? 'translate-x-6 sm:translate-x-10' : '-translate-x-6 sm:-translate-x-10';
+  return (
+    <div
+      className={`transform will-change-transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        visible ? 'opacity-100 translate-x-0' : `opacity-0 ${hiddenTransform}`
+      }`}
+    >
+      {children}
+    </div>
+  );
+};
+
+type Question = {
+  id: string;
+  title: string;
+  prompt: string;
+  options: string[];
+};
+
+// (Icons for first question are referenced inline where used)
+
+const questions: Question[] = [
+  {
+    id: "leadSource",
+    title: "Lead source",
+    prompt: "How Are You Currently Getting Leads?",
+    options: [
+      "Running Ads",
+      "Buying A List",
+      "Affiliate Partners",
+      "None",
+    ],
+  },
+  {
+    id: "improvement",
+    title: "Improve areas",
+    prompt: "What Areas Are You Most Interested In Improving?",
+    options: [
+      "Improving My Follow Up",
+      "Booking More Appointments",
+      "Driving More Phone calls",
+      "Simplifying My Team Workflow",
+      "All The Above",
+    ],
+  },
+  {
+    id: "urgency",
+    title: "Timeline",
+    prompt: "How Soon Are You Looking To Fix This?",
+    options: [
+      "Immediately",
+      "In The Next Week",
+      "This Month",
+      "In The Next 6-Months",
+    ],
+  },
+  {
+    id: "role",
+    title: "Role",
+    prompt: "What’s Your Role In Your Company?",
+    options: [
+      "Owner",
+      "VP",
+      "Director",
+      "Manager",
+      "Employee",
+    ],
+  },
+  {
+    id: "revenue",
+    title: "Monthly revenue",
+    prompt: "What's Your Current Monthly Revenue?",
+    options: [
+      "$0 - $5,000",
+      "$5,000 - $10,000",
+      "$10,000 - $20,000",
+      "$20,000 - $30,000",
+      "$30,000 - $40,000",
+      "$50,000+",
+    ],
+  },
+];
+
+// Calendly booking URL
+const CALENDLY_URL = 'https://calendly.com/danielgrayson087/15mins';
 
 export const ContactUs = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,145 +109,164 @@ export const ContactUs = (): JSX.Element => {
     { title: "Pricing", href: "/#pricing" },
     { title: "Contact Us", href: "/contact" },
   ];
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const totalSteps = questions.length + 1; // +1 for contact details step
+  const [stepIndex, setStepIndex] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [details, setDetails] = useState({ name: "", email: "", phone: "" });
+  const [submitted, setSubmitted] = useState(false);
+  const [animDirection, setAnimDirection] = useState<'right' | 'left'>('right');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [showCalendly, setShowCalendly] = useState(false);
   const [isCalendlyLoading, setIsCalendlyLoading] = useState(false);
+  const calendlyContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // Form state to store input values
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: ''
-  });
+  const currentQuestion = questions[stepIndex];
 
-  // Handle input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [id]: value
-    }));
+  const handleOptionSelect = (qid: string, option: string) => {
+    setAnswers((prev) => ({ ...prev, [qid]: option }));
   };
 
-  // Submit handler - configured for GoHighLevel webhook
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission
-    
-    // Log form data for debugging
-    console.log('Form submitted with data:', formData);
-    
-    // Validate required fields
-    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim()) {
-      alert("Please fill in all fields.");
-      return;
+  const handleOptionClick = (qid: string, option: string) => {
+    // Select and advance to next step automatically (for question steps)
+    handleOptionSelect(qid, option);
+    if (stepIndex < totalSteps - 1) {
+      setAnimDirection('right');
+      // brief delay so the selection state is visible
+      setTimeout(() => setStepIndex((s) => Math.min(s + 1, totalSteps - 1)), 180);
     }
+  };
 
-    // Prepare payload for GoHighLevel webhook
+  const canGoNext = () => {
+    if (stepIndex < questions.length) {
+      const q = questions[stepIndex];
+      return Boolean(answers[q.id]);
+    }
+    return (
+      details.name.trim().length > 1 &&
+      /.+@.+\..+/.test(details.email.trim()) &&
+      details.phone.trim().length >= 7
+    );
+  };
+
+  // advance handled by option click; no explicit Next button
+
+  const handleBack = () => {
+    if (stepIndex > 0) {
+      setAnimDirection('left');
+      setStepIndex((s) => s - 1);
+    }
+  };
+
+  const saveToLocalStorage = () => {
+    try {
+      const existingData = localStorage.getItem('contactSubmissions');
+      const submissions = existingData ? JSON.parse(existingData) : [];
+      submissions.push({ ...details, answers, timestamp: new Date().toISOString() });
+      localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+    } catch (err) {
+      console.error('localStorage save failed', err);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!canGoNext() || isSubmitting) return;
+    setIsSubmitting(true);
+    setSubmitError(null);
+
     const payload = { 
-      name: formData.name.trim(), 
-      email: formData.email.trim(), 
-      phone: formData.phone.trim() 
+      name: details.name.trim(),
+      email: details.email.trim(),
+      phone: details.phone.trim(),
+      answers,
+      source: 'website-contact-wizard',
     };
 
     try {
       const res = await fetch('https://services.leadconnectorhq.com/hooks/qmXJdLQTCzANbI5LCD8t/webhook-trigger/133b0fc1-cf8f-47b8-8fa2-862eb8910288', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       if (res.ok) {
-        console.log("Form successfully submitted to GoHighLevel");
-        // Show the Calendly widget after successful submission
-        setIsSubmitted(true);
-        setIsCalendlyLoading(true);
-        
-        // Optional: Save to localStorage as a backup
         saveToLocalStorage();
+        setSubmitted(true);
+        setShowCalendly(true);
+        setIsCalendlyLoading(true);
       } else {
-        console.error("Form submission failed:", res.status, res.statusText);
-        alert("There was an error submitting the form. Please try again.");
+        setSubmitError('There was an error submitting the form. Please try again.');
       }
-    } catch (error) {
-      console.error("Form submission error:", error);
-      alert("There was an error submitting the form. Please try again.");
-    }
-  };
-  
-  // Save form data to localStorage as a backup
-  const saveToLocalStorage = () => {
-    try {
-      // Get existing submissions or initialize empty array
-      const existingData = localStorage.getItem('contactSubmissions');
-      const submissions = existingData ? JSON.parse(existingData) : [];
-      
-      // Add new submission with timestamp
-      submissions.push({
-        ...formData,
-        timestamp: new Date().toISOString()
-      });
-      
-      // Save back to localStorage
-      localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
-      console.log('Form data saved to localStorage');
-    } catch (error) {
-      console.error('Error saving to localStorage:', error);
+    } catch (err) {
+      console.error('Submission error', err);
+      setSubmitError('There was an error submitting the form. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // Effect to load Calendly script when the component mounts or isSubmitted changes
-  // This ensures the script is loaded only when needed and re-initializes the widget if necessary.
+  // Load Calendly assets and initialize inline widget when overlay opens
   useEffect(() => {
-    if (isSubmitted) {
-      const scriptId = 'calendly-widget-script';
-      // Check if script already exists
-      if (document.getElementById(scriptId)) {
-        // If script exists, potentially re-initialize Calendly if needed
-        // (window as any).Calendly?.initInlineWidgets(); // Uncomment if re-initialization is necessary
-        setIsCalendlyLoading(false);
+    if (!showCalendly) return;
+    setIsCalendlyLoading(true);
+
+    // Ensure Calendly stylesheet is present
+    const cssId = 'calendly-widget-styles';
+    if (!document.getElementById(cssId)) {
+      const link = document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(link);
+    }
+
+    const scriptId = 'calendly-widget-script';
+    const existingScript = document.getElementById(scriptId) as HTMLScriptElement | null;
+
+    const initCalendly = () => {
+      const calendly = (window as any).Calendly;
+      if (!calendly || !calendlyContainerRef.current) {
+        // Retry shortly until Calendly attaches
+        setTimeout(initCalendly, 200);
         return;
       }
+      // Clear any previous content before initializing
+      calendlyContainerRef.current.innerHTML = '';
+      try {
+        calendly.initInlineWidget({
+          url: CALENDLY_URL,
+          parentElement: calendlyContainerRef.current,
+        });
+      } finally {
+        setIsCalendlyLoading(false);
+      }
+    };
 
+    if (existingScript) {
+      initCalendly();
+    } else {
       const script = document.createElement('script');
       script.id = scriptId;
       script.src = 'https://assets.calendly.com/assets/external/widget.js';
       script.async = true;
-      
-      // Add event listener to detect when Calendly is loaded
-      script.onload = () => {
-        // Give a small delay to allow Calendly to initialize
-        setTimeout(() => {
-          setIsCalendlyLoading(false);
-        }, 1000);
-      };
-      
+      script.onload = initCalendly;
       document.body.appendChild(script);
-
-      // Cleanup function to remove the script when the component unmounts
-      // or if isSubmitted becomes false again
-      return () => {
-        const existingScript = document.getElementById(scriptId);
-        if (existingScript) {
-          document.body.removeChild(existingScript);
-        }
-        // Also remove any Calendly badges that might persist
-        const badges = document.querySelectorAll('.calendly-badge-widget');
-        badges.forEach(badge => badge.remove());
-        const popups = document.querySelectorAll('.calendly-popup-content');
-        popups.forEach(popup => popup.remove());
-      };
     }
-  }, [isSubmitted]);
 
-  // Loading spinner component with updated styling to match theme
-  const LoadingSpinner = () => (
-    <div className="flex flex-col items-center justify-center my-8">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#717fe8] mb-4"></div>
-      <p className="[font-family:'Inter',Helvetica] font-medium text-gray-700 text-lg">Loading calendar...</p>
-    </div>
-  );
+    return () => {
+      // keep script/css for reuse; just remove stray badges/popups
+      const badges = document.querySelectorAll('.calendly-badge-widget');
+      badges.forEach((b) => b.remove());
+      const popups = document.querySelectorAll('.calendly-popup-content');
+      popups.forEach((p) => p.remove());
+    };
+  }, [showCalendly]);
+
+  const progressPercent = Math.round((stepIndex / (totalSteps - 1)) * 100);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white overflow-x-hidden">
+    <div className="flex flex-col min-h-screen bg-white overflow-x-hidden">
       {/* Header Section - Matching main page */}
       <header className="w-full flex flex-col items-center bg-white px-4 sm:px-6 lg:px-0">
         {/* Navigation */}
@@ -229,87 +342,236 @@ export const ContactUs = (): JSX.Element => {
       </header>
       
       {/* Main Content */}
-      <div className="w-full max-w-4xl mx-auto flex flex-col items-center p-8">
-      {!isSubmitted ? (
-        <>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black leading-tight mb-6 text-center [font-family:'Inter',Helvetica]">Stop Losing Leads. Start Closing Deals</h1>
-          <p className="text-lg sm:text-xl text-gray-800 mb-8 text-center max-w-2xl [font-family:'Inter',Helvetica] font-medium">
-          Enter your details and we'll show you how it works...
-          </p>
-          {/* Contact Form - Modified for GoHighLevel webhook */}
-          <form
-            onSubmit={handleSubmit}
-            className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl"
-          >
-            
-            <div className="mb-4">
+      <div className="w-full max-w-3xl mx-auto flex flex-col items-center p-8 flex-1">
+        {!submitted ? (
+          <>
+            {/* Progress */}
+            <div className="w-full mb-6">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold text-gray-700 [font-family:'Inter',Helvetica]">
+                  Step {Math.min(stepIndex + 1, totalSteps)} of {totalSteps}
+                </span>
+                <span className="text-sm text-gray-600">{progressPercent}%</span>
+              </div>
+              <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="h-2 bg-gradient-to-r from-[#717fe8] to-[#954ad2] transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Full-page style (no box) */}
+            <div className="w-full">
+              <AnimatedStep key={stepIndex} direction={animDirection}>
+                {stepIndex < questions.length ? (
+                  <>
+                  <div className="mb-6">
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold mb-3">
+                      {currentQuestion.title}
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-black [font-family:'Inter',Helvetica]">
+                      {currentQuestion.prompt}
+                      <span className="text-rose-600 pl-1">*</span>
+                    </h2>
+                  </div>
+
+                  {currentQuestion.id === 'leadSource' ? (
+                    <div role="radiogroup" className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 place-items-center">
+                      {currentQuestion.options.map((opt) => {
+                        const selected = answers[currentQuestion.id] === opt;
+                        return (
+                          <button
+                            key={opt}
+                            type="button"
+                            role="radio"
+                            aria-checked={selected}
+                            onClick={() => handleOptionClick(currentQuestion.id, opt)}
+                            className="group flex flex-col items-center text-center"
+                          >
+                            {/* Replace src with your actual icon paths */}
+                            <div
+                              className={`relative flex items-center justify-center h-40 w-40 rounded-full border-2 transition-all ${
+                                selected
+                                  ? 'border-[#717fe8] ring-4 ring-[#717fe8]/20 shadow-md'
+                                  : 'border-[#717fe8] hover:shadow-md'
+                              } bg-white`}
+                            >
+                              <img
+                                src={
+                                  opt === 'Affiliate Partners' ? '/partners.png'
+                                  : opt === 'None' ? '/none.png'
+                                  : opt === 'Buying A List' ? '/List.png'
+                                  : '/ads.png'
+                                }
+                                alt=""
+                                className="h-16 w-16 object-contain"
+                              />
+                              <span
+                                className={`absolute -bottom-3 z-10 h-7 w-7 rounded-full bg-white border-2 flex items-center justify-center ${
+                                  selected ? 'border-[#717fe8]' : 'border-gray-200'
+                                }`}
+                              >
+                                <span
+                                  className={`h-3.5 w-3.5 rounded-full transition-colors ${
+                                    selected ? 'bg-[#717fe8]' : 'bg-gray-200'
+                                  }`}
+                                />
+                              </span>
+                            </div>
+                            <span className="mt-4 font-semibold text-gray-900 [font-family:'Inter',Helvetica]">
+                              {opt}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div role="radiogroup" className="flex flex-col gap-4 mb-8">
+                      {currentQuestion.options.map((opt) => {
+                        const selected = answers[currentQuestion.id] === opt;
+                        return (
+                          <button
+                            key={opt}
+                            type="button"
+                            role="radio"
+                            aria-checked={selected}
+                            onClick={() => handleOptionClick(currentQuestion.id, opt)}
+                            className={`w-full flex items-center gap-4 rounded-xl border px-5 py-4 text-left transition-all ${
+                              selected
+                                ? 'bg-white border-[#717fe8] ring-2 ring-[#717fe8] shadow-md'
+                                : 'bg-white border-gray-200 hover:border-[#717fe8] hover:shadow-md'
+                            }`}
+                          >
+                            <span
+                              aria-hidden
+                              className={`flex items-center justify-center h-5 w-5 rounded-full border-2 ${
+                                selected ? 'border-[#717fe8]' : 'border-[#717fe8]'
+                              }`}
+                            >
+                              <span className={`h-2.5 w-2.5 rounded-full ${selected ? 'bg-[#717fe8]' : 'bg-transparent'}`} />
+                            </span>
+                            <span className="font-semibold text-gray-900 [font-family:'Inter',Helvetica]">
+                              {opt}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={handleBack}
+                      disabled={stepIndex === 0}
+                    >
+                      Back
+                    </Button>
+                    {/* Auto-advance on selection; keep space minimal */}
+                    <div />
+                  </div>
+                  </>
+                ) : (
+                  <>
+                  <div className="mb-6">
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold mb-3">
+                      Contact details
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-extrabold text-black [font-family:'Inter',Helvetica]">
+                      Where can we reach you?
+                    </h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-4 mb-6">
+                    <div>
               <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Name</label>
               <input
+                        id="name"
                 type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
+                        value={details.name}
+                        onChange={(e) => setDetails((d) => ({ ...d, name: e.target.value }))}
                 placeholder="Enter your full name"
-                required
                 className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
               />
             </div>
-            <div className="mb-4">
+                    <div>
               <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Email</label>
               <input
+                        id="email"
                 type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
+                        value={details.email}
+                        onChange={(e) => setDetails((d) => ({ ...d, email: e.target.value }))}
                 placeholder="your.email@example.com"
-                required
                 className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
               />
             </div>
-            <div className="mb-4">
-              <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Phone Number(with country code)</label>
+                    <div>
+                      <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Phone (with country code)</label>
               <input
+                        id="phone"
                 type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="+1 (555) 123-4567"
-                required
+                        value={details.phone}
+                        onChange={(e) => setDetails((d) => ({ ...d, phone: e.target.value }))}
+                        placeholder="+1 555 123 4567"
                 className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
               />
             </div>
-            <div className="flex items-center justify-center">
-              <button
-                type="submit"
-                className="bg-gradient-to-r from-[#717fe8] to-[#954ad2] hover:from-[#5a67d8] hover:to-[#7e3eb3] text-white font-semibold text-lg py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:ring-offset-2 w-full"
-              >
-                Submit
-              </button>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={handleBack}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={handleSubmit}
+                      disabled={!canGoNext() || isSubmitting}
+                      className="bg-gradient-to-r from-[#717fe8] to-[#954ad2] text-white hover:from-[#5a67d8] hover:to-[#7e3eb3]"
+                    >
+                      {isSubmitting ? 'Submitting...' : 'Submit'}
+                    </Button>
+                  </div>
+                  {submitError && (
+                    <p className="mt-3 text-sm text-red-600 [font-family:'Inter',Helvetica]">{submitError}</p>
+                  )}
+                  </>
+                )}
+              </AnimatedStep>
             </div>
-          </form>
         </>
       ) : (
         <>
-          <h2 className="text-4xl font-extrabold text-black mb-4 [font-family:'Inter',Helvetica]">WAIT!!</h2>
-          <p className="text-xl text-gray-800 mb-8 text-center max-w-2xl [font-family:'Inter',Helvetica] font-medium">
-            You haven't done it yet. Please book a quick meeting at your own convenience.
-          </p>
-          
-          {/* Show loading spinner while Calendly is loading */}
-          {isCalendlyLoading && <LoadingSpinner />}
-          
-          {/* Calendly inline widget begin */}
-          {/* Added w-full and max-w-4xl for better responsiveness */}
-          <div
-            className={`calendly-inline-widget w-full max-w-4xl rounded-2xl overflow-hidden shadow-xl ${isCalendlyLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}
-            data-url="https://calendly.com/danielgrayson087/15mins?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=717fe8"
-            style={{ minWidth: '320px', height: '700px' }}
-          ></div>
-          {/* Script is now loaded via useEffect */}
-          {/* Calendly inline widget end */}
+            <div className="w-full text-center">
+              <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-gradient-to-r from-[#717fe8] to-[#954ad2] flex items-center justify-center text-white">
+                <CheckIcon className="h-6 w-6" />
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-black mb-2 [font-family:'Inter',Helvetica]">Thank you!</h2>
+              <p className="text-gray-700 mb-6 [font-family:'Inter',Helvetica]">Book a meeting anytime to get a live demo.</p>
+            </div>
+
+            {/* Calendly Inline (embedded inside the page) */}
+            {showCalendly && (
+              <div className="w-full mt-8">
+                <div className="relative">
+                  <div
+                    ref={calendlyContainerRef}
+                    className="calendly-inline-widget w-full rounded-2xl overflow-hidden shadow-xl"
+                    style={{ minWidth: '320px', height: '700px' }}
+                  />
+                  {isCalendlyLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/70">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#717fe8]"></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
         </>
       )}
       </div>
