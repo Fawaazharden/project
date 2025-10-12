@@ -210,6 +210,8 @@ export const ContactUs = (): JSX.Element => {
   useEffect(() => {
     if (!showCalendly) return;
     setIsCalendlyLoading(true);
+    const initStartedAt = Date.now();
+    const MAX_WAIT_MS = 5000;
 
     // Ensure Calendly stylesheet is present
     const cssId = 'calendly-widget-styles';
@@ -224,22 +226,40 @@ export const ContactUs = (): JSX.Element => {
     const scriptId = 'calendly-widget-script';
     const existingScript = document.getElementById(scriptId) as HTMLScriptElement | null;
 
+    const fallbackToIframe = () => {
+      if (!calendlyContainerRef.current) return;
+      calendlyContainerRef.current.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      const sep = CALENDLY_URL.includes('?') ? '&' : '?';
+      iframe.src = `${CALENDLY_URL}${sep}embed_domain=${window.location.hostname}&embed_type=Inline`;
+      iframe.style.width = '100%';
+      iframe.style.height = '700px';
+      iframe.style.border = '0';
+      iframe.frameBorder = '0';
+      iframe.title = 'Schedule time with us';
+      iframe.onload = () => setIsCalendlyLoading(false);
+      calendlyContainerRef.current.appendChild(iframe);
+    };
+
     const initCalendly = () => {
       const calendly = (window as any).Calendly;
       if (!calendly || !calendlyContainerRef.current) {
-        // Retry shortly until Calendly attaches
+        if (Date.now() - initStartedAt > MAX_WAIT_MS) {
+          fallbackToIframe();
+          return;
+        }
         setTimeout(initCalendly, 200);
         return;
       }
-      // Clear any previous content before initializing
       calendlyContainerRef.current.innerHTML = '';
       try {
         calendly.initInlineWidget({
           url: CALENDLY_URL,
           parentElement: calendlyContainerRef.current,
         });
-      } finally {
-        setIsCalendlyLoading(false);
+        setTimeout(() => setIsCalendlyLoading(false), 500);
+      } catch {
+        fallbackToIframe();
       }
     };
 
@@ -251,6 +271,7 @@ export const ContactUs = (): JSX.Element => {
       script.src = 'https://assets.calendly.com/assets/external/widget.js';
       script.async = true;
       script.onload = initCalendly;
+      script.onerror = fallbackToIframe;
       document.body.appendChild(script);
     }
 
@@ -551,7 +572,7 @@ export const ContactUs = (): JSX.Element => {
               <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-gradient-to-r from-[#717fe8] to-[#954ad2] flex items-center justify-center text-white">
                 <CheckIcon className="h-6 w-6" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-black mb-2 [font-family:'Inter',Helvetica]">Thank you!</h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-black mb-2 [font-family:'Inter',Helvetica]">WAITT!! ONE MORE STEP</h2>
               <p className="text-gray-700 mb-6 [font-family:'Inter',Helvetica]">Book a meeting anytime to get a live demo.</p>
             </div>
 

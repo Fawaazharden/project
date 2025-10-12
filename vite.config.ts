@@ -6,6 +6,21 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react()],
   base: "./",
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react-router")) return "vendor-router";
+            if (id.includes("react-helmet-async")) return "vendor-helmet";
+            if (id.includes("lucide-react")) return "vendor-icons";
+            if (id.includes("@sanity")) return "vendor-sanity";
+            return "vendor";
+          }
+        },
+      },
+    },
+  },
   css: {
     postcss: {
       plugins: [tailwind()],

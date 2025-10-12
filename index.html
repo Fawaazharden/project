@@ -17,6 +17,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="favicon.png" type="image/png" />
     <meta name="description" content="Boost sales efficiency with Vocalxlabs' AI voice agents & automated SMS. Instantly engage leads, filter opportunities & sync with your CRM. Ideal for real estate, consulting & more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Open Graph Meta Tags for Social Media Sharing -->
     <meta property="og:title" content="AI Voice Agents & Automated SMS for Lead Management | Vocalxlabs">
@@ -34,9 +36,10 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.vocalxlabs.com/">
+    <link rel="preload" as="image" href="/screenshot-2025-03-26-224229-1.png" imagesrcset="/screenshot-2025-03-26-224229-1.png 1x" imagesizes="160px" />
     <!-- Removed duplicate meta tags -->
     <style>
-      @import url("https://fonts.googleapis.com/css?family=Inter:900,700,800,500,400,600|Manrope:500,400|Poppins:600");
+      @import url("https://fonts.googleapis.com/css?family=Inter:900,700,800,500,400,600|Manrope:500,400|Poppins:600&display=swap");
       
       /* Custom animations for AI button */
       @keyframes bounceOnce {
@@ -217,7 +220,7 @@
     </style>
     <link href="tailwind.css" rel="stylesheet" />
     <!-- Removed duplicate tailwind link -->
-    <script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="uhnIwHh3ByqmwdeR" data-version="062024"></script>
+    <script id="vtag-ai-js" defer src="https://r2.leadsy.ai/tag.js" data-pid="uhnIwHh3ByqmwdeR" data-version="062024"></script>
   </head>
   <body>
     <!-- Hidden form for Netlify Forms detection - No longer needed as contact form now uses GoHighLevel webhook -->
@@ -231,10 +234,24 @@
     
     <div id="app"></div>
     <script type="module" src="./src/index.tsx"></script>
-    <script type="module" src="./src/retell-complete-implementation.js"></script>
+    <script>
+      window.addEventListener('load', () => {
+        const btn = document.getElementById('retell-ai-button');
+        if (btn) {
+          btn.addEventListener('click', async (e) => {
+            // Lazy load the Retell SDK bundle only on interaction
+            const mod = await import('./src/retell-complete-implementation.js');
+            if (mod && mod.startCall) {
+              e.preventDefault();
+              mod.startCall();
+            }
+          }, { once: true });
+        }
+      });
+    </script>
 
     <!-- Enhanced Sticky AI Voice Button with Custom CSS -->
-   <button id="retell-ai-button" class="ai-button" aria-label="Start AI Voice Assistant" onclick="toggleCallState(this)" style="display: none;">
+   <button id="retell-ai-button" class="ai-button" aria-label="Start AI Voice Assistant" style="display: none;">
       <div class="button-content" style="display: flex; align-items: center; justify-content: center;">
         <!-- Animated Sound Wave Icon -->
         <div class="wave-icon">
@@ -277,20 +294,6 @@
       </div>
     </button>
 
-    <!-- JavaScript to toggle call state for demonstration -->
-    <script>
-      function toggleCallState(button) {
-        // Toggle between normal and ongoing states
-        if (button.classList.contains('ongoing')) {
-          // If currently in ongoing state, switch back to normal
-          button.classList.remove('ongoing');
-          document.getElementById('button-text').textContent = 'Talk to AI';
-        } else {
-          // If in normal state, switch to ongoing (simulating call started)
-          button.classList.add('ongoing');
-          document.getElementById('button-text').textContent = 'End Call';
-        }
-      }
-    </script>
+    
   </body>
 </html>

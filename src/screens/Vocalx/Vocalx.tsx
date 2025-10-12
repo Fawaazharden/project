@@ -137,9 +137,13 @@ export const Vocalx = (): JSX.Element => {
           {/* Logo */}
           <div className="flex-1 md:flex-none flex items-center"> {/* Let logo container grow on mobile, but not on md+ */}
             <img
-              src="/screenshot-2025-03-26-224229-1.png" // Assuming this is the correct logo path
+              src="/screenshot-2025-03-26-224229-1.png"
               alt="Vocalx Labs Logo"
-              className="h-10 sm:h-10" // Increased mobile size from h-8 to h-10
+              className="h-10 sm:h-10"
+              width="160"
+              height="40"
+              decoding="async"
+              loading="eager"
             />
           </div>
           {/* Desktop Nav Links */}
@@ -266,7 +270,8 @@ export const Vocalx = (): JSX.Element => {
             width='100%'
             height='100%'
             title="Flowing Ribbon Spline Animation"
-            className="absolute inset-0" // Make iframe fill the container
+            className="absolute inset-0"
+            loading="lazy"
           ></iframe>
           {/* Overlay to hide Spline logo */}
           <div className="absolute bottom-0 right-0 w-48 h-16 bg-white"></div> {/* Increased height further to cover logo */}
@@ -469,6 +474,7 @@ export const Vocalx = (): JSX.Element => {
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
+                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -506,6 +512,7 @@ export const Vocalx = (): JSX.Element => {
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
+                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -625,9 +632,13 @@ export const Vocalx = (): JSX.Element => {
           {/* Logo and Copyright */}
           <div className="mb-6 md:mb-0"> {/* Removed text alignment here, handled above */}
             <img
-              src="/screenshot-2025-03-26-224229-1.png" // Assuming this is the correct logo path
+              src="/screenshot-2025-03-26-224229-1.png"
               alt="Vocalx Labs Logo"
-              className="h-7 sm:h-8 mb-3 sm:mb-4 mx-auto md:mx-0" // Responsive height/margin
+              className="h-7 sm:h-8 mb-3 sm:mb-4 mx-auto md:mx-0"
+              width="160"
+              height="40"
+              decoding="async"
+              loading="lazy"
             />
             <p className="text-xs sm:text-sm">&copy; {new Date().getFullYear()} Vocalx Labs. All rights reserved.</p> {/* Responsive size */}
             {/* Add Email Link */}
