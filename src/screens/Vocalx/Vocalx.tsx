@@ -31,63 +31,66 @@ export const Vocalx = (): JSX.Element => {
 
   // Testimonials replaced by video embeds; keeping placeholder for potential future use
 
-  // Updated Pricing plan features for real estate
-  const pricingFeatures = [
-    "Instant response for new seller & buyer leads (call/text in under 2 minutes)",
-    "Qualification: timeline, budget, financing, area, property details, motivation",
-    "Live transfer or calendar booking for listings and showings",
-    "6‑month SMS + email nurture that revives cold leads",
-    "CRM syncing – notes, transcripts and statuses kept up to date",
-    "Call recordings & transcripts for team coaching",
-    "Custom scripts for your market and branding",
-    "Priority onboarding and support",
+  
+
+  // One-time setup deliverables (emphasizes value indirectly)
+  const setupFeatures = [
+    "Connect lead sources, CRM, and calendar — end-to-end",
+    "Custom call flows and SMS/email scripts for your brand",
+    "Qualification criteria tuned to your sales process",
+    "Routing, handoff, and booking logic configured",
+    "Compliance, caller ID, recordings, and QA settings",
+    "Analytics, dashboards, and review loop enabled",
+    "Go‑live playbook and team handoff",
+    "Two rounds of revisions included",
   ];
 
   // Updated Pricing plans data to a single plan
   const pricingPlans = [
     {
       id: 1,
-      name: "Real Estate AI System", // Updated name
-      price: "$499", // Regular price
-      pricePeriod: "/month", // Period remains the same
-      description: "Everything Included", // Updated description
-      features: pricingFeatures,
-      highlighted: true, // Keep it highlighted
-      buttonText: "Get Started", // Updated button text
+      name: "Done‑For‑You Setup",
+      price: "$699",
+      pricePeriod: "one‑time",
+      description: "Implementation, integrations, scripts — 2 revisions included",
+      features: setupFeatures,
+      highlighted: true,
+      buttonText: "Launch My Setup",
+      badge: "Fastest Start",
     },
   ];
 
-  // FAQ items (real estate focused)
+  // FAQ items (industry‑agnostic)
   const faqs = [
     {
-      q: "How fast do you contact new real estate leads?",
-      a: "We call or text new seller and buyer leads within 2 minutes, 24/7.",
+      q: "How fast do you contact new leads?",
+      a: "We call or text new leads within 2 minutes, 24/7.",
     },
     {
       q: "What questions does the AI ask to qualify?",
-      a: "Timeline, motivation, property details, area, budget/financing, and next steps—fully customized to your scripts.",
+      a: "Intent, timeline, budget, role, and next steps—fully customized to your scripts.",
     },
     {
-      q: "Can it book listing appointments and showings?",
-      a: "Yes. We live‑transfer hot leads or book directly on your team’s calendar.",
+      q: "Can it book meetings or route calls?",
+      a: "Yes. We live‑transfer hot leads or book directly on your calendar.",
     },
     {
-      q: "Does it sync with our CRM?",
-      a: "We push notes, dispositions, and transcripts to your CRM so your pipeline stays clean.",
+      q: "Does it sync with our tools?",
+      a: "We push notes, dispositions, and transcripts to your CRM and calendar.",
     },
     {
-      q: "Will this replace our ISAs?",
-      a: "It replaces first‑touch and long‑term follow‑up so ISAs can focus on high‑value conversations.",
+      q: "Will this replace my team?",
+      a: "It handles first‑touch and long‑term follow‑up so your team focuses on high‑value conversations.",
     },
   ];
 
-  // Use case cards data (all real estate scenarios)
+  // Use case cards data (industry-agnostic scenarios)
   const useCaseCards = [
     {
       id: 1,
-      title: "Seller Leads",
+      title: "New Leads",
       description:
-        "Instantly contact, qualify, and book listing appointments from seller inquiries.",
+        "Instantly contact, qualify, and route new inbound leads from any source.",
       image: "/ranim.mp4", // Changed to video path
       textColor: "text-white"
       // position: "top-[25px] left-[34px]",
@@ -95,9 +98,9 @@ export const Vocalx = (): JSX.Element => {
     },
     {
       id: 2,
-      title: "Buyer Leads",
+      title: "Demo & Consultation Requests",
       description:
-        "Screen budget, financing, timeline, and area. Route only serious buyers to your team.",
+        "Screen intent and fit, then schedule with the right rep automatically.",
       image: "/help.mp4", // Changed to video path
       textColor: "text-white" // Changed to white for better contrast
       // position: "top-[26px] left-[704px]",
@@ -105,9 +108,9 @@ export const Vocalx = (): JSX.Element => {
     },
     {
       id: 3,
-      title: "FSBO & Expired",
+      title: "Reactivation & Win‑Back",
       description:
-        "Automated outreach that opens conversations and books listing appointments without extra headcount.",
+        "Automated outreach that re‑opens conversations and recovers dormant pipeline.",
       image: "/consul.mp4", // Changed to video path
       textColor: "text-[#26509c]" // Position data removed
       // position: "top-[668px] left-[34px]",
@@ -116,7 +119,7 @@ export const Vocalx = (): JSX.Element => {
     {
       id: 4,
       title: "Database Reactivation",
-      description: "Revive cold leads and past clients with long‑term drips and smart follow‑ups.",
+      description: "Revive cold leads and past customers with long‑term drips and smart follow‑ups.",
       image: "/miner.mp4", // Changed image to video path
       textColor: "text-white" // Position data removed
       // position: "top-[669px] left-[656px]",
@@ -212,7 +215,7 @@ export const Vocalx = (): JSX.Element => {
           {/* Chip Button */}
           <div className="mb-4 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 shadow-sm inline-flex items-center text-sm">
             <span className="text-white font-semibold">
-              Wasting time on unqualified real estate leads?
+              Wasting time on repetitive outreach?
             </span>
           </div>
           {/* Main Heading */}
@@ -222,7 +225,7 @@ export const Vocalx = (): JSX.Element => {
           </h1>
           {/* Subheading */}
           <p className="text-xl text-gray-900 max-w-3xl [font-family:'Inter',Helvetica] font-medium [text-wrap:balance]">
-            Instantly call/text new leads and qualify timeline, budget, motivation.
+            Instantly call/text new leads and qualify intent, timeline, and budget.
             <br className="hidden sm:block" />
             Live‑transfer or book — auto‑synced to your CRM.
           </p>
@@ -286,7 +289,7 @@ export const Vocalx = (): JSX.Element => {
           <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold [font-family:'Inter',Helvetica]">
               <span className="text-xs sm:text-sm uppercase tracking-widest text-[#717fe8] block mb-2">Why teams switch</span>
-              Built For Real Estate Teams
+              Built For Modern Teams
             </h2>
             <p className="mt-3 text-gray-600 text-base sm:text-lg max-w-3xl mx-auto">
               Replace first‑touch and long‑term follow‑up with an AI system that
@@ -300,32 +303,32 @@ export const Vocalx = (): JSX.Element => {
               {
                 title: 'Instant First Touch',
                 desc:
-                  'Every new portal and ad lead gets a call or text in under 2 minutes.',
+                  'Every new form, chat, and ad lead gets a call or text in under 2 minutes.',
               },
               {
                 title: 'Serious Qualification',
                 desc:
-                  'Timeline, area, property details, budget/financing and motivation captured.',
+                  'Intent, timeline, budget, role, and key context captured.',
               },
               {
                 title: 'Live Transfer & Booking',
                 desc:
-                  'Hot leads are live‑transferred or booked directly to your calendar.',
+                  'Hot prospects are live‑transferred or booked directly to your calendar.',
               },
               {
                 title: 'Nurture That Wins Back Deals',
                 desc:
-                  '6‑month SMS + email drips re‑engage old and unresponsive leads.',
+                  'Multi‑month SMS + email drips re‑engage old and unresponsive leads.',
               },
               {
                 title: 'CRM Sync',
                 desc:
-                  'Notes, dispositions and transcripts logged so your pipeline stays clean.',
+                  'Notes, dispositions and transcripts logged to your CRM so your pipeline stays clean.',
               },
               {
                 title: 'Recording & Coaching',
                 desc:
-                  'Call recordings and transcripts help train agents and improve scripts.',
+                  'Call recordings and transcripts help train teams and improve scripts.',
               },
             ].map((item, idx) => (
               <div
@@ -409,7 +412,7 @@ export const Vocalx = (): JSX.Element => {
       <section id="use-cases" className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-[61px] py-12 sm:py-16">
         <div className="w-full max-w-3xl mx-auto text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-black text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4">
-            Real Estate Use Cases That Drive Closings
+            AI Automation Use Cases That Drive Revenue
           </h2>
           <p className="[font-family:'Inter',Helvetica] font-medium text-gray-700 text-base sm:text-lg leading-relaxed">
             Your competitors are already responding in minutes, nurturing for months, and logging everything to the CRM—so they close while others chase.
@@ -536,29 +539,32 @@ export const Vocalx = (): JSX.Element => {
           <div className="text-center mb-12">
             {/* Updated Pricing Header Copywriting */}
             <h2 className="[font-family:'Inter',Helvetica] font-black text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]">
-            Your Last Missed Listing Could've Paid for This
+            Your Last Missed Lead Could've Paid for This <span className="shiny-sweep lifetime-gradient">lifetime</span>
             </h2>
             <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-lg sm:text-xl mt-4">
-            Convert just one extra listing or buyer deal and this system pays for itself.
+            One extra deal typically covers your setup — then it keeps paying dividends.
             </p>
           </div>
 
-          {/* Updated Single Pricing Card Layout */}
+          {/* Single Pricing Card Layout */}
           <div className="flex justify-center"> {/* Center the single card */}
-            {pricingPlans.map((plan) => ( // Will now only map over one plan
+            {pricingPlans.map((plan) => (
               <Card
                 key={plan.id}
-                // Use highlighted styles directly as it's the only plan
                 className="w-full max-w-md sm:max-w-lg rounded-3xl bg-[#717fe8] text-white shadow-xl"
               >
                 <CardContent className="p-8 sm:p-12 md:p-16"> {/* Responsive padding */}
-                  <h3
-                    className="[font-family:'Inter',Helvetica] font-black text-3xl sm:text-4xl leading-tight mb-4" // Adjusted size, margin
-                  >
+                  {/* Optional badge */}
+                  {plan.badge && (
+                    <div className={"bg-white/15 text-white inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3"}>
+                      {plan.badge}
+                    </div>
+                  )}
+                  <h3 className="[font-family:'Inter',Helvetica] font-black text-3xl sm:text-4xl leading-tight mb-4"> {/* Adjusted size, margin */}
                     {plan.name}
                   </h3>
 
-                  {/* Updated Price Display */}
+                  {/* Price Display */}
                   <div className="mb-8">
                      <p className="text-lg opacity-90">{plan.description}</p>
                      <div className="flex items-baseline gap-x-2 mt-4">
@@ -568,7 +574,6 @@ export const Vocalx = (): JSX.Element => {
                         <span className="text-xl opacity-90">{plan.pricePeriod}</span>
                      </div>
                   </div>
-
 
                   {/* Features List */}
                   <div className="space-y-4 mb-10"> {/* Adjusted spacing */}
@@ -611,7 +616,7 @@ export const Vocalx = (): JSX.Element => {
       <section id="faq" className="w-full max-w-7xl mx-auto py-12 sm:py-16 px-4 sm:px-8">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="[font-family:'Inter',Helvetica] font-extrabold text-[#272727] text-3xl sm:text-4xl">Frequently Asked Questions</h2>
-          <p className="text-gray-600 mt-3">Built for real estate teams—quick answers below.</p>
+          <p className="text-gray-600 mt-3">Built for modern teams—quick answers below.</p>
         </div>
         <div className="max-w-3xl mx-auto divide-y divide-gray-200">
           {faqs.map((item, idx) => (
@@ -843,7 +848,7 @@ export const Vocalx = (): JSX.Element => {
             "name": "Vocalxlabs",
             "url": "https://www.vocalxlabs.com",
             "logo": "https://www.vocalxlabs.com/screenshot-2025-03-26-224229-1.png",
-            "description": "Vocalxlabs provides AI-powered voice agents and automated SMS built for real estate to qualify seller and buyer leads, book appointments, and sync with your CRM.",
+            "description": "Vocalxlabs provides AI-powered voice agents and automated SMS to qualify leads, book meetings, and sync with your CRM across industries.",
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "Sales Inquiry",
@@ -853,16 +858,16 @@ export const Vocalx = (): JSX.Element => {
           {
             "@context": "https://schema.org",
             "@type": "Service",
-            "serviceType": "Real Estate Lead Qualification Automation",
+            "serviceType": "AI Lead Qualification & SMS Automation",
             "provider": {
               "@type": "Organization",
               "name": "Vocalxlabs"
             },
-            "name": "AI Voice Agent & Automated SMS for Real Estate",
-            "description": "AI voice and SMS instantly engage new seller and buyer leads, qualify for timeline, budget and motivation, then book listing appointments and showings with CRM sync.",
+            "name": "AI Voice Agent & Automated SMS Automation",
+            "description": "AI voice and SMS instantly engage new leads, qualify for intent, timeline and budget, then book meetings with CRM sync.",
             "audience": {
               "@type": "Audience",
-              "audienceType": ["Real Estate Teams", "Brokerages", "Agents", "ISAs"]
+              "audienceType": ["Revenue Teams", "Support Teams", "Marketing Teams", "Operations"]
             }
           }
         ])}
