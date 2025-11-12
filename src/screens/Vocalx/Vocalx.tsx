@@ -52,7 +52,7 @@ export const Vocalx = (): JSX.Element => {
       name: "Done‑For‑You Setup",
       price: "$499",
       pricePeriod: "per month",
-      description: "Implementation, integrations, scripts — 2 revisions included",
+      description: "Implementation, integrations, scripts",
       features: setupFeatures,
       highlighted: true,
       buttonText: "Launch My Setup",
@@ -539,10 +539,10 @@ export const Vocalx = (): JSX.Element => {
           <div className="text-center mb-12">
             {/* Updated Pricing Header Copywriting */}
             <h2 className="[font-family:'Inter',Helvetica] font-black text-[#272727] text-4xl sm:text-5xl md:text-[64px] text-center tracking-[0] leading-tight sm:leading-[70px]">
-            Your Last Missed Lead Could've Paid for This <span className="shiny-sweep lifetime-gradient">lifetime</span>
+            Your Last Missed Lead Could've Paid for This <span className="shiny-sweep lifetime-gradient">month</span>
             </h2>
             <p className="[font-family:'Inter',Helvetica] font-medium text-gray-600 text-lg sm:text-xl mt-4">
-            One extra deal typically covers your setup — then it keeps paying dividends.
+            One extra deal typically covers your monthly cost — then it keeps paying dividends.
             </p>
           </div>
 
