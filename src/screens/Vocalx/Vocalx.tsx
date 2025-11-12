@@ -50,8 +50,8 @@ export const Vocalx = (): JSX.Element => {
     {
       id: 1,
       name: "Done‑For‑You Setup",
-      price: "$699",
-      pricePeriod: "one‑time",
+      price: "$499",
+      pricePeriod: "per month",
       description: "Implementation, integrations, scripts — 2 revisions included",
       features: setupFeatures,
       highlighted: true,
