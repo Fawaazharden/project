@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { MenuIcon, XIcon, Trash2Icon } from "lucide-react";
 import { Button } from "../../components/ui/button";
+import { createPersonalizedPage } from "../../lib/sanity";
 
 // Define the submission type
 interface Submission {
@@ -188,6 +189,71 @@ export const AdminPage = (): JSX.Element => {
           </div>
         ) : (
           <div className="w-full">
+            {/* Create Personalized Landing Page Section */}
+            <div className="w-full mb-12">
+              <h2 className="text-2xl font-bold mb-6">Create Personalized Landing Page</h2>
+              <div className="bg-white p-8 rounded-2xl shadow-xl">
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const businessName = formData.get('businessName') as string;
+                  const youtubeUrl = formData.get('youtubeUrl') as string;
+                  
+                  if (!businessName || !youtubeUrl) {
+                    alert('Please fill in all fields');
+                    return;
+                  }
+                  
+                  try {
+                    await createPersonalizedPage(businessName.trim(), youtubeUrl.trim());
+                    alert(`✅ Landing page created!\n\nURL: vocalxlabs.com/${businessName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')}`);
+                    e.currentTarget.reset();
+                  } catch (error) {
+                    console.error('Error creating page:', error);
+                    alert('❌ Error creating landing page. Please try again.');
+                  }
+                }}>
+                  <div className="mb-4">
+                    <label htmlFor="businessName" className="block text-gray-700 text-sm font-bold mb-2">
+                      Business Name
+                    </label>
+                    <input
+                      type="text"
+                      id="businessName"
+                      name="businessName"
+                      required
+                      placeholder="e.g., Acme Corporation"
+                      className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8]"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">This will be converted to a URL-friendly slug</p>
+                  </div>
+                  
+                  <div className="mb-6">
+                    <label htmlFor="youtubeUrl" className="block text-gray-700 text-sm font-bold mb-2">
+                      YouTube Video URL
+                    </label>
+                    <input
+                      type="url"
+                      id="youtubeUrl"
+                      name="youtubeUrl"
+                      required
+                      placeholder="https://www.youtube.com/watch?v=VIDEO_ID"
+                      className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8]"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Full YouTube URL (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)</p>
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    className="bg-gradient-to-r from-[#717fe8] to-[#954ad2] hover:from-[#5a67d8] hover:to-[#7e3eb3] text-white font-semibold text-lg py-3 px-8 rounded-lg shadow-md transition duration-300 w-full"
+                  >
+                    Create Landing Page
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            {/* Contact Form Submissions Section */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Contact Form Submissions</h2>
               <Button 

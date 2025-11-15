@@ -2,10 +2,12 @@ import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
 export const client = createClient({
-  projectId: '0u2n1rlt', // Your project ID from instruction.md
+  projectId: 'phcyc64u', // Your new Sanity project ID for personalized landing pages
   dataset: 'production',
-  useCdn: true,
+  useCdn: true, // Use CDN for reads (fast)
   apiVersion: '2023-05-03',
+  token: (import.meta as any).env?.VITE_SANITY_API_TOKEN, // API token for write operations
+  ignoreBrowserTokenWarning: true, // Only use token for admin operations
 });
 
 const builder = imageUrlBuilder(client);
@@ -91,4 +93,66 @@ export async function getPostBySlug(slug: string) {
       }
     }
   `, { slug });
+}
+
+// Fetch personalized page by slug
+export async function getPersonalizedPageBySlug(slug: string) {
+  return client.fetch(`
+    *[_type == "personalizedPage" && slug.current == $slug][0] {
+      _id,
+      businessName,
+      slug,
+      youtubeUrl,
+      createdAt
+    }
+  `, { slug });
+}
+
+// Fetch all personalized pages (for admin)
+export async function getAllPersonalizedPages() {
+  return client.fetch(`
+    *[_type == "personalizedPage"] | order(createdAt desc) {
+      _id,
+      businessName,
+      slug,
+      youtubeUrl,
+      createdAt
+    }
+  `);
+}
+
+// Create a new personalized page
+export async function createPersonalizedPage(businessName: string, youtubeUrl: string) {
+  const slug = businessName
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '');
+  
+  return client.create({
+    _type: 'personalizedPage',
+    businessName,
+    slug: {
+      _type: 'slug',
+      current: slug
+    },
+    youtubeUrl,
+    createdAt: new Date().toISOString()
+  });
+}
+
+// Extract YouTube video ID from various URL formats
+export function extractYouTubeVideoId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
+    /youtube\.com\/embed\/([^&\n?#]+)/,
+    /youtube\.com\/v\/([^&\n?#]+)/
+  ];
+  
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  }
+  return null;
 } 

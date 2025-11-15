@@ -9,6 +9,7 @@ const PrivacyPolicy = lazy(() => import("./screens/PrivacyPolicy").then(m => ({ 
 const Terms = lazy(() => import("./screens/Terms").then(m => ({ default: m.Terms })));
 const BlogListPage = lazy(() => import("./screens/Blog/BlogListPage"));
 const BlogPostPage = lazy(() => import("./screens/Blog/BlogPostPage"));
+const PersonalizedLanding = lazy(() => import("./screens/PersonalizedLanding").then(m => ({ default: m.PersonalizedLanding })));
 // Removed incorrect Tailwind CSS import
 
 createRoot(document.getElementById("app") as HTMLElement).render(
@@ -24,6 +25,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
             <Route path="/terms" element={<Terms />} /> {/* Terms page route */}
             <Route path="/blog" element={<BlogListPage />} />
             <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/:businessName" element={<PersonalizedLanding />} /> {/* Personalized landing page - MUST be last */}
           </Routes>
         </Suspense>
       </BrowserRouter>
