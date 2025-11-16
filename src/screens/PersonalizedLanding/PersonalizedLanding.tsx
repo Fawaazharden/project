@@ -4,7 +4,15 @@ import { getPersonalizedPageBySlug, extractYouTubeVideoId, urlFor } from "../../
 import { Highlighter } from "../../components/ui/highlighter";
 import { ShineBorder } from "../../components/ui/shine-border";
 import { Marquee } from "../../components/ui/marquee";
-import { Phone, ArrowRight, Sparkles } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "../../components/ui/carousel";
+import { Phone, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import confetti from "canvas-confetti";
 
@@ -129,6 +137,9 @@ export const PersonalizedLanding = (): JSX.Element => {
   const [priceRevealed, setPriceRevealed] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const videoRef = useRef<HTMLDivElement>(null);
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [slideCount, setSlideCount] = useState(0);
 
   const handleRevealPrice = () => {
     setPriceRevealed(true);
@@ -238,6 +249,20 @@ export const PersonalizedLanding = (): JSX.Element => {
       icon: ""
     }
   ];
+
+  // Track carousel slide changes
+  useEffect(() => {
+    if (!carouselApi) {
+      return;
+    }
+
+    setSlideCount(carouselApi.scrollSnapList().length);
+    setCurrentSlide(carouselApi.selectedScrollSnap());
+
+    carouselApi.on("select", () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    });
+  }, [carouselApi]);
 
   useEffect(() => {
     const fetchPage = async () => {
@@ -710,7 +735,7 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
           </div>
 
-          {/* Testimonials Marquee Section */}
+          {/* Testimonials Section */}
           <div className="w-full mt-16 sm:mt-24 px-4">
             {/* Section Title */}
             <div className="text-center mb-12 sm:mb-16">
@@ -722,7 +747,97 @@ export const PersonalizedLanding = (): JSX.Element => {
               </p>
             </div>
 
-            {/* Testimonials Marquee - Single Row */}
+            {/* Video Testimonials Carousel - Portrait Format */}
+            <div className="w-full max-w-5xl mx-auto mb-12 sm:mb-16">
+              {/* Swipe hint for mobile */}
+              <div className="text-center mb-4 md:hidden">
+                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                  <motion.div
+                    animate={{ x: [-5, 5, -5] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </motion.div>
+                  <span className="font-medium">Swipe to see more testimonials</span>
+                  <motion.div
+                    animate={{ x: [-5, 5, -5] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </motion.div>
+                </div>
+              </div>
+
+              <Carousel
+                setApi={setCarouselApi}
+                opts={{
+                  align: "center",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-4">
+                  {/* Video 1 */}
+                  <CarouselItem className="pl-4 md:basis-1/2">
+                    <div className="w-full max-w-sm mx-auto">
+                      <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-200" style={{ aspectRatio: '9/16' }}>
+                        <iframe
+                          className="absolute inset-0 w-full h-full"
+                          src="https://www.youtube.com/embed/uAwBPvVf-IY"
+                          title="Client Video Testimonial 1"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    </div>
+                  </CarouselItem>
+
+                  {/* Video 2 */}
+                  <CarouselItem className="pl-4 md:basis-1/2">
+                    <div className="w-full max-w-sm mx-auto">
+                      <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-200" style={{ aspectRatio: '9/16' }}>
+                        <iframe
+                          className="absolute inset-0 w-full h-full"
+                          src="https://www.youtube.com/embed/IHCZarbiUj0"
+                          title="Client Video Testimonial 2"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:flex" />
+                <CarouselNext className="hidden md:flex" />
+              </Carousel>
+
+              {/* Pagination Dots */}
+              <div className="flex justify-center gap-2 mt-6">
+                {Array.from({ length: slideCount }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => carouselApi?.scrollTo(index)}
+                    className={`transition-all duration-300 rounded-full ${
+                      index === currentSlide
+                        ? 'w-8 h-3 bg-green-600'
+                        : 'w-3 h-3 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Slide counter for desktop */}
+              <div className="hidden md:block text-center mt-4">
+                <p className="text-sm text-muted-foreground">
+                  Video {currentSlide + 1} of {slideCount}
+                </p>
+              </div>
+            </div>
+
+            {/* Text Testimonials Marquee - Single Row */}
             <div className="relative w-full max-w-7xl mx-auto">
               <Marquee pauseOnHover className="[--duration:120s] [--gap:1rem]">
                 <TestimonialCard
