@@ -3,8 +3,10 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getPersonalizedPageBySlug, extractYouTubeVideoId, urlFor } from "../../lib/sanity";
 import { Highlighter } from "../../components/ui/highlighter";
 import { ShineBorder } from "../../components/ui/shine-border";
+import { Marquee } from "../../components/ui/marquee";
 import { Phone, ArrowRight, Sparkles } from "lucide-react";
 import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
+import confetti from "canvas-confetti";
 
 interface FAQ {
   question: string;
@@ -94,6 +96,30 @@ const SlideToCallButton = ({ phoneNumber }: { phoneNumber: string }) => {
   );
 };
 
+// Testimonial Card Component
+interface TestimonialCardProps {
+  name: string;
+  business: string;
+  text: string;
+}
+
+const TestimonialCard = ({ name, business, text }: TestimonialCardProps) => {
+  return (
+    <div className="relative flex w-80 flex-col gap-4 overflow-hidden rounded-xl border border-border bg-card p-6 shadow-lg hover:shadow-xl transition-shadow">
+      <div className="flex items-center gap-4">
+        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-lg">
+          {name.charAt(0)}
+        </div>
+        <div className="flex flex-col">
+          <p className="text-sm font-semibold text-foreground">{name}</p>
+          <p className="text-xs text-muted-foreground">{business}</p>
+        </div>
+      </div>
+      <p className="text-sm text-muted-foreground leading-relaxed italic">"{text}"</p>
+    </div>
+  );
+};
+
 export const PersonalizedLanding = (): JSX.Element => {
   const { businessName } = useParams<{ businessName: string }>();
   const navigate = useNavigate();
@@ -103,6 +129,40 @@ export const PersonalizedLanding = (): JSX.Element => {
   const [priceRevealed, setPriceRevealed] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const videoRef = useRef<HTMLDivElement>(null);
+
+  const handleRevealPrice = () => {
+    setPriceRevealed(true);
+    
+    // Trigger confetti
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min: number, max: number) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const interval: any = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+      });
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+      });
+    }, 250);
+  };
 
   const faqs: FAQ[] = [
     {
@@ -650,6 +710,60 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
           </div>
 
+          {/* Testimonials Marquee Section */}
+          <div className="w-full mt-16 sm:mt-24 px-4">
+            {/* Section Title */}
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 leading-tight">
+                Real Businesses. Real Results.
+              </h2>
+              <p className="text-base sm:text-xl text-muted-foreground">
+                See what happens when AI handles your follow-up
+              </p>
+            </div>
+
+            {/* Testimonials Marquee - Single Row */}
+            <div className="relative w-full max-w-7xl mx-auto">
+              <Marquee pauseOnHover className="[--duration:120s] [--gap:1rem]">
+                <TestimonialCard
+                  name="Mike Johnson"
+                  business="Jones"
+                  text="We went from losing 60% of our leads to booking 4-5 calls daily. The AI never sleeps and never misses a lead."
+                />
+                <TestimonialCard
+                  name="David Chen"
+                  business="Atomic Air"
+                  text="ROI in week one. The speed alone is worth it—leads get called in 2 seconds, not 2 hours."
+                />
+                <TestimonialCard
+                  name="Lisa Thompson"
+                  business="Peak's Pontoons"
+                  text="I was skeptical until I called my own AI. It sounds completely natural. Customers can't tell it's not human."
+                />
+                <TestimonialCard
+                  name="Robert Garcia"
+                  business="Unique Auto"
+                  text="Finally, consistent follow-up without hiring more staff. It qualifies, books, and follows up automatically."
+                />
+                <TestimonialCard
+                  name="Amanda Wilson"
+                  business="SCA Pontoon Rental"
+                  text="We doubled our bookings without spending more on ads. The AI just converts better because it's instant."
+                />
+                <TestimonialCard
+                  name="James Mitchell"
+                  business="Region Scoopers"
+                  text="Our close rate went up 40% in the first month. The AI pre-qualifies so well that my team only talks to serious buyers."
+                />
+                <TestimonialCard
+                  name="Rachel Lee"
+                  business="Hoosier Stump Removal"
+                  text="I used to lose leads overnight. Now the AI calls them at 11 PM if they submit then. No more missed opportunities."
+                />
+              </Marquee>
+            </div>
+          </div>
+
           {/* Testimonial-Only Pricing Section */}
           <div className="w-full max-w-5xl mt-16 sm:mt-24 px-4">
             {/* 1. Top Banner */}
@@ -706,7 +820,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                       </div>
                       
                       <button
-                        onClick={() => setPriceRevealed(true)}
+                        onClick={handleRevealPrice}
                         className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold text-base sm:text-lg py-3 sm:py-4 px-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 [font-family:'Inter',Helvetica]"
                       >
                         Reveal My Discount
@@ -715,26 +829,46 @@ export const PersonalizedLanding = (): JSX.Element => {
                   ) : (
                     <>
                       {/* After Reveal */}
-                      <div 
-                        className="text-center mb-6"
-                        style={{
-                          animation: 'bounceIn 0.6s ease-out',
-                        }}
-                      >
-                        <div className="mb-3">
-                          <span className="text-3xl sm:text-4xl font-bold text-muted-foreground line-through">
+                      <div className="text-center mb-6">
+                        {/* Old Price with Strike Animation */}
+                        <div 
+                          className="mb-3"
+                          style={{
+                            animation: 'strikeThrough 0.8s ease-out forwards',
+                          }}
+                        >
+                          <span className="text-3xl sm:text-4xl font-bold text-muted-foreground relative inline-block price-strike">
                             $500
                           </span>
                         </div>
-                        <div className="mb-4">
+                        
+                        {/* New Price with Bounce In Animation */}
+                        <div 
+                          className="mb-4"
+                          style={{
+                            animation: 'bounceIn 0.8s ease-out 0.4s backwards',
+                          }}
+                        >
                           <span className="text-6xl sm:text-8xl font-extrabold text-green-600">
                             <Highlighter action="circle" color="#22c55e" strokeWidth={4} isView={true}>$200</Highlighter>
                           </span>
-                          <p className="text-base sm:text-lg text-foreground font-semibold mt-2">
+                          <p 
+                            className="text-base sm:text-lg text-foreground font-semibold mt-2"
+                            style={{
+                              animation: 'fadeInUp 0.6s ease-out 0.8s backwards',
+                            }}
+                          >
                             Testimonial-Only Price
                           </p>
                         </div>
-                        <div className="inline-block bg-red-100 text-red-700 px-4 py-2 rounded-full">
+                        
+                        {/* Badge with Fade In */}
+                        <div 
+                          className="inline-block bg-red-100 text-red-700 px-4 py-2 rounded-full"
+                          style={{
+                            animation: 'fadeInUp 0.6s ease-out 1s backwards',
+                          }}
+                        >
                           <p className="text-xs sm:text-sm font-bold">
                             Limited to next 8 businesses
                           </p>
@@ -1024,6 +1158,50 @@ export const PersonalizedLanding = (): JSX.Element => {
           }
           100% {
             transform: scale(1);
+          }
+        }
+        
+        @keyframes strikeThrough {
+          0% {
+            opacity: 1;
+          }
+          20% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0.6;
+            text-decoration: line-through;
+          }
+        }
+        
+        @keyframes fadeInUp {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .price-strike::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          width: 0;
+          height: 3px;
+          background: currentColor;
+          animation: strikeLine 0.6s ease-out 0.2s forwards;
+        }
+        
+        @keyframes strikeLine {
+          0% {
+            width: 0;
+          }
+          100% {
+            width: 100%;
           }
         }
         

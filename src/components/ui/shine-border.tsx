@@ -49,11 +49,13 @@ export function ShineBorder({
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",
           padding: "var(--border-width)",
+          animation: `shine ${duration}s infinite linear`,
+          willChange: "background-position",
           ...style,
         } as React.CSSProperties
       }
       className={cn(
-        "motion-safe:animate-shine pointer-events-none absolute inset-0 size-full rounded-[inherit] will-change-[background-position]",
+        "pointer-events-none absolute inset-0 size-full rounded-[inherit]",
         className
       )}
       {...props}

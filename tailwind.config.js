@@ -84,12 +84,22 @@ module.exports = {
           '60%': { transform: 'scaleY(0.8)' },
           '80%': { transform: 'scaleY(0.5)' },
         },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
+        },
+        "marquee-vertical": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         glow: 'glow 2s ease-in-out infinite', // Registered glow animation
         'sound-wave': 'sound-wave 1.5s ease-in-out infinite', // Registered sound-wave animation
+        marquee: "marquee var(--duration) infinite linear",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
       },
     },
     container: { center: true, padding: "2rem", screens: { "2xl": "1400px" } },
