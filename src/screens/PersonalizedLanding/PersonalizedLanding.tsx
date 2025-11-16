@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getPersonalizedPageBySlug, extractYouTubeVideoId, urlFor } from "../../lib/sanity";
+import { Highlighter } from "../../components/ui/highlighter";
+import { Phone, ArrowRight, Sparkles } from "lucide-react";
+import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 
 interface FAQ {
   question: string;
@@ -8,6 +11,87 @@ interface FAQ {
   fullAnswer: string;
   icon: string;
 }
+
+// Slide to Call Button Component
+const SlideToCallButton = ({ phoneNumber }: { phoneNumber: string }) => {
+  const x = useMotionValue(0);
+  const background = useTransform(x, [0, 300], ["#16a34a", "#15803d"]);
+  const sliderWidth = 280; // Adjust based on container width
+  
+  const handleDragEnd = (_event: any, info: PanInfo) => {
+    if (info.offset.x > sliderWidth * 0.85) {
+      setTimeout(() => {
+        window.location.href = `tel:${phoneNumber}`;
+      }, 200);
+    } else {
+      x.set(0);
+    }
+  };
+
+  return (
+    <div className="w-full max-w-md mx-auto">
+      {/* Instruction text above slider */}
+      <div className="text-center mb-3">
+        <p className="text-sm font-semibold text-gray-700 flex items-center justify-center gap-2">
+          <Sparkles className="w-4 h-4 text-green-600 animate-pulse" />
+          <span>Slide the phone icon to start the call →</span>
+        </p>
+      </div>
+      
+      {/* Slider Track */}
+      <motion.div 
+        style={{ background }}
+        className="relative h-20 rounded-full shadow-2xl overflow-hidden border-2 border-green-700"
+      >
+        {/* Background animated text */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <motion.div 
+            className="flex items-center gap-3 text-white font-bold text-base sm:text-lg"
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <span className="hidden sm:inline">Slide to Call Your AI Agent</span>
+            <span className="sm:hidden">Slide to Call</span>
+            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+          </motion.div>
+        </div>
+        
+        {/* Draggable Phone Icon Button */}
+        <motion.div
+          drag="x"
+          dragConstraints={{ left: 0, right: sliderWidth }}
+          dragElastic={0.1}
+          style={{ x }}
+          onDragEnd={handleDragEnd}
+          className="absolute left-2 top-2 bottom-2 w-16 bg-white rounded-full shadow-xl cursor-grab active:cursor-grabbing flex items-center justify-center z-10"
+          whileTap={{ scale: 1.1 }}
+        >
+          {/* Vibrating Phone Icon */}
+          <motion.div
+            animate={{ 
+              rotate: [-5, 5, -5, 5, 0],
+              scale: [1, 1.1, 1, 1.1, 1]
+            }}
+            transition={{ 
+              duration: 0.5,
+              repeat: Infinity,
+              repeatDelay: 1.5
+            }}
+          >
+            <Phone className="w-8 h-8 text-green-600" />
+          </motion.div>
+        </motion.div>
+      </motion.div>
+      
+      {/* Fallback text below slider */}
+      <div className="text-center mt-3">
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          Or tap directly: <a href={`tel:${phoneNumber}`} className="font-semibold text-green-600 hover:underline">+1 (470) 665-1434</a>
+        </p>
+      </div>
+    </div>
+  );
+};
 
 export const PersonalizedLanding = (): JSX.Element => {
   const { businessName } = useParams<{ businessName: string }>();
@@ -24,73 +108,73 @@ export const PersonalizedLanding = (): JSX.Element => {
       question: "Does the AI actually sound human?",
       shortAnswer: "Yes — it sounds like a normal conversational agent, not robotic.",
       fullAnswer: "Our AI uses natural conversational modeling, tone-matching, and memory. It pauses, laughs, asks questions, understands accents, and reacts to context. 90% of leads cannot tell it's an AI—until you tell them.",
-      icon: "🎤"
+      icon: ""
     },
     {
       question: "Will it work with my existing Facebook ad leads?",
       shortAnswer: "Yes — it plugs directly into your lead forms or CRM.",
       fullAnswer: "We automatically sync your Facebook leads, Google leads, website leads, or CRM entries. Every new lead gets called and texted instantly within 3 seconds.",
-      icon: "🔌"
+      icon: ""
     },
     {
       question: "Is this replacing my VA or my sales team?",
       shortAnswer: "It replaces the repetitive tasks, not the closer.",
       fullAnswer: "Your AI handles: first call, qualification, follow-up, and appointment booking. Your closer handles the sale. You get the best of both worlds — without the salary, training, or unreliability.",
-      icon: "👥"
+      icon: ""
     },
     {
       question: "Can the AI really call me or my leads instantly?",
       shortAnswer: "Yes — try it on this page.",
       fullAnswer: "Enter your number in the form above and you'll receive a call in seconds. The exact same behavior happens for your real leads.",
-      icon: "⚡"
+      icon: ""
     },
     {
       question: "What if a lead asks complex questions?",
       shortAnswer: "AI handles 95% of real-world objections.",
       fullAnswer: "Your AI is trained on your offers, your scripts, your FAQs, and your tone. It can answer pricing, availability, scheduling, and product questions without hesitation. If something is too complex, it transfers to a human instantly.",
-      icon: "❓"
+      icon: ""
     },
     {
       question: "How accurate is the qualification process?",
       shortAnswer: "Very accurate — over 87% match with human qualifiers.",
       fullAnswer: "Your AI listens to tone, intent, emotional signals, and keywords. It tags leads, scores them, and pushes only qualified ones to your calendar. Unqualified leads are filtered automatically.",
-      icon: "🎯"
+      icon: ""
     },
     {
       question: "Is this allowed by Facebook and Google policies?",
       shortAnswer: "Yes — fully compliant.",
       fullAnswer: "Our system only calls leads who opted-in. We follow all TCPA, DNC, and required compliance guidelines. You're 100% protected.",
-      icon: "🛡️"
+      icon: ""
     },
     {
       question: "How long does setup take?",
       shortAnswer: "10–15 minutes.",
       fullAnswer: "We customize your AI voice, script, lead flow, and integrations. Most businesses are live within the same day.",
-      icon: "⏱️"
+      icon: ""
     },
     {
       question: "Do I need to record anything?",
       shortAnswer: "No.",
       fullAnswer: "Your AI learns from text input. No recording, no voice acting, no lengthy training required.",
-      icon: "🎙️"
+      icon: ""
     },
     {
       question: "How does pricing work?",
       shortAnswer: "Simple usage-based model.",
       fullAnswer: "You only pay for the calls/texts your AI actually sends. No hidden fees. No long-term contracts.",
-      icon: "💰"
+      icon: ""
     },
     {
       question: "What if the AI says something wrong?",
       shortAnswer: "It won't — everything is predefined.",
       fullAnswer: "Your AI only speaks from the scripts, knowledge, and rules you give it. It cannot go off-track or invent information. This ensures perfect consistency — every single time.",
-      icon: "✅"
+      icon: ""
     },
     {
       question: "Is this personalized page actually made for my business?",
       shortAnswer: "Yes — 100% personalized using your data.",
       fullAnswer: `This page is built exclusively for ${pageData?.businessName || 'your business'}: personalized headline, custom demo, custom AI script, and custom call experience. It shows exactly how your business would use the system.`,
-      icon: "🎨"
+      icon: ""
     }
   ];
 
@@ -182,27 +266,21 @@ export const PersonalizedLanding = (): JSX.Element => {
 
         {/* Personalized Hero Content */}
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center pt-2 sm:pt-4 px-4 pb-6 sm:pb-12">
-          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-black leading-tight mb-2 sm:mb-5 [font-family:'Inter',Helvetica]">
-            {pageData.businessName}, your follow-up is<span className="hidden sm:inline"><br /></span> costing you clients.
+          <h1 className="scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-5xl mb-6">
+            {pageData.businessName}, your follow-up is<span className="hidden sm:inline"><br /></span> <span className="text-red-600">costing you clients</span>.
           </h1>
           
-          <p className="text-sm sm:text-xl text-gray-900 max-w-3xl mb-2 sm:mb-4 [font-family:'Inter',Helvetica] font-medium hidden sm:block">
+          <p className="text-xl text-muted-foreground max-w-3xl mb-2 hidden sm:block">
             You spend money getting Facebook leads.
           </p>
-          <p className="text-sm sm:text-xl text-gray-900 max-w-3xl mb-3 sm:mb-0 [font-family:'Inter',Helvetica] font-medium">
-            Our AI turns those leads into booked calls instantly — before your competition does.
+          <p className="text-xl text-muted-foreground max-w-3xl mb-8">
+            Our AI turns those leads into booked calls <strong className="font-semibold">instantly</strong> — before your competition does.
           </p>
           
-          <div className="mt-3 sm:mt-8 mb-2 sm:mb-4">
-            <p className="text-sm sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-6">
+          <div className="mt-4">
+            <p className="text-lg font-semibold text-foreground mb-6">
               Watch how to close more deals without increasing ad spend
             </p>
-            <div className="flex justify-center gap-2 sm:gap-4 mb-3 sm:mb-8">
-              <span className="text-2xl sm:text-4xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '1.5s' }}>👇</span>
-              <span className="text-2xl sm:text-4xl animate-bounce" style={{ animationDelay: '0.2s', animationDuration: '1.5s' }}>👇</span>
-              <span className="text-2xl sm:text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '1.5s' }}>👇</span>
-              <span className="text-2xl sm:text-4xl animate-bounce" style={{ animationDelay: '0.6s', animationDuration: '1.5s' }}>👇</span>
-            </div>
           </div>
 
           {/* YouTube Video Embed */}
@@ -235,164 +313,173 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
           )}
 
+          {/* Trusted By Section - Logo Scroll */}
+          <div className="w-full max-w-5xl mt-12 sm:mt-16">
+            <p className="text-center text-sm font-semibold text-gray-600 mb-6 tracking-wider uppercase">
+              Trusted by businesses nationwide
+            </p>
+            <div className="relative overflow-hidden">
+              {/* Gradient overlays for fade effect */}
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10" />
+              
+              {/* Scrolling container */}
+              <div className="flex logo-scroll">
+                {/* First set of logos */}
+                <div className="flex items-center gap-6 px-6">
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/jones.png" alt="Jones" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/region-scoopers.png" alt="Region Scoopers" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/atomic-air.png" alt="Atomic Air" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/unique-auto.png" alt="Unique Auto" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/sca-pontoon.png" alt="SCA Pontoon Rental" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/hoosier-stump.png" alt="Hoosier Stump Remover" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/peaks-pontoons.png" alt="Peak's Pontoons" className="max-w-full max-h-full object-contain" />
+                  </div>
+                </div>
+                
+                {/* Duplicate set for seamless loop */}
+                <div className="flex items-center gap-6 px-6">
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/jones.png" alt="Jones" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/region-scoopers.png" alt="Region Scoopers" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/atomic-air.png" alt="Atomic Air" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/unique-auto.png" alt="Unique Auto" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/sca-pontoon.png" alt="SCA Pontoon Rental" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/hoosier-stump.png" alt="Hoosier Stump Remover" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img src="/logos/peaks-pontoons.png" alt="Peak's Pontoons" className="max-w-full max-h-full object-contain" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Call AI Agent Section */}
-          <div className="w-full max-w-3xl mt-12 sm:mt-16 px-4">
+          <div className="w-full max-w-3xl mt-16 px-4">
             <div className="text-center">
               {/* Section Title */}
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-4 sm:mb-6 [font-family:'Inter',Helvetica] leading-tight">
+              <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-6">
                 Your AI Agent Wants to Talk To You, Call Now?
               </h2>
               
               {/* Section Subtext */}
-              <div className="mb-8 sm:mb-10">
-                <p className="text-base sm:text-lg text-gray-700 mb-2 [font-family:'Inter',Helvetica]">
+              <div className="mb-10">
+                <p className="leading-7 text-muted-foreground mb-2">
                   Your AI assistant is live right now.
                 </p>
-                <p className="text-base sm:text-lg text-gray-700 [font-family:'Inter',Helvetica]">
+                <p className="leading-7 text-muted-foreground">
                   It will greet you, answer questions, and show you exactly how it follows up with your leads 24/7.
                 </p>
               </div>
 
-              {/* Main CTA Button */}
-              <div className="mb-4">
-                <a
-                  href="tel:+14706651434"
-                  className="inline-flex items-center justify-center gap-3 px-8 sm:px-12 py-4 sm:py-5 text-lg sm:text-xl font-bold text-white rounded-full shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] animate-pulse-subtle"
-                  style={{
-                    background: 'linear-gradient(135deg, #22c55e 0%, #10b981 50%, #3b82f6 100%)',
-                  }}
-                >
-                  <span className="text-2xl sm:text-3xl">📞</span>
-                  <span>Call Your AI Agent</span>
-                </a>
-              </div>
-
-              {/* Failsafe Text */}
-              <div className="mb-6 sm:mb-8">
-                <p className="text-sm sm:text-base text-gray-600 flex items-center justify-center gap-2 [font-family:'Inter',Helvetica]">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                  </svg>
-                  <span>Or dial manually: <strong>+1 (470) 665-1434</strong></span>
-                </p>
+              {/* Slide to Call Button */}
+              <div className="mb-8">
+                <SlideToCallButton phoneNumber="+14706651434" />
               </div>
 
               {/* Microproof */}
               <div className="text-center">
-                <p className="text-xs sm:text-sm text-gray-500 [font-family:'Inter',Helvetica] italic">
-                  ✨ Over 50,000+ AI-led conversations completed — experience how natural it sounds.
+                <p className="text-sm text-muted-foreground italic">
+                  Over 50,000+ AI-led conversations completed — experience how natural it sounds.
                 </p>
               </div>
             </div>
           </div>
 
           {/* VA Replacement Section */}
-          <div className="w-full max-w-6xl mt-16 sm:mt-24 px-4">
+          <div className="w-full max-w-6xl mt-24 px-4">
             {/* Section Title */}
-            <div className="text-center mb-8 sm:mb-12">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-4 [font-family:'Inter',Helvetica] leading-tight">
-                All you need is one killer closer. Let AI replace the rest.<br />
-                <span className="text-red-600">Fire them.</span>
+            <div className="text-center mb-16">
+              <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 mb-3">
+                All you need is one killer closer.<br />Let AI replace the rest.
               </h2>
-              <p className="text-base sm:text-xl text-gray-700 [font-family:'Inter',Helvetica] mt-4 max-w-3xl mx-auto leading-relaxed">
-                Your best closer should only talk to <strong>qualified leads</strong> — not waste time chasing no-shows, dead leads, and unresponsive people.
-              </p>
             </div>
 
-            {/* Vertical Checkmark vs Cross Comparison */}
-            <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 mb-8 sm:mb-12">
-              {[
-                {
-                  feature: 'Speed & Scale',
-                  ai: 'Calls 200 leads instantly',
-                  va: 'Can only call a few leads at a time'
-                },
-                {
-                  feature: 'Consistent Follow-Up',
-                  ai: 'Follows up 8–12 times automatically',
-                  va: 'Forgets or gets too busy after 2-3 attempts'
-                },
-                {
-                  feature: 'Tone & Quality',
-                  ai: 'Perfect tone and consistency every single time',
-                  va: 'Depends on mood, energy, and how their day is going'
-                },
-                {
-                  feature: 'Availability',
-                  ai: 'Works 24/7 without breaks, sick days, or vacations',
-                  va: 'Limited hours, takes breaks, calls in sick'
-                },
-                {
-                  feature: 'Objection Handling',
-                  ai: 'Handles objections flawlessly using proven scripts',
-                  va: 'Struggles with tough objections or gives up'
-                },
-                {
-                  feature: 'Lead Qualification',
-                  ai: 'Qualifies leads in 30 seconds with precision',
-                  va: 'Takes 5-10 minutes and might miss red flags'
-                }
-              ].map((item, idx) => (
-                <div 
-                  key={idx} 
-                  className="bg-white rounded-xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-2xl transition-shadow duration-300"
-                >
-                  {/* Feature Name Header */}
-                  <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-4 sm:px-6 py-3 sm:py-4">
-                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white [font-family:'Inter',Helvetica]">
-                      {item.feature}
+            {/* Numbered Comparison Cards */}
+            <div className="max-w-4xl mx-auto space-y-8 sm:space-y-10">
+              {/* Card 1 - Speed & Response */}
+              <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 sm:p-8">
+                <div className="flex items-start gap-4 sm:gap-6">
+                  {/* Content */}
+                  <div className="flex-1">
+                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight mb-3">
+                      Instant response without human delays
                     </h3>
-                  </div>
-                  
-                  {/* Comparison Content */}
-                  <div className="p-4 sm:p-6 space-y-4">
-                    {/* AI - Green Checkmark */}
-                    <div className="flex items-start gap-3 bg-green-50 p-3 sm:p-4 rounded-lg border-l-4 border-green-500">
-                      <span className="text-green-600 text-xl sm:text-2xl flex-shrink-0 mt-0.5">✓</span>
-                      <div className="flex-1">
-                        <p className="text-xs sm:text-sm font-bold text-green-900 mb-1 [font-family:'Inter',Helvetica]">
-                          AI:
-                        </p>
-                        <p className="text-sm sm:text-base lg:text-lg text-gray-800 font-semibold [font-family:'Inter',Helvetica] leading-relaxed">
-                          {item.ai}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    {/* VA - Red Cross */}
-                    <div className="flex items-start gap-3 bg-red-50 p-3 sm:p-4 rounded-lg border-l-4 border-red-500">
-                      <span className="text-red-600 text-xl sm:text-2xl flex-shrink-0 mt-0.5">❌</span>
-                      <div className="flex-1">
-                        <p className="text-xs sm:text-sm font-bold text-red-900 mb-1 [font-family:'Inter',Helvetica]">
-                          VA:
-                        </p>
-                        <p className="text-sm sm:text-base lg:text-lg text-gray-800 [font-family:'Inter',Helvetica] leading-relaxed">
-                          {item.va}
-                        </p>
-                      </div>
+                    <p className="leading-7 text-muted-foreground mb-4">
+                      Your VA juggles tasks, forgets leads, and calls back hours later. AI calls within <Highlighter action="circle" color="#22c55e" strokeWidth={2} isView={true}>3 seconds</Highlighter> — every single time.
+                    </p>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm text-muted-foreground">
+                        <strong className="font-semibold"><Highlighter action="highlight" color="#fbbf24" strokeWidth={2} isView={true}>72% of Facebook leads go cold in under 5 minutes.</Highlighter></strong> AI never misses that window.
+                      </p>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
 
-            {/* Bottom CTA Block */}
-            <div className="bg-gradient-to-br from-green-50 to-blue-50 border-2 border-green-500 p-6 sm:p-8 rounded-2xl shadow-xl text-center max-w-3xl mx-auto">
-              <p className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 [font-family:'Inter',Helvetica] leading-relaxed mb-3">
-                <span className="text-green-600">Your closer talks ONLY to people who are ready to buy.</span>
-              </p>
-              <p className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 [font-family:'Inter',Helvetica] leading-relaxed">
-                AI handles the junk — without hourly wages, mistakes, delays, or attitude.
-              </p>
-            </div>
+              {/* Card 2 - Scale & Consistency */}
+              <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 sm:p-8">
+                <div className="flex items-start gap-4 sm:gap-6">
+                  {/* Content */}
+                  <div className="flex-1">
+                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight mb-3">
+                      <Highlighter action="underline" color="#22c55e" strokeWidth={2} isView={true}>Perfect follow-up</Highlighter>, unlimited scale
+                    </h3>
+                    <p className="leading-7 text-muted-foreground mb-4">
+                      VAs handle 20 leads per day and give up after 2–3 attempts. AI follows up 8–12 times automatically and calls 200+ leads simultaneously.
+                    </p>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm text-muted-foreground">
+                        <strong className="font-semibold"><Highlighter action="box" color="#22c55e" strokeWidth={2} isView={true}>Works 24/7</Highlighter>.</strong> No sick days, no breaks, no salary — just qualified leads in your calendar.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-            {/* Bottom Trust Bar */}
-            <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-4 sm:p-6 rounded-xl shadow-lg text-center mt-8 sm:mt-12">
-              <p className="text-sm sm:text-base lg:text-lg [font-family:'Inter',Helvetica] leading-relaxed">
-                <strong>Businesses waste 80% of their VA budget on chasing leads who never respond.</strong>
-                <br className="hidden sm:block" />
-                <span className="text-green-400 font-semibold"> AI eliminates that waste instantly.</span>
-              </p>
+              {/* Card 3 - Quality Control */}
+              <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 sm:p-8">
+                <div className="flex items-start gap-4 sm:gap-6">
+                  {/* Content */}
+                  <div className="flex-1">
+                    <h3 className="text-xl sm:text-2xl font-bold text-black mb-3 [font-family:'Inter',Helvetica]">
+                      Your closer only talks to <Highlighter action="highlight" color="#22c55e" isView={true}>qualified buyers</Highlighter>
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-700 mb-4 [font-family:'Inter',Helvetica] leading-relaxed">
+                      AI qualifies leads in 30 seconds using tone, intent, and keywords. Only ready-to-buy leads reach your calendar.
+                    </p>
+                    <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-600">
+                      <p className="text-xs sm:text-sm text-gray-800 font-semibold [font-family:'Inter',Helvetica]">
+                        <span className="text-green-600">No more chasing dead leads.</span> Your team closes, AI does everything else.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -415,11 +502,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                 {/* PROBLEM Section */}
                 <div className="mb-8 sm:mb-10">
                   <div className="text-center lg:text-left mb-6">
-                    <div className="inline-block lg:hidden mb-3">
-                      <span className="text-4xl">⚠️</span>
-                    </div>
                     <div className="flex items-start gap-3 lg:mb-0">
-                      <span className="text-3xl flex-shrink-0 hidden lg:inline">⚠️</span>
                       <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#7d2e2e] [font-family:'Inter',Helvetica] leading-tight">
                         Your Leads Don't Get Followed Up Fast Enough
                       </h3>
@@ -430,7 +513,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                     <li className="flex items-start gap-2 sm:gap-3">
                       <span className="text-[#7d2e2e] font-bold text-lg sm:text-xl flex-shrink-0 mt-0.5">•</span>
                       <p className="text-sm sm:text-base lg:text-lg text-gray-800 [font-family:'Inter',Helvetica] leading-relaxed">
-                        <strong className="text-[#7d2e2e] font-bold">Facebook leads go cold in under 5 minutes</strong>, but humans follow up in hours.
+                        <strong className="text-[#7d2e2e] font-bold"><Highlighter action="strike-through" color="#ef4444" strokeWidth={2} isView={true}>Facebook leads go cold in under 5 minutes</Highlighter></strong>, but humans follow up in hours.
                       </p>
                     </li>
                     <li className="flex items-start gap-2 sm:gap-3">
@@ -448,7 +531,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                     <li className="flex items-start gap-2 sm:gap-3">
                       <span className="text-[#7d2e2e] font-bold text-lg sm:text-xl flex-shrink-0 mt-0.5">•</span>
                       <p className="text-sm sm:text-base lg:text-lg text-gray-800 [font-family:'Inter',Helvetica] leading-relaxed">
-                        <strong className="text-[#7d2e2e] font-bold">72% of your ad spend gets wasted</strong> because no one responds instantly.
+                        <strong className="text-[#7d2e2e] font-bold"><Highlighter action="highlight" color="#fca5a5" strokeWidth={2} isView={true}>72% of your ad spend gets wasted</Highlighter></strong> because no one responds instantly.
                       </p>
                     </li>
                   </ul>
@@ -467,7 +550,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                   <ul className="space-y-2 sm:space-y-3 mb-5 sm:mb-6">
                     {['talk to your competitor', 'forget who you are', 'lose interest', 'assume you don\'t care', 'move on'].map((item, idx) => (
                       <li key={idx} className="flex items-center gap-2 sm:gap-3">
-                        <span className="text-red-600 text-lg sm:text-xl">❌</span>
+                        <span className="text-red-600 text-lg sm:text-xl font-bold">•</span>
                         <span className="text-sm sm:text-base lg:text-lg text-gray-800 [font-family:'Inter',Helvetica]">{item}</span>
                       </li>
                     ))}
@@ -490,11 +573,7 @@ export const PersonalizedLanding = (): JSX.Element => {
               {/* RIGHT SIDE - SOLUTION */}
               <div className="bg-white p-6 sm:p-8 lg:p-10">
                 <div className="text-center lg:text-left mb-6">
-                  <div className="inline-block lg:hidden mb-3">
-                    <span className="text-4xl">✅</span>
-                  </div>
                   <div className="flex items-start gap-3 lg:mb-0">
-                    
                     <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-900 [font-family:'Inter',Helvetica] leading-tight">
                       Your AI Responds Immediately. Every Time. Without Failing.
                     </h3>
@@ -505,41 +584,47 @@ export const PersonalizedLanding = (): JSX.Element => {
                   The moment a lead comes in:
                 </p>
                 
-                <ul className="space-y-4 sm:space-y-5 mb-6 sm:mb-8">
+                  <ul className="space-y-4 sm:space-y-5 mb-6 sm:mb-8">
                   {[
-                    { icon: '⚡', text: 'AI calls within 1–2 seconds' },
-                    { icon: '💬', text: 'AI texts immediately' },
-                    { icon: '🎯', text: 'AI handles objections' },
-                    { icon: '📅', text: 'AI books appointments' },
-                    { icon: '🔄', text: 'AI follows up for days automatically' },
-                    { icon: '🌙', text: 'AI never sleeps, never forgets, never gets tired' }
+                    { text: 'AI calls within 1–2 seconds', highlight: true },
+                    { text: 'AI texts immediately', highlight: false },
+                    { text: 'AI handles objections', highlight: false },
+                    { text: 'AI books appointments', highlight: false },
+                    { text: 'AI follows up for days automatically', highlight: true },
+                    { text: 'AI never sleeps, never forgets, never gets tired', highlight: true }
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3 sm:gap-4">
-                      <span className="text-xl sm:text-2xl flex-shrink-0">{item.icon}</span>
+                      <span className="text-green-600 text-xl flex-shrink-0 mt-1 font-bold">•</span>
                       <div className="flex-1">
                         <p className="text-sm sm:text-base lg:text-lg text-gray-800 font-semibold [font-family:'Inter',Helvetica] leading-relaxed">
-                          {item.text}
+                          {item.highlight ? (
+                            <Highlighter action="highlight" color="#86efac" strokeWidth={1.5} isView={true}>
+                              {item.text}
+                            </Highlighter>
+                          ) : (
+                            item.text
+                          )}
                         </p>
                       </div>
                     </li>
                   ))}
                 </ul>
                 
-                <div className="bg-gradient-to-r from-green-50 to-blue-50 border-l-4 border-green-500 p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
+                <div className="bg-green-50 border-l-4 border-green-600 p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
                   <p className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 [font-family:'Inter',Helvetica] leading-relaxed">
-                    Where humans drop the ball, <span className="text-green-600">AI performs perfectly.</span>
+                    Where humans drop the ball, <span className="text-green-600"><Highlighter action="box" color="#22c55e" strokeWidth={2} isView={true}>AI performs perfectly</Highlighter>.</span>
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Final Contrasting Block */}
-            <div className="bg-gradient-to-r from-gray-900 to-black text-white p-6 sm:p-8 lg:p-12 rounded-2xl shadow-2xl text-center">
+            <div className="bg-gray-900 text-white p-6 sm:p-8 lg:p-12 rounded-2xl shadow-2xl text-center">
               <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold [font-family:'Inter',Helvetica] leading-relaxed">
                 <strong>Your follow-up decides whether you make money or lose money.</strong>
               </p>
               <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold [font-family:'Inter',Helvetica] leading-relaxed mt-3 sm:mt-4 text-green-400">
-                AI makes sure you never lose again.
+                <Highlighter action="underline" color="#4ade80" strokeWidth={3} isView={true}>AI makes sure you never lose again.</Highlighter>
               </p>
             </div>
           </div>
@@ -549,7 +634,7 @@ export const PersonalizedLanding = (): JSX.Element => {
             {/* 1. Top Banner */}
             <div className="mb-8 sm:mb-12">
               <div className="relative inline-block w-full">
-                <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 text-white text-center py-2 sm:py-3 rounded-lg shadow-lg overflow-hidden">
+                <div className="bg-gradient-to-r from-green-600 to-green-700 text-white text-center py-2 sm:py-3 rounded-lg shadow-lg overflow-hidden">
                   <div className="relative z-10">
                     <p className="text-xs sm:text-sm font-bold tracking-widest uppercase [font-family:'Inter',Helvetica]">
                       Testimonial-Only Access
@@ -570,7 +655,7 @@ export const PersonalizedLanding = (): JSX.Element => {
             {/* 2. Hero Headline Block */}
             <div className="text-center mb-10 sm:mb-14">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-4 sm:mb-6 [font-family:'Inter',Helvetica] leading-tight">
-                We Want Your Testimonial — So You Get a Ridiculous Discount.
+                We Want Your Testimonial — So You Get a <Highlighter action="highlight" color="#fde047" strokeWidth={2} isView={true}>Ridiculous Discount</Highlighter>.
               </h2>
               <p className="text-base sm:text-xl text-gray-600 [font-family:'Inter',Helvetica]">
                 Get the full AI Outreach System for a price we will never offer again.
@@ -601,7 +686,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                       
                       <button
                         onClick={() => setPriceRevealed(true)}
-                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold text-base sm:text-lg py-3 sm:py-4 px-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 [font-family:'Inter',Helvetica]"
+                        className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold text-base sm:text-lg py-3 sm:py-4 px-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 [font-family:'Inter',Helvetica]"
                       >
                         Reveal My Discount
                       </button>
@@ -622,7 +707,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                         </div>
                         <div className="mb-4">
                           <span className="text-6xl sm:text-8xl font-extrabold text-green-600 [font-family:'Inter',Helvetica]">
-                            $200
+                            <Highlighter action="circle" color="#22c55e" strokeWidth={4} isView={true}>$200</Highlighter>
                           </span>
                           <p className="text-base sm:text-lg text-gray-700 font-semibold mt-2 [font-family:'Inter',Helvetica]">
                             Testimonial-Only Price
@@ -668,7 +753,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                 ))}
               </div>
               
-              <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-l-4 border-purple-500 p-4 sm:p-6 rounded-lg text-center">
+              <div className="bg-green-50 border-l-4 border-green-600 p-4 sm:p-6 rounded-lg text-center">
                 <p className="text-base sm:text-lg font-semibold text-gray-800 [font-family:'Inter',Helvetica] italic">
                   All we ask in return: a simple testimonial once you get results.
                 </p>
@@ -690,10 +775,10 @@ export const PersonalizedLanding = (): JSX.Element => {
 
             {/* 8. Guarantee Section */}
             <div className="flex flex-col items-center mb-10 sm:mb-14">
-              <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-blue-200 text-center max-w-2xl">
-                <div className="inline-block bg-blue-600 text-white rounded-full px-4 py-2 mb-4">
+              <div className="bg-gray-50 p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-gray-200 text-center max-w-2xl">
+                <div className="inline-block bg-green-600 text-white rounded-full px-4 py-2 mb-4">
                   <p className="text-sm sm:text-base font-bold [font-family:'Inter',Helvetica]">
-                    🛡️ 14-Day Lead-Proof Guarantee
+                    <Highlighter action="box" color="#ffffff" strokeWidth={2} isView={true}>14-Day Lead-Proof Guarantee</Highlighter>
                   </p>
                 </div>
                 <p className="text-base sm:text-lg text-gray-800 [font-family:'Inter',Helvetica]">
@@ -722,78 +807,69 @@ export const PersonalizedLanding = (): JSX.Element => {
           {/* FAQ Section */}
           <div className="w-full max-w-4xl mt-16 sm:mt-24 px-4">
             {/* Section Title */}
-            <div className="text-center mb-10 sm:mb-14">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black mb-4 [font-family:'Inter',Helvetica] leading-tight">
-                Frequently Asked Questions
+            <div className="mb-12 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black [font-family:'Inter',Helvetica] leading-tight">
+                Still have questions? We have answers.
               </h2>
-              <p className="text-base sm:text-lg text-gray-600 [font-family:'Inter',Helvetica]">
-                Everything you need to know about your AI Outreach System
-              </p>
             </div>
 
             {/* FAQ Accordion */}
-            <div className="space-y-4 mb-10 sm:mb-14">
+            <div className="mb-10 sm:mb-14">
               {faqs.map((faq, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg"
+                  className="border-t border-gray-200"
                 >
                   {/* Question Header - Clickable */}
                   <button
                     onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                    className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left transition-colors duration-200 hover:bg-gray-50"
+                    className="w-full flex items-center justify-between gap-4 py-6 text-left"
                   >
-                    <div className="flex items-start gap-3 sm:gap-4 flex-1">
-                      <span className="text-2xl sm:text-3xl flex-shrink-0 mt-0.5">{faq.icon}</span>
-                      <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 [font-family:'Inter',Helvetica] leading-snug">
-                        {faq.question}
-                      </h3>
-                    </div>
+                    <h3 className="text-lg sm:text-xl font-normal text-gray-900 [font-family:'Inter',Helvetica] leading-snug pr-4">
+                      {faq.question}
+                    </h3>
                     <div className="flex-shrink-0">
-                      <svg
-                        className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-600 transition-transform duration-300 ${
-                          openFaqIndex === index ? 'rotate-180' : ''
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                        <svg
+                          className={`w-4 h-4 text-gray-600 transition-transform duration-200 ${
+                            openFaqIndex === index ? 'rotate-180' : ''
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
                     </div>
                   </button>
 
                   {/* Answer Panel - Expandable */}
                   <div
-                    className={`transition-all duration-300 ease-in-out ${
-                      openFaqIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                    className={`transition-all duration-200 ease-in-out ${
+                      openFaqIndex === index ? 'max-h-96 pb-6' : 'max-h-0'
                     } overflow-hidden`}
                   >
-                    <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-2">
-                      <div className="pl-10 sm:pl-14 border-l-4 border-green-500">
-                        <div className="pl-4">
-                          {/* Short Answer */}
-                          <div className="mb-3 sm:mb-4">
-                            <p className="text-sm sm:text-base font-semibold text-green-700 [font-family:'Inter',Helvetica] mb-1">
-                              Quick Answer:
-                            </p>
-                            <p className="text-base sm:text-lg font-bold text-gray-900 [font-family:'Inter',Helvetica]">
-                              {faq.shortAnswer}
-                            </p>
-                          </div>
+                    <div className="pr-8">
+                      {/* Short Answer */}
+                      <div className="mb-3">
+                        <p className="text-base sm:text-lg font-semibold text-black [font-family:'Inter',Helvetica]">
+                          {faq.shortAnswer}
+                        </p>
+                      </div>
 
-                          {/* Full Answer */}
-                          <div>
-                            <p className="text-sm sm:text-base text-gray-700 [font-family:'Inter',Helvetica] leading-relaxed">
-                              {faq.fullAnswer}
-                            </p>
-                          </div>
-                        </div>
+                      {/* Full Answer */}
+                      <div>
+                        <p className="text-base sm:text-lg text-gray-600 [font-family:'Inter',Helvetica] leading-relaxed">
+                          {faq.fullAnswer}
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
+              {/* Bottom Border */}
+              <div className="border-t border-gray-200"></div>
             </div>
 
             {/* CTA After FAQ */}
@@ -813,10 +889,7 @@ export const PersonalizedLanding = (): JSX.Element => {
           {/* Final CTA Section */}
           <div className="w-full max-w-6xl mt-16 sm:mt-24 px-4 mb-12 sm:mb-16">
             <div 
-              className="relative rounded-3xl overflow-hidden shadow-2xl"
-              style={{
-                background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #065f46 100%)',
-              }}
+              className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-900 to-gray-800"
             >
               {/* Subtle spotlight effect */}
               <div 
@@ -862,8 +935,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                   {/* Secondary CTA */}
                   <a
                     href="tel:+14706651434"
-                    className="w-full max-w-md bg-transparent border-3 border-white hover:bg-white hover:text-gray-900 text-white font-bold text-base sm:text-lg py-4 sm:py-5 px-8 rounded-2xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 [font-family:'Inter',Helvetica]"
-                    style={{ borderWidth: '2px' }}
+                    className="w-full max-w-md bg-white hover:bg-gray-50 text-gray-900 font-bold text-base sm:text-lg py-4 sm:py-5 px-8 rounded-2xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 [font-family:'Inter',Helvetica]"
                   >
                     Let the AI Call Me
                   </a>
@@ -872,21 +944,18 @@ export const PersonalizedLanding = (): JSX.Element => {
                 {/* Micro-Trust Boost */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-3xl mx-auto">
                   <div className="flex flex-col items-center">
-                    <span className="text-3xl sm:text-4xl mb-2">⚡</span>
                     <p className="text-sm sm:text-base text-white font-semibold [font-family:'Inter',Helvetica]">
                       1.2-sec lead response
                     </p>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <span className="text-3xl sm:text-4xl mb-2">📈</span>
                     <p className="text-sm sm:text-base text-white font-semibold [font-family:'Inter',Helvetica]">
                       Boost ROAS & bookings
                     </p>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <span className="text-3xl sm:text-4xl mb-2">🛠️</span>
                     <p className="text-sm sm:text-base text-white font-semibold [font-family:'Inter',Helvetica]">
                       No setup required
                     </p>
@@ -929,6 +998,23 @@ export const PersonalizedLanding = (): JSX.Element => {
           50% {
             transform: translateY(-4px);
           }
+        }
+        
+        @keyframes logoScroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        .logo-scroll {
+          animation: logoScroll 20s linear infinite;
+        }
+        
+        .logo-scroll:hover {
+          animation-play-state: paused;
         }
       `}</style>
     </div>

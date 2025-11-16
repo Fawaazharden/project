@@ -279,6 +279,71 @@ export const Vocalx = (): JSX.Element => {
           {/* Overlay to hide Spline logo */}
           <div className="absolute bottom-0 right-0 w-48 h-16 bg-white"></div> {/* Increased height further to cover logo */}
         </div>
+
+        {/* Trusted By Section - Logo Scroll */}
+        <div className="w-full max-w-5xl mx-auto mt-12 sm:mt-16 mb-8">
+          <p className="text-center text-sm font-semibold text-gray-600 mb-6 tracking-wider uppercase">
+            Trusted by businesses nationwide
+          </p>
+          <div className="relative overflow-hidden">
+            {/* Gradient overlays for fade effect */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10" />
+            
+            {/* Scrolling container */}
+            <div className="flex logo-scroll">
+              {/* First set of logos */}
+              <div className="flex items-center gap-6 px-6">
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/jones.png" alt="Jones" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/region-scoopers.png" alt="Region Scoopers" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/atomic-air.png" alt="Atomic Air" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/unique-auto.png" alt="Unique Auto" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/sca-pontoon.png" alt="SCA Pontoon Rental" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/hoosier-stump.png" alt="Hoosier Stump Remover" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/peaks-pontoons.png" alt="Peak's Pontoons" className="max-w-full max-h-full object-contain" />
+                </div>
+              </div>
+              
+              {/* Duplicate set for seamless loop */}
+              <div className="flex items-center gap-6 px-6">
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/jones.png" alt="Jones" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/region-scoopers.png" alt="Region Scoopers" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/atomic-air.png" alt="Atomic Air" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/unique-auto.png" alt="Unique Auto" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/sca-pontoon.png" alt="SCA Pontoon Rental" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/hoosier-stump.png" alt="Hoosier Stump Remover" className="max-w-full max-h-full object-contain" />
+                </div>
+                <div className="flex-shrink-0 w-32 h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                  <img src="/logos/peaks-pontoons.png" alt="Peak's Pontoons" className="max-w-full max-h-full object-contain" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </header>
 
       {/* Removed CTA Button from here (moved above) */}
@@ -872,6 +937,26 @@ export const Vocalx = (): JSX.Element => {
           }
         ])}
       </script>
+
+      {/* Logo Scroll Animation */}
+      <style>{`
+        @keyframes logoScroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        .logo-scroll {
+          animation: logoScroll 20s linear infinite;
+        }
+        
+        .logo-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   );
 };
