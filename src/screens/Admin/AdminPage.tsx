@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
-import { MenuIcon, XIcon, Trash2Icon } from "lucide-react";
+import { MenuIcon, XIcon, Trash2Icon, Upload, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { createPersonalizedPage } from "../../lib/sanity";
 
@@ -17,6 +17,9 @@ export const AdminPage = (): JSX.Element => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Navigation items - same as main page for consistency
   const navItems = [
@@ -79,6 +82,48 @@ export const AdminPage = (): JSX.Element => {
       return date.toLocaleString();
     } catch {
       return dateString;
+    }
+  };
+
+  // Handle file selection
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      setLogoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle paste from clipboard
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items;
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.startsWith('image/')) {
+          const file = items[i].getAsFile();
+          if (file) {
+            setLogoFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setLogoPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      }
+    }
+  };
+
+  // Remove logo
+  const removeLogo = () => {
+    setLogoFile(null);
+    setLogoPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -205,9 +250,10 @@ export const AdminPage = (): JSX.Element => {
                   }
                   
                   try {
-                    await createPersonalizedPage(businessName.trim(), youtubeUrl.trim());
+                    await createPersonalizedPage(businessName.trim(), youtubeUrl.trim(), logoFile || undefined);
                     alert(`✅ Landing page created!\n\nURL: vocalxlabs.com/${businessName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')}`);
                     e.currentTarget.reset();
+                    removeLogo();
                   } catch (error) {
                     console.error('Error creating page:', error);
                     alert('❌ Error creating landing page. Please try again.');
@@ -226,6 +272,53 @@ export const AdminPage = (): JSX.Element => {
                       className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8]"
                     />
                     <p className="text-xs text-gray-500 mt-1">This will be converted to a URL-friendly slug</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <label htmlFor="businessLogo" className="block text-gray-700 text-sm font-bold mb-2">
+                      Business Logo (Optional)
+                    </label>
+                    <div 
+                      className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#717fe8] transition-colors cursor-pointer"
+                      onClick={() => fileInputRef.current?.click()}
+                      onPaste={handlePaste}
+                      tabIndex={0}
+                    >
+                      {logoPreview ? (
+                        <div className="relative inline-block">
+                          <img 
+                            src={logoPreview} 
+                            alt="Logo preview" 
+                            className="max-h-32 mx-auto object-contain"
+                          />
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeLogo();
+                            }}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div>
+                          <Upload className="h-12 w-12 mx-auto text-gray-400 mb-2" />
+                          <p className="text-gray-600 mb-1">Click to upload or paste image from clipboard</p>
+                          <p className="text-xs text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                        </div>
+                      )}
+                    </div>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      id="businessLogo"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Upload the business logo to show partnership (Vocalx & Their Logo)</p>
                   </div>
                   
                   <div className="mb-6">

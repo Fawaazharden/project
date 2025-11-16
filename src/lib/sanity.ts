@@ -103,6 +103,9 @@ export async function getPersonalizedPageBySlug(slug: string) {
       businessName,
       slug,
       youtubeUrl,
+      businessLogo {
+        asset->
+      },
       createdAt
     }
   `, { slug });
@@ -116,17 +119,45 @@ export async function getAllPersonalizedPages() {
       businessName,
       slug,
       youtubeUrl,
+      businessLogo {
+        asset->
+      },
       createdAt
     }
   `);
 }
 
+// Upload image to Sanity
+export async function uploadImage(file: File) {
+  return client.assets.upload('image', file, {
+    filename: file.name,
+  });
+}
+
 // Create a new personalized page
-export async function createPersonalizedPage(businessName: string, youtubeUrl: string) {
+export async function createPersonalizedPage(
+  businessName: string, 
+  youtubeUrl: string, 
+  logoFile?: File
+) {
   const slug = businessName
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^\w\-]+/g, '');
+  
+  let businessLogo = null;
+  
+  // Upload logo if provided
+  if (logoFile) {
+    const uploadedImage = await uploadImage(logoFile);
+    businessLogo = {
+      _type: 'image',
+      asset: {
+        _type: 'reference',
+        _ref: uploadedImage._id
+      }
+    };
+  }
   
   return client.create({
     _type: 'personalizedPage',
@@ -136,6 +167,7 @@ export async function createPersonalizedPage(businessName: string, youtubeUrl: s
       current: slug
     },
     youtubeUrl,
+    ...(businessLogo && { businessLogo }),
     createdAt: new Date().toISOString()
   });
 }
