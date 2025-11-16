@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type HTMLAttributes, type ReactNode } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getPersonalizedPageBySlug, extractYouTubeVideoId, urlFor } from "../../lib/sanity";
 import { Highlighter } from "../../components/ui/highlighter";
 import { ShineBorder } from "../../components/ui/shine-border";
-import { Marquee } from "../../components/ui/marquee";
 import {
   Carousel,
   CarouselContent,
@@ -13,7 +12,7 @@ import {
   type CarouselApi,
 } from "../../components/ui/carousel";
 import { Phone, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
+import { motion, useMotionValue, useTransform, PanInfo, useInView } from "framer-motion";
 import confetti from "canvas-confetti";
 
 interface FAQ {
@@ -26,15 +25,44 @@ interface FAQ {
 // Slide to Call Button Component
 const SlideToCallButton = ({ phoneNumber }: { phoneNumber: string }) => {
   const x = useMotionValue(0);
-  const background = useTransform(x, [0, 300], ["#16a34a", "#15803d"]);
-  const sliderWidth = 280; // Adjust based on container width
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [maxDragDistance, setMaxDragDistance] = useState(300);
+  
+  // Calculate drag constraints on mount and resize
+  useEffect(() => {
+    const calculateConstraints = () => {
+      if (trackRef.current) {
+        const trackWidth = trackRef.current.offsetWidth;
+        const buttonWidth = 64; // w-16 = 4rem = 64px
+        const padding = 8; // left-2 = 0.5rem = 8px on left, same on right
+        const maxDrag = trackWidth - buttonWidth - (padding * 2);
+        setMaxDragDistance(maxDrag);
+      }
+    };
+    
+    calculateConstraints();
+    window.addEventListener('resize', calculateConstraints);
+    return () => window.removeEventListener('resize', calculateConstraints);
+  }, []);
+  
+  const background = useTransform(x, [0, maxDragDistance], ["#16a34a", "#15803d"]);
   
   const handleDragEnd = (_event: any, info: PanInfo) => {
-    if (info.offset.x > sliderWidth * 0.85) {
+    // Calculate if the edge of the button reached the end (95% threshold for better UX)
+    const threshold = maxDragDistance * 0.95;
+    
+    if (info.point.x >= threshold || x.get() >= threshold) {
+      // Trigger the call
       setTimeout(() => {
         window.location.href = `tel:${phoneNumber}`;
-      }, 200);
+      }, 100);
+      // Slide back after triggering
+      setTimeout(() => {
+        x.set(0);
+      }, 300);
     } else {
+      // Animate back to start with spring animation
+      x.stop();
       x.set(0);
     }
   };
@@ -51,6 +79,7 @@ const SlideToCallButton = ({ phoneNumber }: { phoneNumber: string }) => {
       
       {/* Slider Track */}
       <motion.div 
+        ref={trackRef}
         style={{ background }}
         className="relative h-20 rounded-full shadow-2xl overflow-hidden border-2 border-green-700"
       >
@@ -70,12 +99,15 @@ const SlideToCallButton = ({ phoneNumber }: { phoneNumber: string }) => {
         {/* Draggable Phone Icon Button */}
         <motion.div
           drag="x"
-          dragConstraints={{ left: 0, right: sliderWidth }}
-          dragElastic={0.1}
+          dragConstraints={{ left: 0, right: maxDragDistance }}
+          dragElastic={0.05}
+          dragMomentum={false}
           style={{ x }}
           onDragEnd={handleDragEnd}
+          animate={{ x }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="absolute left-2 top-2 bottom-2 w-16 bg-white rounded-full shadow-xl cursor-grab active:cursor-grabbing flex items-center justify-center z-10"
-          whileTap={{ scale: 1.1 }}
+          whileTap={{ scale: 1.05 }}
         >
           {/* Vibrating Phone Icon */}
           <motion.div
@@ -128,6 +160,64 @@ const TestimonialCard = ({ name, business, text }: TestimonialCardProps) => {
   );
 };
 
+interface ScrollRevealProps extends HTMLAttributes<HTMLDivElement> {
+  delay?: number;
+  yOffset?: number;
+  onReveal?: () => void;
+  children: ReactNode;
+}
+
+const ScrollReveal = ({
+  children,
+  className = "",
+  delay = 0,
+  yOffset = 40,
+  onReveal,
+  ...rest
+}: ScrollRevealProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const hasRevealedRef = useRef(false);
+  const isInView = useInView(ref, { once: true, margin: "-15%" });
+
+  useEffect(() => {
+    if (isInView && onReveal && !hasRevealedRef.current) {
+      hasRevealedRef.current = true;
+      onReveal();
+    }
+  }, [isInView, onReveal]);
+
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y: yOffset }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: yOffset }}
+      transition={{ duration: 0.8, ease: "easeOut", delay }}
+      {...rest}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const AnimatedHighlight = ({ children }: { children: ReactNode }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-15%" });
+
+  return (
+    <span ref={ref} className="relative inline-flex px-1">
+      <motion.span
+        className="absolute inset-x-0 inset-y-[0.15em] rounded-sm bg-[#fde047]"
+        initial={{ scaleX: 0, originX: 0 }}
+        animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        aria-hidden="true"
+      />
+      <span className="relative z-10">{children}</span>
+    </span>
+  );
+};
+
 export const PersonalizedLanding = (): JSX.Element => {
   const { businessName } = useParams<{ businessName: string }>();
   const navigate = useNavigate();
@@ -140,6 +230,8 @@ export const PersonalizedLanding = (): JSX.Element => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slideCount, setSlideCount] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isUserInteractingRef = useRef(false);
 
   const handleRevealPrice = () => {
     setPriceRevealed(true);
@@ -263,6 +355,61 @@ export const PersonalizedLanding = (): JSX.Element => {
       setCurrentSlide(carouselApi.selectedScrollSnap());
     });
   }, [carouselApi]);
+
+  // Auto-scroll testimonials with pause on interaction
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let animationId: number;
+    let lastTime = performance.now();
+    const scrollSpeed = 60; // pixels per second for clear movement
+
+    const autoScroll = (time: number) => {
+      if (!isUserInteractingRef.current) {
+        const deltaSeconds = (time - lastTime) / 1000;
+        container.scrollLeft += scrollSpeed * deltaSeconds;
+
+        const loopPoint = container.scrollWidth - container.clientWidth;
+        if (loopPoint > 0 && container.scrollLeft >= loopPoint) {
+          container.scrollLeft = 0;
+        }
+      }
+      lastTime = time;
+      animationId = requestAnimationFrame(autoScroll);
+    };
+
+    animationId = requestAnimationFrame(autoScroll);
+
+    const startInteraction = () => {
+      isUserInteractingRef.current = true;
+      lastTime = performance.now();
+    };
+
+    const endInteraction = () => {
+      isUserInteractingRef.current = false;
+      lastTime = performance.now();
+    };
+
+    const passiveOptions = { passive: true as const };
+
+    container.addEventListener("pointerdown", startInteraction);
+    container.addEventListener("pointerup", endInteraction);
+    container.addEventListener("pointerleave", endInteraction);
+    container.addEventListener("pointercancel", endInteraction);
+    container.addEventListener("touchstart", startInteraction, passiveOptions);
+    container.addEventListener("touchend", endInteraction);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      container.removeEventListener("pointerdown", startInteraction);
+      container.removeEventListener("pointerup", endInteraction);
+      container.removeEventListener("pointerleave", endInteraction);
+      container.removeEventListener("pointercancel", endInteraction);
+      container.removeEventListener("touchstart", startInteraction, passiveOptions);
+      container.removeEventListener("touchend", endInteraction);
+    };
+  }, [pageData, loading]);
 
   useEffect(() => {
     const fetchPage = async () => {
@@ -400,7 +547,7 @@ export const PersonalizedLanding = (): JSX.Element => {
           )}
 
           {/* Trusted By Section - Logo Scroll */}
-          <div className="w-full max-w-5xl mt-12 sm:mt-16">
+          <ScrollReveal className="w-full max-w-5xl mt-12 sm:mt-16">
             <p className="text-center text-sm font-semibold text-muted-foreground mb-6 tracking-wider uppercase">
               Trusted by businesses nationwide
             </p>
@@ -462,42 +609,276 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
-          {/* Call AI Agent Section */}
-          <div className="w-full max-w-3xl mt-16 px-4">
-            <div className="text-center">
-              {/* Section Title */}
-              <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-6">
-                Your AI Agent Wants to Talk To You, Call Now?
-              </h2>
-              
-              {/* Section Subtext */}
-              <div className="mb-10">
-                <p className="leading-7 text-muted-foreground mb-2">
-                  Your AI assistant is live right now.
-                </p>
-                <p className="leading-7 text-muted-foreground">
-                  It will greet you, answer questions, and show you exactly how it follows up with your leads 24/7.
-                </p>
+          {/* Call AI Agent + Testimonials Section */}
+          <ScrollReveal className="w-full mt-16 sm:mt-24 px-4">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+              <div className="w-full max-w-3xl lg:max-w-none mx-auto lg:mx-0">
+                <div className="text-center">
+                  {/* Section Title */}
+                  <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-6">
+                    Your AI Agent Wants to Talk To You, Call Now?
+                  </h2>
+                  
+                  {/* Section Subtext */}
+                  <div className="mb-10">
+                    <p className="leading-7 text-muted-foreground mb-2">
+                      Your AI assistant is live right now.
+                    </p>
+                    <p className="leading-7 text-muted-foreground">
+                      It will greet you, answer questions, and show you exactly how it follows up with your leads 24/7.
+                    </p>
+                  </div>
+
+                  {/* Slide to Call Button */}
+                  <div className="mb-8">
+                    <SlideToCallButton phoneNumber="+14706651434" />
+                  </div>
+
+                  {/* Microproof */}
+                  <div className="text-center">
+                    <p className="text-sm text-muted-foreground italic">
+                      Over 50,000+ AI-led conversations completed — experience how natural it sounds.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              {/* Slide to Call Button */}
-              <div className="mb-8">
-                <SlideToCallButton phoneNumber="+14706651434" />
-              </div>
+              <div className="w-full">
+                {/* Testimonials Section */}
+                <div className="text-center mb-12 sm:mb-16">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 leading-tight">
+                    Real Businesses. Real Results.
+                  </h2>
+                  <p className="text-base sm:text-xl text-muted-foreground">
+                    See what happens when AI handles your follow-up
+                  </p>
+                </div>
 
-              {/* Microproof */}
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground italic">
-                  Over 50,000+ AI-led conversations completed — experience how natural it sounds.
-                </p>
+                {/* Video Testimonials Carousel - Portrait Format */}
+                <div className="w-full max-w-5xl mx-auto mb-12 sm:mb-16">
+                  {/* Swipe hint for mobile */}
+                  <div className="text-center mb-4 md:hidden">
+                    <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                      <motion.div
+                        animate={{ x: [-5, 5, -5] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </motion.div>
+                      <span className="font-medium">Swipe to see more testimonials</span>
+                      <motion.div
+                        animate={{ x: [-5, 5, -5] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  <Carousel
+                    setApi={setCarouselApi}
+                    opts={{
+                      align: "center",
+                      loop: true,
+                      dragFree: false,
+                      containScroll: "trimSnaps",
+                    }}
+                    className="w-full"
+                  >
+                    <CarouselContent className="-ml-4" style={{ touchAction: 'pan-y pinch-zoom' }}>
+                      {/* Video 1 */}
+                      <CarouselItem className="pl-4 md:basis-1/2">
+                        <div className="w-full max-w-sm mx-auto">
+                          <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-200" style={{ aspectRatio: '9/16' }}>
+                            <iframe
+                              className="absolute inset-0 w-full h-full pointer-events-auto"
+                              src="https://www.youtube.com/embed/uAwBPvVf-IY"
+                              title="Client Video Testimonial 1"
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            ></iframe>
+                          </div>
+                        </div>
+                      </CarouselItem>
+
+                      {/* Video 2 */}
+                      <CarouselItem className="pl-4 md:basis-1/2">
+                        <div className="w-full max-w-sm mx-auto">
+                          <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-200" style={{ aspectRatio: '9/16' }}>
+                            <iframe
+                              className="absolute inset-0 w-full h-full pointer-events-auto"
+                              src="https://www.youtube.com/embed/IHCZarbiUj0"
+                              title="Client Video Testimonial 2"
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            ></iframe>
+                          </div>
+                        </div>
+                      </CarouselItem>
+                    </CarouselContent>
+                    <CarouselPrevious className="hidden md:flex" />
+                    <CarouselNext className="hidden md:flex" />
+                  </Carousel>
+
+                  {/* Pagination Dots */}
+                  <div className="flex justify-center gap-2 mt-6">
+                    {Array.from({ length: slideCount }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => carouselApi?.scrollTo(index)}
+                        className={`transition-all duration-300 rounded-full ${
+                          index === currentSlide
+                            ? 'w-8 h-3 bg-green-600'
+                            : 'w-3 h-3 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Slide counter for desktop */}
+                  <div className="hidden md:block text-center mt-4">
+                    <p className="text-sm text-muted-foreground">
+                      Video {currentSlide + 1} of {slideCount}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Text Testimonials - Auto-scrolling with Interactive Touch/Drag */}
+                <div className="relative w-full max-w-7xl mx-auto">
+                  {/* Scroll hint */}
+                  <div className="text-center mb-4">
+                    <p className="text-xs text-muted-foreground">
+                
+                      <span className="hidden md:inline">Click & drag to control speed</span>
+                    </p>
+                  </div>
+                  
+                  {/* Interactive auto-scrolling container */}
+                  <div 
+                    ref={scrollContainerRef}
+                    className="cursor-grab active:cursor-grabbing overflow-x-auto scrollbar-hide"
+                    style={{ 
+                      WebkitOverflowScrolling: 'touch',
+                      scrollbarWidth: 'none',
+                      msOverflowStyle: 'none'
+                    }}
+                  >
+                    <div className="flex flex-nowrap gap-4 px-4 pb-4">
+                      {/* First set of testimonials */}
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Mike Johnson"
+                          business="Jones"
+                          text="We went from losing 60% of our leads to booking 4-5 calls daily. The AI never sleeps and never misses a lead."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="David Chen"
+                          business="Atomic Air"
+                          text="ROI in week one. The speed alone is worth it—leads get called in 2 seconds, not 2 hours."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Lisa Thompson"
+                          business="Peak's Pontoons"
+                          text="I was skeptical until I called my own AI. It sounds completely natural. Customers can't tell it's not human."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Robert Garcia"
+                          business="Unique Auto"
+                          text="Finally, consistent follow-up without hiring more staff. It qualifies, books, and follows up automatically."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Amanda Wilson"
+                          business="SCA Pontoon Rental"
+                          text="We doubled our bookings without spending more on ads. The AI just converts better because it's instant."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="James Mitchell"
+                          business="Region Scoopers"
+                          text="Our close rate went up 40% in the first month. The AI pre-qualifies so well that my team only talks to serious buyers."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Rachel Lee"
+                          business="Hoosier Stump Removal"
+                          text="I used to lose leads overnight. Now the AI calls them at 11 PM if they submit then. No more missed opportunities."
+                        />
+                      </div>
+                      
+                      {/* Duplicate set for seamless looping */}
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Mike Johnson"
+                          business="Jones"
+                          text="We went from losing 60% of our leads to booking 4-5 calls daily. The AI never sleeps and never misses a lead."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="David Chen"
+                          business="Atomic Air"
+                          text="ROI in week one. The speed alone is worth it—leads get called in 2 seconds, not 2 hours."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Lisa Thompson"
+                          business="Peak's Pontoons"
+                          text="I was skeptical until I called my own AI. It sounds completely natural. Customers can't tell it's not human."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Robert Garcia"
+                          business="Unique Auto"
+                          text="Finally, consistent follow-up without hiring more staff. It qualifies, books, and follows up automatically."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Amanda Wilson"
+                          business="SCA Pontoon Rental"
+                          text="We doubled our bookings without spending more on ads. The AI just converts better because it's instant."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="James Mitchell"
+                          business="Region Scoopers"
+                          text="Our close rate went up 40% in the first month. The AI pre-qualifies so well that my team only talks to serious buyers."
+                        />
+                      </div>
+                      <div className="shrink-0">
+                        <TestimonialCard
+                          name="Rachel Lee"
+                          business="Hoosier Stump Removal"
+                          text="I used to lose leads overnight. Now the AI calls them at 11 PM if they submit then. No more missed opportunities."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* VA Replacement Section */}
-          <div className="w-full max-w-6xl mt-24 px-4">
+          <ScrollReveal className="w-full max-w-6xl mt-24 px-4">
             {/* Section Title */}
             <div className="text-center mb-16">
               <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 mb-3">
@@ -582,10 +963,10 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Why Manual Follow-Up Fails Section */}
-          <div className="w-full max-w-6xl mt-16 sm:mt-24 px-4">
+          <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4">
             {/* Section Title */}
             <div className="text-center mb-12 sm:mb-16">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 leading-tight flex items-center justify-center gap-3">
@@ -733,154 +1114,11 @@ export const PersonalizedLanding = (): JSX.Element => {
                 <Highlighter action="underline" color="#4ade80" strokeWidth={3} isView={true}>AI makes sure you never lose again.</Highlighter>
               </p>
             </div>
-          </div>
+          </ScrollReveal>
 
-          {/* Testimonials Section */}
-          <div className="w-full mt-16 sm:mt-24 px-4">
-            {/* Section Title */}
-            <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 leading-tight">
-                Real Businesses. Real Results.
-              </h2>
-              <p className="text-base sm:text-xl text-muted-foreground">
-                See what happens when AI handles your follow-up
-              </p>
-            </div>
-
-            {/* Video Testimonials Carousel - Portrait Format */}
-            <div className="w-full max-w-5xl mx-auto mb-12 sm:mb-16">
-              {/* Swipe hint for mobile */}
-              <div className="text-center mb-4 md:hidden">
-                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                  <motion.div
-                    animate={{ x: [-5, 5, -5] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </motion.div>
-                  <span className="font-medium">Swipe to see more testimonials</span>
-                  <motion.div
-                    animate={{ x: [-5, 5, -5] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </motion.div>
-                </div>
-              </div>
-
-              <Carousel
-                setApi={setCarouselApi}
-                opts={{
-                  align: "center",
-                  loop: true,
-                }}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-4">
-                  {/* Video 1 */}
-                  <CarouselItem className="pl-4 md:basis-1/2">
-                    <div className="w-full max-w-sm mx-auto">
-                      <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-200" style={{ aspectRatio: '9/16' }}>
-                        <iframe
-                          className="absolute inset-0 w-full h-full"
-                          src="https://www.youtube.com/embed/uAwBPvVf-IY"
-                          title="Client Video Testimonial 1"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                      </div>
-                    </div>
-                  </CarouselItem>
-
-                  {/* Video 2 */}
-                  <CarouselItem className="pl-4 md:basis-1/2">
-                    <div className="w-full max-w-sm mx-auto">
-                      <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-200" style={{ aspectRatio: '9/16' }}>
-                        <iframe
-                          className="absolute inset-0 w-full h-full"
-                          src="https://www.youtube.com/embed/IHCZarbiUj0"
-                          title="Client Video Testimonial 2"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                </CarouselContent>
-                <CarouselPrevious className="hidden md:flex" />
-                <CarouselNext className="hidden md:flex" />
-              </Carousel>
-
-              {/* Pagination Dots */}
-              <div className="flex justify-center gap-2 mt-6">
-                {Array.from({ length: slideCount }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => carouselApi?.scrollTo(index)}
-                    className={`transition-all duration-300 rounded-full ${
-                      index === currentSlide
-                        ? 'w-8 h-3 bg-green-600'
-                        : 'w-3 h-3 bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              {/* Slide counter for desktop */}
-              <div className="hidden md:block text-center mt-4">
-                <p className="text-sm text-muted-foreground">
-                  Video {currentSlide + 1} of {slideCount}
-                </p>
-              </div>
-            </div>
-
-            {/* Text Testimonials Marquee - Single Row */}
-            <div className="relative w-full max-w-7xl mx-auto">
-              <Marquee pauseOnHover className="[--duration:120s] [--gap:1rem]">
-                <TestimonialCard
-                  name="Mike Johnson"
-                  business="Jones"
-                  text="We went from losing 60% of our leads to booking 4-5 calls daily. The AI never sleeps and never misses a lead."
-                />
-                <TestimonialCard
-                  name="David Chen"
-                  business="Atomic Air"
-                  text="ROI in week one. The speed alone is worth it—leads get called in 2 seconds, not 2 hours."
-                />
-                <TestimonialCard
-                  name="Lisa Thompson"
-                  business="Peak's Pontoons"
-                  text="I was skeptical until I called my own AI. It sounds completely natural. Customers can't tell it's not human."
-                />
-                <TestimonialCard
-                  name="Robert Garcia"
-                  business="Unique Auto"
-                  text="Finally, consistent follow-up without hiring more staff. It qualifies, books, and follows up automatically."
-                />
-                <TestimonialCard
-                  name="Amanda Wilson"
-                  business="SCA Pontoon Rental"
-                  text="We doubled our bookings without spending more on ads. The AI just converts better because it's instant."
-                />
-                <TestimonialCard
-                  name="James Mitchell"
-                  business="Region Scoopers"
-                  text="Our close rate went up 40% in the first month. The AI pre-qualifies so well that my team only talks to serious buyers."
-                />
-                <TestimonialCard
-                  name="Rachel Lee"
-                  business="Hoosier Stump Removal"
-                  text="I used to lose leads overnight. Now the AI calls them at 11 PM if they submit then. No more missed opportunities."
-                />
-              </Marquee>
-            </div>
-          </div>
 
           {/* Testimonial-Only Pricing Section */}
-          <div className="w-full max-w-5xl mt-16 sm:mt-24 px-4">
+          <ScrollReveal className="w-full max-w-5xl mt-16 sm:mt-24 px-4">
             {/* 1. Top Banner */}
             <div className="mb-8 sm:mb-12">
               <div className="relative inline-block w-full">
@@ -905,7 +1143,7 @@ export const PersonalizedLanding = (): JSX.Element => {
             {/* 2. Hero Headline Block */}
             <div className="text-center mb-10 sm:mb-14">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 sm:mb-6 leading-tight">
-                We Want Your Testimonial — So You Get a <Highlighter action="highlight" color="#fde047" strokeWidth={2} isView={true}>Ridiculous Discount</Highlighter>.
+                We Want Your Testimonial — So You Get a <AnimatedHighlight>Ridiculous Discount</AnimatedHighlight>.
               </h2>
               <p className="text-base sm:text-xl text-muted-foreground">
                 Get the full AI Outreach System for a price we will never offer again.
@@ -965,7 +1203,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                           }}
                         >
                           <span className="text-6xl sm:text-8xl font-extrabold text-green-600">
-                            <Highlighter action="circle" color="#22c55e" strokeWidth={4} isView={true}>$200</Highlighter>
+                            $200
                           </span>
                           <p 
                             className="text-base sm:text-lg text-foreground font-semibold mt-2"
@@ -1082,10 +1320,10 @@ export const PersonalizedLanding = (): JSX.Element => {
                 .
               </p>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* FAQ Section */}
-          <div className="w-full max-w-4xl mt-16 sm:mt-24 px-4">
+          <ScrollReveal className="w-full max-w-4xl mt-16 sm:mt-24 px-4">
             {/* Section Title */}
             <div className="mb-12 sm:mb-16">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground leading-tight">
@@ -1164,10 +1402,10 @@ export const PersonalizedLanding = (): JSX.Element => {
                 Still have questions? Book a call and we'll answer everything.
               </p>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Final CTA Section */}
-          <div className="w-full max-w-6xl mt-16 sm:mt-24 px-4 mb-12 sm:mb-16">
+          <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4 mb-12 sm:mb-16">
             <div 
               className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-foreground to-foreground/90"
             >
@@ -1248,7 +1486,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </header>
       
