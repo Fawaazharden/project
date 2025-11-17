@@ -12,7 +12,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "../../components/ui/carousel";
-import { Phone, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
+import { Phone, ArrowRight, Sparkles, ChevronLeft, ChevronRight, XIcon } from "lucide-react";
 import { motion, useMotionValue, useTransform, PanInfo, useInView } from "framer-motion";
 import confetti from "canvas-confetti";
 
@@ -220,16 +220,24 @@ const AnimatedHighlight = ({ children }: { children: ReactNode }) => {
 };
 
 // Book a Call CTA Button with Heartbeat Effect
-const BookCallButton = () => {
+const BookCallButton = ({ showGetAiCall = false, onGetAiCallClick }: { showGetAiCall?: boolean; onGetAiCallClick?: () => void }) => {
   return (
-    <div className="w-full flex justify-center my-12 sm:my-16">
-      <Link to="/contact">
+    <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-4 my-12 sm:my-16">
+      <a href="https://calendly.com/danielgrayson087/discovery-call-fawaaz" target="_blank" rel="noopener noreferrer">
         <Button 
           className="animate-heartbeat bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg sm:text-xl py-6 sm:py-7 px-10 sm:px-14 rounded-xl shadow-2xl"
         >
           Book a Call
         </Button>
-      </Link>
+      </a>
+      {showGetAiCall && (
+        <Button 
+          onClick={onGetAiCallClick}
+          className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold text-lg sm:text-xl py-6 sm:py-7 px-10 sm:px-14 rounded-xl shadow-2xl transition-all duration-300 transform hover:scale-105"
+        >
+          Get AI Call
+        </Button>
+      )}
     </div>
   );
 };
@@ -248,6 +256,7 @@ export const PersonalizedLanding = (): JSX.Element => {
   const [slideCount, setSlideCount] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isUserInteractingRef = useRef(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleRevealPrice = () => {
     setPriceRevealed(true);
@@ -328,32 +337,26 @@ export const PersonalizedLanding = (): JSX.Element => {
     },
     {
       question: "How long does setup take?",
-      shortAnswer: "10–15 minutes.",
+      shortAnswer: "Usually 2 to 5 business days depending on the integrations.",
       fullAnswer: "We customize your AI voice, script, lead flow, and integrations. Most businesses are live within the same day.",
       icon: ""
     },
     {
-      question: "Do I need to record anything?",
-      shortAnswer: "No.",
-      fullAnswer: "Your AI learns from text input. No recording, no voice acting, no lengthy training required.",
+      question: "Is there multiple voices available?",
+      shortAnswer: "Yes.",
+      fullAnswer: "There are 200+ voices available you can choose what you like the best.",
       icon: ""
     },
     {
-      question: "How does pricing work?",
-      shortAnswer: "Simple usage-based model.",
-      fullAnswer: "You only pay for the calls/texts your AI actually sends. No hidden fees. No long-term contracts.",
+      question: "I have only Google Sheets, can this work for me?",
+      shortAnswer: "Yes — we integrate directly with Google Sheets.",
+      fullAnswer: "No problem at all. We can connect your AI system directly to Google Sheets to pull leads, log calls, track appointments, and update your data in real-time. Many of our clients use Google Sheets as their main system and it works perfectly.",
       icon: ""
     },
     {
       question: "What if the AI says something wrong?",
       shortAnswer: "It won't — everything is predefined.",
       fullAnswer: "Your AI only speaks from the scripts, knowledge, and rules you give it. It cannot go off-track or invent information. This ensures perfect consistency — every single time.",
-      icon: ""
-    },
-    {
-      question: "Is this personalized page actually made for my business?",
-      shortAnswer: "Yes — 100% personalized using your data.",
-      fullAnswer: `This page is built exclusively for ${pageData?.businessName || 'your business'}: personalized headline, custom demo, custom AI script, and custom call experience. It shows exactly how your business would use the system.`,
       icon: ""
     }
   ];
@@ -902,7 +905,7 @@ export const PersonalizedLanding = (): JSX.Element => {
           </ScrollReveal>
 
           {/* Book a Call CTA */}
-          <BookCallButton />
+          <BookCallButton showGetAiCall={true} onGetAiCallClick={() => setShowPopup(true)} />
 
           {/* VA Replacement Section */}
           <ScrollReveal className="w-full max-w-6xl mt-24 px-2 sm:px-4">
@@ -993,7 +996,7 @@ export const PersonalizedLanding = (): JSX.Element => {
           </ScrollReveal>
 
           {/* Book a Call CTA */}
-          <BookCallButton />
+          <BookCallButton showGetAiCall={true} onGetAiCallClick={() => setShowPopup(true)} />
 
           {/* Why Manual Follow-Up Fails Section */}
           <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4">
@@ -1147,7 +1150,7 @@ export const PersonalizedLanding = (): JSX.Element => {
           </ScrollReveal>
 
           {/* Book a Call CTA */}
-          <BookCallButton />
+          <BookCallButton showGetAiCall={true} onGetAiCallClick={() => setShowPopup(true)} />
 
           {/* Testimonial-Only Pricing Section */}
           <ScrollReveal className="w-full max-w-5xl mt-16 sm:mt-24 px-4">
@@ -1197,7 +1200,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                             userSelect: 'none',
                           }}
                         >
-                          $200
+                          $199
                         </div>
                         <p className="text-sm sm:text-base text-muted-foreground mb-6">
                           Tap to reveal your testimonial-only discount
@@ -1223,7 +1226,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                           }}
                         >
                           <span className="text-3xl sm:text-4xl font-bold text-muted-foreground relative inline-block price-strike">
-                            $500
+                            $499/mo
                           </span>
                         </div>
                         
@@ -1235,7 +1238,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                           }}
                         >
                           <span className="text-6xl sm:text-8xl font-extrabold text-green-600">
-                            $200
+                            $199
                           </span>
                           <p 
                             className="text-base sm:text-lg text-foreground font-semibold mt-2"
@@ -1243,7 +1246,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                               animation: 'fadeInUp 0.6s ease-out 0.8s backwards',
                             }}
                           >
-                            Testimonial-Only Price
+                            per month - Testimonial-Only Price
                           </p>
                         </div>
                         
@@ -1288,6 +1291,8 @@ export const PersonalizedLanding = (): JSX.Element => {
                   'Personalized Scripts & Outreach Logic',
                   'Lifetime Updates',
                   '1:1 Setup Call',
+                  'Custom CRM Dashboard (track every lead, call, and conversion in one place)',
+                  'Custom Mobile Application (manage your AI and leads from anywhere, anytime)',
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     <span className="text-green-600 text-xl flex-shrink-0 mt-0.5 font-bold">•</span>
@@ -1303,19 +1308,6 @@ export const PersonalizedLanding = (): JSX.Element => {
                   All we ask in return: a simple testimonial once you get results.
                 </p>
               </div>
-            </div>
-
-            {/* 6. Primary CTA Stack */}
-            <div className="text-center mb-10 sm:mb-14">
-              <Link
-                to="/contact"
-                className="inline-block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold text-lg sm:text-xl py-4 sm:py-5 px-8 sm:px-12 rounded-xl shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
-              >
-                Get My AI Outreach System → $200
-              </Link>
-              <p className="text-sm sm:text-base text-muted-foreground mt-4">
-                No contracts. No risk. Just results → then testimonial.
-              </p>
             </div>
 
             {/* 8. Guarantee Section */}
@@ -1337,8 +1329,8 @@ export const PersonalizedLanding = (): JSX.Element => {
               </div>
             </div>
 
-            {/* 9. Final Scarcity Reminder */}
-            <div className="text-center">
+            {/* 9. Final Scarcity Reminder + CTA */}
+            <div className="text-center space-y-6">
               <p className="text-base sm:text-lg font-bold text-foreground">
                 This offer vanishes once we collect next{' '}
                 <span 
@@ -1351,11 +1343,23 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </span>
                 .
               </p>
+
+              {/* Primary CTA */}
+              <div className="mt-8">
+                <a
+                  href="https://calendly.com/danielgrayson087/discovery-call-fawaaz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold text-lg sm:text-xl py-4 sm:py-5 px-8 sm:px-12 rounded-xl shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Get My AI Outreach System → $199/mo
+                </a>
+                <p className="text-sm sm:text-base text-muted-foreground mt-4">
+                  No contracts. No risk. Just results → then testimonial.
+                </p>
+              </div>
             </div>
           </ScrollReveal>
-
-          {/* Book a Call CTA */}
-          <BookCallButton />
 
           {/* FAQ Section */}
           <ScrollReveal className="w-full max-w-4xl mt-16 sm:mt-24 px-4">
@@ -1427,20 +1431,19 @@ export const PersonalizedLanding = (): JSX.Element => {
 
             {/* CTA After FAQ */}
             <div className="text-center">
-              <Link
-                to="/contact"
+              <a
+                href="https://calendly.com/danielgrayson087/discovery-call-fawaaz"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold text-lg sm:text-xl py-4 sm:py-5 px-8 sm:px-12 rounded-xl shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
               >
-                Get My AI Outreach System → $200
-              </Link>
+                Get My AI Outreach System → $199/mo
+              </a>
               <p className="text-sm sm:text-base text-muted-foreground mt-4">
                 Still have questions? Book a call and we'll answer everything.
               </p>
             </div>
           </ScrollReveal>
-
-          {/* Book a Call CTA */}
-          <BookCallButton />
 
           {/* Final CTA Section */}
           <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4 mb-12 sm:mb-16">
@@ -1463,42 +1466,36 @@ export const PersonalizedLanding = (): JSX.Element => {
               <div className="relative z-10 px-6 sm:px-10 lg:px-16 py-12 sm:py-16 lg:py-20 text-center">
                 {/* Headline */}
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground mb-3 sm:mb-4 leading-tight">
-                  Ready to Turn Every FB Lead Into a Booked Call?
+                  Stop Losing Leads. Start Converting Them — Today.
                 </h2>
                 
                 <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 font-semibold mb-6 sm:mb-8">
-                  Your competitors aren't using this… yet.
+                  Every hour you wait, your competitors are capturing YOUR leads.
                 </p>
                 
                 {/* Subtext */}
                 <div className="max-w-2xl mx-auto mb-8 sm:mb-10">
                   <p className="text-base sm:text-lg lg:text-xl text-primary-foreground/90 leading-relaxed mb-2">
-                    You've seen what the AI can do.
+                    You've seen the results. You know what's possible.
                   </p>
                   <p className="text-base sm:text-lg lg:text-xl text-primary-foreground/90 leading-relaxed mb-2">
-                    Now experience it — instantly.
+                    The only question left is: <span className="text-green-400 font-bold">Are you ready to act?</span>
                   </p>
                   <p className="text-base sm:text-lg lg:text-xl text-primary-foreground font-semibold leading-relaxed">
-                    Your personalized demo is already set up for <span className="text-green-400">{pageData.businessName}</span>.
+                    Book a quick 5-minute call — we'll show you exactly how <span className="text-green-400">{pageData.businessName}</span> can turn every lead into revenue.
                   </p>
                 </div>
                 
-                {/* CTA Buttons */}
+                {/* CTA Button */}
                 <div className="flex flex-col items-center gap-4 mb-10 sm:mb-12">
                   {/* Primary CTA */}
-                  <Link
-                    to="/contact"
+                  <a
+                    href="https://calendly.com/danielgrayson087/discovery-call-fawaaz"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-full max-w-md bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold text-lg sm:text-xl py-5 sm:py-6 px-8 rounded-2xl shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
                   >
-                    Start My AI Demo
-                  </Link>
-                  
-                  {/* Secondary CTA */}
-                  <a
-                    href="tel:+14706651434"
-                    className="w-full max-w-md bg-primary-foreground hover:bg-secondary text-foreground font-bold text-base sm:text-lg py-4 sm:py-5 px-8 rounded-2xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
-                  >
-                    Let the AI Call Me
+                    Book My 5-Minute Call Now
                   </a>
                 </div>
                 
@@ -1506,19 +1503,19 @@ export const PersonalizedLanding = (): JSX.Element => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-3xl mx-auto">
                   <div className="flex flex-col items-center">
                     <p className="text-base sm:text-lg text-primary-foreground font-semibold">
-                      1.2-sec lead response
+                      5-min setup call
                     </p>
                   </div>
                   
                   <div className="flex flex-col items-center">
                     <p className="text-base sm:text-lg text-primary-foreground font-semibold">
-                      Boost ROAS & bookings
+                      No long-term contracts
                     </p>
                   </div>
                   
                   <div className="flex flex-col items-center">
                     <p className="text-base sm:text-lg text-primary-foreground font-semibold">
-                      No setup required
+                      Results in 14 days or refund
                     </p>
                   </div>
                 </div>
@@ -1527,6 +1524,155 @@ export const PersonalizedLanding = (): JSX.Element => {
           </ScrollReveal>
         </div>
       </header>
+      
+      {/* Popup Modal */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[10000] p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full relative transform transition-all duration-300 animate-in">
+            {/* Close button */}
+            <button
+              onClick={() => setShowPopup(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10"
+              aria-label="Close popup"
+            >
+              <XIcon className="w-4 h-4 text-gray-600" />
+            </button>
+            
+            {/* Modal content */}
+            <div className="p-8">
+              <div className="text-center mb-6">
+                <div className="mx-auto mb-4 w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-white"
+                  >
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-2 [font-family:'Inter',Helvetica]">
+                  Talk to Your AI Assistant
+                </h2>
+                <p className="text-gray-600 text-sm">
+                  Real-time demo. No wait.
+                </p>
+              </div>
+              
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const form = e.target as HTMLFormElement;
+                  const formData = new FormData(form);
+                  const fullname = formData.get('fullname') as string;
+                  const phone = formData.get('phone') as string;
+                  const countryCode = formData.get('countryCode') as string;
+                  
+                  if (!fullname.trim() || !phone.trim()) {
+                    const messageBox = document.getElementById('personalized-popup-message');
+                    if (messageBox) {
+                      messageBox.textContent = "Please fill in all fields.";
+                      messageBox.className = "text-red-600 mt-4 text-center text-sm";
+                    }
+                    return;
+                  }
+
+                  const payload = { fullname: fullname.trim(), phone: countryCode + phone.trim() };
+
+                  try {
+                    const res = await fetch('https://services.leadconnectorhq.com/hooks/qmXJdLQTCzANbI5LCD8t/webhook-trigger/940b8d1f-df28-4e85-a4c4-2d1b011fdb2a', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(payload)
+                    });
+
+                    const messageBox = document.getElementById('personalized-popup-message');
+                    if (res.ok) {
+                      if (messageBox) {
+                        messageBox.textContent = "✅ Form submitted successfully!";
+                        messageBox.className = "text-green-600 mt-4 text-center text-sm";
+                      }
+                      form.reset();
+                      // Close popup after successful submission
+                      setTimeout(() => setShowPopup(false), 2000);
+                    } else {
+                      if (messageBox) {
+                        messageBox.textContent = "❌ Something went wrong. Please try again.";
+                        messageBox.className = "text-red-600 mt-4 text-center text-sm";
+                      }
+                    }
+                  } catch (err) {
+                    const messageBox = document.getElementById('personalized-popup-message');
+                    if (messageBox) {
+                      messageBox.textContent = "❌ Submission error. Check your connection.";
+                      messageBox.className = "text-red-600 mt-4 text-center text-sm";
+                    }
+                    console.error(err);
+                  }
+                }}
+                className="space-y-4"
+              >
+                <div>
+                  <label htmlFor="personalized-popup-fullname" className="block text-sm font-medium text-gray-700 mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="personalized-popup-fullname"
+                    name="fullname"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 focus:border-green-600 outline-none transition-colors"
+                    placeholder="So we know how to greet you"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="personalized-popup-phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
+                  </label>
+                  <div className="flex items-center">
+                    <select 
+                      name="countryCode"
+                      id="personalized-popup-countryCode"
+                      className="h-full px-3 py-3 border border-r-0 border-gray-300 rounded-l-xl focus:ring-2 focus:ring-green-600 focus:border-green-600 outline-none transition-colors bg-gray-50 text-sm"
+                      defaultValue="+1"
+                    >
+                      <option value="+1">+1 (US)</option>
+                      <option value="+44">+44 (UK)</option>
+                      <option value="+61">+61 (AU)</option>
+                      <option value="+91">+91 (IN)</option>
+                      <option value="+1_CA">+1 (CA)</option>
+                    </select>
+                    <input
+                      type="tel"
+                      id="personalized-popup-phone"
+                      name="phone"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-r-xl focus:ring-2 focus:ring-green-600 focus:border-green-600 outline-none transition-colors"
+                      placeholder="We'll call this number in seconds"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold py-3 px-4 rounded-xl hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-[1.02] shadow-lg"
+                >
+                  Start Demo Call
+                </button>
+              </form>
+
+              <div id="personalized-popup-message" className="text-center mt-4 text-sm"></div>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Keyframe Animations */}
       <style>{`
