@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getPersonalizedPageBySlug, extractYouTubeVideoId, urlFor } from "../../lib/sanity";
 import { Highlighter } from "../../components/ui/highlighter";
 import { ShineBorder } from "../../components/ui/shine-border";
+import { Button } from "../../components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -218,14 +219,16 @@ const AnimatedHighlight = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Book a Call Button with Heartbeat Effect
-const BookACallButton = () => {
+// Book a Call CTA Button with Heartbeat Effect
+const BookCallButton = () => {
   return (
-    <div className="w-full flex justify-center my-12">
+    <div className="w-full flex justify-center my-12 sm:my-16">
       <Link to="/contact">
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-lg transition-all duration-300 ease-in-out animate-heartbeat">
+        <Button 
+          className="animate-heartbeat bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg sm:text-xl py-6 sm:py-7 px-10 sm:px-14 rounded-xl shadow-2xl"
+        >
           Book a Call
-        </button>
+        </Button>
       </Link>
     </div>
   );
@@ -376,15 +379,16 @@ export const PersonalizedLanding = (): JSX.Element => {
 
     let animationId: number;
     let lastTime = performance.now();
-    const scrollSpeed = 60; // pixels per second for clear movement
+    const scrollSpeed = 50; // pixels per second for smooth movement
 
     const autoScroll = (time: number) => {
       if (!isUserInteractingRef.current) {
         const deltaSeconds = (time - lastTime) / 1000;
         container.scrollLeft += scrollSpeed * deltaSeconds;
 
-        const loopPoint = container.scrollWidth - container.clientWidth;
-        if (loopPoint > 0 && container.scrollLeft >= loopPoint) {
+        // Seamless loop: when we scroll past halfway point, reset to beginning
+        const maxScroll = container.scrollWidth / 2;
+        if (container.scrollLeft >= maxScroll) {
           container.scrollLeft = 0;
         }
       }
@@ -624,7 +628,8 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
           </ScrollReveal>
 
-          <BookACallButton />
+          {/* Book a Call CTA */}
+          <BookCallButton />
 
           {/* Call AI Assistant + Testimonials Section */}
           <ScrollReveal className="w-full mt-16 sm:mt-24 px-4">
@@ -642,7 +647,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                       Your AI assistant is live right now.
                     </p>
                     <p className="leading-7 text-muted-foreground">
-                      It will greet you, answer questions, and show you exactly how it follows up with your leads 24/7.
+                      It will greet you, answer your questions, and show you exactly how it follows up with your leads 24/7.
                     </p>
                   </div>
 
@@ -654,7 +659,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                   {/* Microproof */}
                   <div className="text-center">
                     <p className="text-sm text-muted-foreground italic">
-                      Over 50,000+ AI-led conversations completed — experience how natural it sounds.
+                      Over 5,000+ AI-led conversations completed — experience how natural it sounds.
                     </p>
                   </div>
                 </div>
@@ -735,8 +740,8 @@ export const PersonalizedLanding = (): JSX.Element => {
                         </div>
                       </CarouselItem>
                     </CarouselContent>
-                    <CarouselPrevious className="hidden md:flex" />
-                    <CarouselNext className="hidden md:flex" />
+                    <CarouselPrevious />
+                    <CarouselNext />
                   </Carousel>
 
                   {/* Pagination Dots */}
@@ -896,7 +901,8 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
           </ScrollReveal>
 
-          <BookACallButton />
+          {/* Book a Call CTA */}
+          <BookCallButton />
 
           {/* VA Replacement Section */}
           <ScrollReveal className="w-full max-w-6xl mt-24 px-2 sm:px-4">
@@ -986,12 +992,13 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
           </ScrollReveal>
 
-          <BookACallButton />
+          {/* Book a Call CTA */}
+          <BookCallButton />
 
           {/* Why Manual Follow-Up Fails Section */}
-          <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-2 sm:px-4">
+          <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4">
             {/* Section Title */}
-            <div className="text-center mb-8 sm:mb-12">
+            <div className="text-center mb-12 sm:mb-16">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 leading-tight flex items-center justify-center gap-3">
                 <span>Why Manual Follow-Up Fails Every Time</span>
               </h2>
@@ -1001,28 +1008,28 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
 
             {/* Problem/Agitate vs Solution Split Layout */}
-            <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-2xl mb-8 sm:mb-12">
+            <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-2xl mb-12">
               <ShineBorder 
                 shineColor={["#ef4444", "#dc2626", "#991b1b"]} 
                 duration={16}
                 borderWidth={3}
               />
               {/* LEFT SIDE - PROBLEM & AGITATE */}
-              <div className="bg-gradient-to-br from-red-50 to-orange-50 p-4 sm:p-6 lg:p-8 lg:border-r-4 lg:border-red-200">
+              <div className="bg-gradient-to-br from-red-50 to-orange-50 p-6 sm:p-8 lg:p-10 lg:border-r-4 lg:border-red-200">
                 {/* PROBLEM Section */}
-                <div className="mb-6 sm:mb-8">
-                  <div className="text-center lg:text-left mb-4 sm:mb-6">
+                <div className="mb-8 sm:mb-10">
+                  <div className="text-center lg:text-left mb-6">
                     <div className="flex items-start gap-3 lg:mb-0">
-                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#7d2e2e] leading-tight">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#7d2e2e] leading-tight">
                         Your Leads Don't Get Followed Up Fast Enough
                       </h3>
                     </div>
                   </div>
                   
-                  <ul className="space-y-3 sm:space-y-4">
+                  <ul className="space-y-4 sm:space-y-5">
                     <li className="flex items-start gap-2 sm:gap-3">
-                      <span className="text-[#7d2e2e] font-bold text-lg sm:text-xl flex-shrink-0 mt-0.5">•</span>
-                      <p className="text-sm sm:text-base lg:text-lg text-foreground leading-relaxed">
+                      <span className="text-[#7d2e2e] font-bold text-xl flex-shrink-0 mt-0.5">•</span>
+                      <p className="text-base sm:text-lg lg:text-xl text-foreground leading-relaxed">
                         <strong className="text-[#7d2e2e] font-bold"><Highlighter action="strike-through" color="#ef4444" strokeWidth={2} isView={true}>Facebook leads go cold in under 5 minutes</Highlighter></strong>, but humans follow up in hours.
                       </p>
                     </li>
@@ -1048,31 +1055,31 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
 
                 {/* AGITATE Section */}
-                <div className="border-t-2 border-red-300 pt-4 sm:pt-6">
-                  <h4 className="text-lg sm:text-xl lg:text-2xl font-extrabold text-[#7d2e2e] mb-3 sm:mb-4">
+                <div className="border-t-2 border-red-300 pt-6 sm:pt-8">
+                  <h4 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#7d2e2e] mb-4 sm:mb-6">
                     Each Delay Costs Your Hard Earned Money.
                   </h4>
                   
-                  <p className="text-sm sm:text-base lg:text-lg text-foreground font-semibold mb-2 sm:mb-3">
+                  <p className="text-base sm:text-lg lg:text-xl text-foreground font-semibold mb-3 sm:mb-4">
                     Every minute you wait, your leads:
                   </p>
                   
-                  <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-5">
-                    {['talk to your competitor', 'forget who you are', 'lose interest', 'assume you don\'t care', 'move on'].map((item, idx) => (
-                      <li key={idx} className="flex items-center gap-2 sm:gap-3">
-                        <span className="text-red-600 text-xl sm:text-2xl font-bold">•</span>
-                        <span className="text-base sm:text-lg lg:text-xl text-foreground font-medium">{item}</span>
+                  <ul className="space-y-3 sm:space-y-4 mb-5 sm:mb-6">
+                    {['Talk to your Competitor', 'Forget who you are', 'Lose interest', 'Assume you don\'t care', 'Move on'].map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-3 sm:gap-4">
+                        <span className="text-red-600 text-2xl font-bold">•</span>
+                        <span className="text-lg sm:text-xl lg:text-2xl text-foreground font-medium">{item}</span>
                       </li>
                     ))}
                   </ul>
                   
-                  <p className="text-sm sm:text-base lg:text-lg text-foreground font-medium mb-3 sm:mb-4 leading-relaxed">
+                  <p className="text-base sm:text-lg lg:text-xl text-foreground font-medium mb-5 sm:mb-6 leading-relaxed">
                     And when your VA misses even <strong className="text-[#7d2e2e]">ONE</strong> lead?<br />
                     That's a potential client gone forever.
                   </p>
                   
-                  <div className="bg-[#7d2e2e] text-white p-3 sm:p-4 rounded-lg shadow-lg">
-                    <p className="text-sm sm:text-base lg:text-lg font-bold text-center leading-relaxed">
+                  <div className="bg-[#7d2e2e] text-white p-4 sm:p-5 rounded-lg shadow-lg">
+                    <p className="text-base sm:text-lg lg:text-xl font-bold text-center leading-relaxed">
                       <strong>You paid for the lead.</strong><br />
                       You just didn't claim it fast enough.
                     </p>
@@ -1081,20 +1088,20 @@ export const PersonalizedLanding = (): JSX.Element => {
               </div>
 
               {/* RIGHT SIDE - SOLUTION */}
-              <div className="bg-card p-4 sm:p-6 lg:p-8 border border-border">
-                <div className="text-center lg:text-left mb-4 sm:mb-6">
+              <div className="bg-card p-6 sm:p-8 lg:p-10 border border-border">
+                <div className="text-center lg:text-left mb-6">
                   <div className="flex items-start gap-3 lg:mb-0">
-                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-green-900 leading-tight">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-900 leading-tight">
                       Your AI Responds Immediately. Every Time. Without Failing.
                     </h3>
                   </div>
                 </div>
                 
-                <p className="text-sm sm:text-base lg:text-lg text-foreground font-semibold mb-3 sm:mb-4">
+                <p className="text-base sm:text-lg lg:text-xl text-foreground font-semibold mb-5 sm:mb-6">
                   The moment a lead comes in:
                 </p>
                 
-                  <ul className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+                  <ul className="space-y-4 sm:space-y-5 mb-6 sm:mb-8">
                   {[
                     { text: 'AI calls within 1–2 seconds', highlight: true },
                     { text: 'AI texts immediately', highlight: false },
@@ -1103,10 +1110,10 @@ export const PersonalizedLanding = (): JSX.Element => {
                     { text: 'AI follows up for days automatically', highlight: true },
                     { text: 'AI never sleeps, never forgets, never gets tired', highlight: true }
                   ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2 sm:gap-3">
-                      <span className="text-green-600 text-lg sm:text-xl flex-shrink-0 mt-1 font-bold">•</span>
+                    <li key={idx} className="flex items-start gap-3 sm:gap-4">
+                      <span className="text-green-600 text-xl flex-shrink-0 mt-1 font-bold">•</span>
                       <div className="flex-1">
-                        <p className="text-sm sm:text-base lg:text-lg text-foreground font-semibold leading-relaxed">
+                        <p className="text-base sm:text-lg lg:text-xl text-foreground font-semibold leading-relaxed">
                           {item.highlight ? (
                             <Highlighter action="highlight" color="#86efac" strokeWidth={1.5} isView={true}>
                               {item.text}
@@ -1120,8 +1127,8 @@ export const PersonalizedLanding = (): JSX.Element => {
                   ))}
                 </ul>
                 
-                <div className="bg-green-50 border-l-4 border-green-600 p-3 sm:p-4 lg:p-5 rounded-lg shadow-md">
-                  <p className="text-sm sm:text-base lg:text-lg font-bold text-foreground leading-relaxed">
+                <div className="bg-green-50 border-l-4 border-green-600 p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
+                  <p className="text-base sm:text-lg lg:text-xl font-bold text-foreground leading-relaxed">
                     Where humans drop the ball, <span className="text-green-600"><Highlighter action="box" color="#22c55e" strokeWidth={2} isView={true}>AI performs perfectly</Highlighter>.</span>
                   </p>
                 </div>
@@ -1129,22 +1136,23 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
 
             {/* Final Contrasting Block */}
-            <div className="bg-foreground text-primary-foreground p-4 sm:p-6 lg:p-8 rounded-2xl shadow-2xl text-center">
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold leading-relaxed">
+            <div className="bg-foreground text-primary-foreground p-6 sm:p-8 lg:p-12 rounded-2xl shadow-2xl text-center">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold leading-relaxed">
                 <strong>Your follow-up decides whether you make money or lose money.</strong>
               </p>
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold leading-relaxed mt-2 sm:mt-3 text-green-400">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold leading-relaxed mt-3 sm:mt-4 text-green-400">
                 <Highlighter action="underline" color="#4ade80" strokeWidth={3} isView={true}>AI makes sure you never lose again.</Highlighter>
               </p>
             </div>
           </ScrollReveal>
 
-          <BookACallButton />
+          {/* Book a Call CTA */}
+          <BookCallButton />
 
           {/* Testimonial-Only Pricing Section */}
-          <ScrollReveal className="w-full max-w-5xl mt-16 sm:mt-24 px-2 sm:px-4">
+          <ScrollReveal className="w-full max-w-5xl mt-16 sm:mt-24 px-4">
             {/* 1. Top Banner */}
-            <div className="mb-6 sm:mb-10">
+            <div className="mb-8 sm:mb-12">
               <div className="relative inline-block w-full">
                 <div className="bg-gradient-to-r from-green-600 to-green-700 text-white text-center py-2 sm:py-3 rounded-lg shadow-lg overflow-hidden">
                   <div className="relative z-10">
@@ -1165,8 +1173,8 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
 
             {/* 2. Hero Headline Block */}
-            <div className="text-center mb-8 sm:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground mb-3 sm:mb-4 leading-tight">
+            <div className="text-center mb-10 sm:mb-14">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 sm:mb-6 leading-tight">
                 We Want Your Testimonial — So You Get a <AnimatedHighlight>Ridiculous Discount</AnimatedHighlight>.
               </h2>
               <p className="text-base sm:text-xl text-muted-foreground">
@@ -1175,9 +1183,9 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
 
             {/* 3. Reveal Pricing Component */}
-            <div className="flex justify-center mb-8 sm:mb-12">
+            <div className="flex justify-center mb-10 sm:mb-14">
               <div className="w-full max-w-md">
-                <div className="bg-gradient-to-br from-muted to-secondary p-4 sm:p-6 rounded-2xl shadow-2xl border-2 border-border">
+                <div className="bg-gradient-to-br from-muted to-secondary p-6 sm:p-8 rounded-2xl shadow-2xl border-2 border-border">
                   {!priceRevealed ? (
                     <>
                       {/* Before Reveal */}
@@ -1258,17 +1266,17 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
 
             {/* 5. Offer Stack Card */}
-            <div className="relative bg-card p-4 sm:p-6 lg:p-8 rounded-2xl shadow-2xl border border-border mb-8 sm:mb-12 overflow-hidden">
+            <div className="relative bg-card p-6 sm:p-8 lg:p-10 rounded-2xl shadow-2xl border border-border mb-10 sm:mb-14 overflow-hidden">
               <ShineBorder 
                 shineColor={["#fbbf24", "#f59e0b", "#d97706"]} 
                 duration={12}
                 borderWidth={2}
               />
-              <h3 className="text-xl sm:text-2xl font-extrabold text-foreground mb-4 sm:mb-6 text-center">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-6 sm:mb-8 text-center">
                 What You Get Inside the AI Outreach System:
               </h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {[
                   'AI Inbound Number (leads can call your AI assistant)',
                   'AI Outbound Calling System',
@@ -1281,24 +1289,24 @@ export const PersonalizedLanding = (): JSX.Element => {
                   'Lifetime Updates',
                   '1:1 Setup Call',
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-green-600 text-lg sm:text-xl flex-shrink-0 mt-0.5 font-bold">•</span>
-                    <p className="text-sm sm:text-base text-foreground leading-relaxed">
+                  <div key={idx} className="flex items-start gap-3">
+                    <span className="text-green-600 text-xl flex-shrink-0 mt-0.5 font-bold">•</span>
+                    <p className="text-base sm:text-lg text-foreground leading-relaxed">
                       <strong>{item}</strong>
                     </p>
                   </div>
                 ))}
               </div>
               
-              <div className="bg-green-50 border-l-4 border-green-600 p-3 sm:p-4 rounded-lg text-center">
-                <p className="text-sm sm:text-base font-semibold text-foreground italic">
+              <div className="bg-green-50 border-l-4 border-green-600 p-4 sm:p-6 rounded-lg text-center">
+                <p className="text-base sm:text-lg font-semibold text-foreground italic">
                   All we ask in return: a simple testimonial once you get results.
                 </p>
               </div>
             </div>
 
             {/* 6. Primary CTA Stack */}
-            <div className="text-center mb-8 sm:mb-12">
+            <div className="text-center mb-10 sm:mb-14">
               <Link
                 to="/contact"
                 className="inline-block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold text-lg sm:text-xl py-4 sm:py-5 px-8 sm:px-12 rounded-xl shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
@@ -1311,8 +1319,8 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
 
             {/* 8. Guarantee Section */}
-            <div className="flex flex-col items-center mb-8 sm:mb-12">
-              <div className="relative bg-muted p-4 sm:p-6 rounded-2xl shadow-lg border-2 border-border text-center max-w-2xl overflow-hidden">
+            <div className="flex flex-col items-center mb-10 sm:mb-14">
+              <div className="relative bg-muted p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-border text-center max-w-2xl overflow-hidden">
                 <ShineBorder 
                   shineColor={["#22c55e", "#16a34a", "#15803d"]} 
                   duration={10}
@@ -1346,19 +1354,20 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
           </ScrollReveal>
 
-          <BookACallButton />
+          {/* Book a Call CTA */}
+          <BookCallButton />
 
           {/* FAQ Section */}
-          <ScrollReveal className="w-full max-w-4xl mt-16 sm:mt-24 px-2 sm:px-4">
+          <ScrollReveal className="w-full max-w-4xl mt-16 sm:mt-24 px-4">
             {/* Section Title */}
-            <div className="mb-8 sm:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground leading-tight">
+            <div className="mb-12 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground leading-tight">
                 Still have questions? We have answers.
               </h2>
             </div>
 
             {/* FAQ Accordion */}
-            <div className="mb-8 sm:mb-12">
+            <div className="mb-10 sm:mb-14">
               {faqs.map((faq, index) => (
                 <div
                   key={index}
@@ -1367,9 +1376,9 @@ export const PersonalizedLanding = (): JSX.Element => {
                   {/* Question Header - Clickable */}
                   <button
                     onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                    className="w-full flex items-center justify-between gap-3 py-4 sm:py-5 text-left"
+                    className="w-full flex items-center justify-between gap-4 py-6 text-left"
                   >
-                    <h3 className="text-base sm:text-lg lg:text-xl font-normal text-foreground leading-snug pr-2 sm:pr-4">
+                    <h3 className="text-lg sm:text-xl lg:text-2xl font-normal text-foreground leading-snug pr-4">
                       {faq.question}
                     </h3>
                     <div className="flex-shrink-0">
@@ -1394,17 +1403,17 @@ export const PersonalizedLanding = (): JSX.Element => {
                       openFaqIndex === index ? 'max-h-96 pb-6' : 'max-h-0'
                     } overflow-hidden`}
                   >
-                    <div className="pr-4 sm:pr-8">
+                    <div className="pr-8">
                       {/* Short Answer */}
-                      <div className="mb-2 sm:mb-3">
-                        <p className="text-sm sm:text-base lg:text-lg font-semibold text-foreground">
+                      <div className="mb-3">
+                        <p className="text-base sm:text-lg lg:text-xl font-semibold text-foreground">
                           {faq.shortAnswer}
                         </p>
                       </div>
 
                       {/* Full Answer */}
                       <div>
-                        <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
+                        <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed">
                           {faq.fullAnswer}
                         </p>
                       </div>
@@ -1430,10 +1439,11 @@ export const PersonalizedLanding = (): JSX.Element => {
             </div>
           </ScrollReveal>
 
-          <BookACallButton />
+          {/* Book a Call CTA */}
+          <BookCallButton />
 
           {/* Final CTA Section */}
-          <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-2 sm:px-4 mb-10 sm:mb-14">
+          <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4 mb-12 sm:mb-16">
             <div 
               className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-foreground to-foreground/90"
             >
@@ -1450,31 +1460,31 @@ export const PersonalizedLanding = (): JSX.Element => {
                 }}
               />
               
-              <div className="relative z-10 px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16 text-center">
+              <div className="relative z-10 px-6 sm:px-10 lg:px-16 py-12 sm:py-16 lg:py-20 text-center">
                 {/* Headline */}
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-2 sm:mb-3 leading-tight">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground mb-3 sm:mb-4 leading-tight">
                   Ready to Turn Every FB Lead Into a Booked Call?
                 </h2>
                 
-                <p className="text-base sm:text-lg md:text-xl text-primary-foreground/80 font-semibold mb-4 sm:mb-6">
+                <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 font-semibold mb-6 sm:mb-8">
                   Your competitors aren't using this… yet.
                 </p>
                 
                 {/* Subtext */}
-                <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
-                  <p className="text-sm sm:text-base lg:text-lg text-primary-foreground/90 leading-relaxed mb-1 sm:mb-2">
+                <div className="max-w-2xl mx-auto mb-8 sm:mb-10">
+                  <p className="text-base sm:text-lg lg:text-xl text-primary-foreground/90 leading-relaxed mb-2">
                     You've seen what the AI can do.
                   </p>
-                  <p className="text-sm sm:text-base lg:text-lg text-primary-foreground/90 leading-relaxed mb-1 sm:mb-2">
+                  <p className="text-base sm:text-lg lg:text-xl text-primary-foreground/90 leading-relaxed mb-2">
                     Now experience it — instantly.
                   </p>
-                  <p className="text-sm sm:text-base lg:text-lg text-primary-foreground font-semibold leading-relaxed">
+                  <p className="text-base sm:text-lg lg:text-xl text-primary-foreground font-semibold leading-relaxed">
                     Your personalized demo is already set up for <span className="text-green-400">{pageData.businessName}</span>.
                   </p>
                 </div>
                 
                 {/* CTA Buttons */}
-                <div className="flex flex-col items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <div className="flex flex-col items-center gap-4 mb-10 sm:mb-12">
                   {/* Primary CTA */}
                   <Link
                     to="/contact"
@@ -1493,9 +1503,9 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
                 
                 {/* Micro-Trust Boost */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-3xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-3xl mx-auto">
                   <div className="flex flex-col items-center">
-                    <p className="text-sm sm:text-base text-primary-foreground font-semibold">
+                    <p className="text-base sm:text-lg text-primary-foreground font-semibold">
                       1.2-sec lead response
                     </p>
                   </div>

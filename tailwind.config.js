@@ -84,13 +84,6 @@ module.exports = {
           '60%': { transform: 'scaleY(0.8)' },
           '80%': { transform: 'scaleY(0.5)' },
         },
-        heartbeat: {
-          '0%, 100%': { transform: 'scale(1)' },
-          '10%': { transform: 'scale(1.05)' },
-          '20%': { transform: 'scale(1)' },
-          '30%': { transform: 'scale(1.05)' },
-          '40%': { transform: 'scale(1)' },
-        },
         marquee: {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(calc(-100% - var(--gap)))" },
@@ -99,15 +92,22 @@ module.exports = {
           from: { transform: "translateY(0)" },
           to: { transform: "translateY(calc(-100% - var(--gap)))" },
         },
+        heartbeat: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '10%': { transform: 'scale(1.05)' },
+          '20%': { transform: 'scale(1)' },
+          '30%': { transform: 'scale(1.05)' },
+          '40%': { transform: 'scale(1)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         glow: 'glow 2s ease-in-out infinite', // Registered glow animation
         'sound-wave': 'sound-wave 1.5s ease-in-out infinite', // Registered sound-wave animation
-        heartbeat: 'heartbeat 1.5s ease-in-out infinite',
         marquee: "marquee var(--duration) infinite linear",
         "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
+        heartbeat: 'heartbeat 1.5s ease-in-out infinite',
       },
     },
     container: { center: true, padding: "2rem", screens: { "2xl": "1400px" } },
