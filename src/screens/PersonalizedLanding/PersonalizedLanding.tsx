@@ -527,7 +527,7 @@ export const PersonalizedLanding = (): JSX.Element => {
             You spend money getting Facebook leads.
           </p>
           <p className="text-xl text-muted-foreground max-w-3xl mb-8">
-            Our AI turns those leads into booked calls <strong className="font-semibold">instantly</strong> — before your competition does.
+            Turn those leads into booked calls <strong className="font-semibold">instantly</strong> — before your competition does.
           </p>
           
           <div className="mt-4">
