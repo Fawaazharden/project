@@ -95,7 +95,7 @@ const questions: Question[] = [
 ];
 
 // Calendly booking URL
-const CALENDLY_URL = 'https://calendly.com/fawaazjfk/30min';
+const CALENDLY_URL = 'https://calendly.com/vocalxlabs_fawaaz/30min';
 
 export const ContactUs = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -283,6 +283,52 @@ export const ContactUs = (): JSX.Element => {
     };
   }, [showCalendly]);
 
+  // Preload Calendly assets when user reaches contact details step (before submission)
+  // This ensures the widget loads instantly after form submission
+  useEffect(() => {
+    // Only preload when on contact details step (last step before submit)
+    if (stepIndex !== questions.length) return;
+
+    // Preload CSS
+    const cssId = 'calendly-widget-styles';
+    if (!document.getElementById(cssId)) {
+      const link = document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(link);
+    }
+
+    // Preload JS
+    const scriptId = 'calendly-widget-script';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
+    // Also preconnect to Calendly domains for faster iframe loading
+    const preconnectId = 'calendly-preconnect';
+    if (!document.getElementById(preconnectId)) {
+      const preconnect = document.createElement('link');
+      preconnect.id = preconnectId;
+      preconnect.rel = 'preconnect';
+      preconnect.href = 'https://calendly.com';
+      document.head.appendChild(preconnect);
+    }
+
+    const preconnectAssetsId = 'calendly-assets-preconnect';
+    if (!document.getElementById(preconnectAssetsId)) {
+      const preconnectAssets = document.createElement('link');
+      preconnectAssets.id = preconnectAssetsId;
+      preconnectAssets.rel = 'preconnect';
+      preconnectAssets.href = 'https://assets.calendly.com';
+      document.head.appendChild(preconnectAssets);
+    }
+  }, [stepIndex]);
+
   const progressPercent = Math.round((stepIndex / (totalSteps - 1)) * 100);
 
   return (
@@ -412,8 +458,8 @@ export const ContactUs = (): JSX.Element => {
                               {/* Replace src with your actual icon paths */}
                               <div
                                 className={`relative flex items-center justify-center h-40 w-40 rounded-full border-2 transition-all ${selected
-                                    ? 'border-[#717fe8] ring-4 ring-[#717fe8]/20 shadow-md'
-                                    : 'border-[#717fe8] hover:shadow-md'
+                                  ? 'border-[#717fe8] ring-4 ring-[#717fe8]/20 shadow-md'
+                                  : 'border-[#717fe8] hover:shadow-md'
                                   } bg-white`}
                               >
                                 <img
@@ -455,8 +501,8 @@ export const ContactUs = (): JSX.Element => {
                               aria-checked={selected}
                               onClick={() => handleOptionClick(currentQuestion.id, opt)}
                               className={`w-full flex items-center gap-4 rounded-xl border px-5 py-4 text-left transition-all ${selected
-                                  ? 'bg-white border-[#717fe8] ring-2 ring-[#717fe8] shadow-md'
-                                  : 'bg-white border-gray-200 hover:border-[#717fe8] hover:shadow-md'
+                                ? 'bg-white border-[#717fe8] ring-2 ring-[#717fe8] shadow-md'
+                                : 'bg-white border-gray-200 hover:border-[#717fe8] hover:shadow-md'
                                 }`}
                             >
                               <span
