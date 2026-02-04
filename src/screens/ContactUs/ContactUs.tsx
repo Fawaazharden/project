@@ -15,9 +15,8 @@ const AnimatedStep = ({ children, direction }: AnimatedStepProps) => {
   const hiddenTransform = direction === 'right' ? 'translate-x-6 sm:translate-x-10' : '-translate-x-6 sm:-translate-x-10';
   return (
     <div
-      className={`transform will-change-transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        visible ? 'opacity-100 translate-x-0' : `opacity-0 ${hiddenTransform}`
-      }`}
+      className={`transform will-change-transform transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${visible ? 'opacity-100 translate-x-0' : `opacity-0 ${hiddenTransform}`
+        }`}
     >
       {children}
     </div>
@@ -96,11 +95,11 @@ const questions: Question[] = [
 ];
 
 // Calendly booking URL
-const CALENDLY_URL = 'https://calendly.com/danielgrayson087/15mins';
+const CALENDLY_URL = 'https://calendly.com/fawaazjfk/30min';
 
 export const ContactUs = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+
   // Navigation items - same as main page for consistency
   const navItems = [
     { title: "Features", href: "/#features" },
@@ -175,7 +174,7 @@ export const ContactUs = (): JSX.Element => {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    const payload = { 
+    const payload = {
       name: details.name.trim(),
       email: details.email.trim(),
       phone: details.phone.trim(),
@@ -361,7 +360,7 @@ export const ContactUs = (): JSX.Element => {
           </div>
         )}
       </header>
-      
+
       {/* Main Content */}
       <div className="w-full max-w-3xl mx-auto flex flex-col items-center p-8 flex-1">
         {!submitted ? (
@@ -387,187 +386,182 @@ export const ContactUs = (): JSX.Element => {
               <AnimatedStep key={stepIndex} direction={animDirection}>
                 {stepIndex < questions.length ? (
                   <>
-                  <div className="mb-6">
-                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold mb-3">
-                      {currentQuestion.title}
+                    <div className="mb-6">
+                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold mb-3">
+                        {currentQuestion.title}
+                      </div>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-black [font-family:'Inter',Helvetica]">
+                        {currentQuestion.prompt}
+                        <span className="text-rose-600 pl-1">*</span>
+                      </h2>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl font-extrabold text-black [font-family:'Inter',Helvetica]">
-                      {currentQuestion.prompt}
-                      <span className="text-rose-600 pl-1">*</span>
-                    </h2>
-                  </div>
 
-                  {currentQuestion.id === 'leadSource' ? (
-                    <div role="radiogroup" className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 place-items-center">
-                      {currentQuestion.options.map((opt) => {
-                        const selected = answers[currentQuestion.id] === opt;
-                        return (
-                          <button
-                            key={opt}
-                            type="button"
-                            role="radio"
-                            aria-checked={selected}
-                            onClick={() => handleOptionClick(currentQuestion.id, opt)}
-                            className="group flex flex-col items-center text-center"
-                          >
-                            {/* Replace src with your actual icon paths */}
-                            <div
-                              className={`relative flex items-center justify-center h-40 w-40 rounded-full border-2 transition-all ${
-                                selected
-                                  ? 'border-[#717fe8] ring-4 ring-[#717fe8]/20 shadow-md'
-                                  : 'border-[#717fe8] hover:shadow-md'
-                              } bg-white`}
+                    {currentQuestion.id === 'leadSource' ? (
+                      <div role="radiogroup" className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 place-items-center">
+                        {currentQuestion.options.map((opt) => {
+                          const selected = answers[currentQuestion.id] === opt;
+                          return (
+                            <button
+                              key={opt}
+                              type="button"
+                              role="radio"
+                              aria-checked={selected}
+                              onClick={() => handleOptionClick(currentQuestion.id, opt)}
+                              className="group flex flex-col items-center text-center"
                             >
-                              <img
-                                src={
-                                  opt === 'Affiliate Partners' ? '/partners.png'
-                                  : opt === 'None' ? '/none.png'
-                                  : opt === 'Buying A List' ? '/List.png'
-                                  : '/ads.png'
-                                }
-                                alt=""
-                                className="h-16 w-16 object-contain"
-                              />
-                              <span
-                                className={`absolute -bottom-3 z-10 h-7 w-7 rounded-full bg-white border-2 flex items-center justify-center ${
-                                  selected ? 'border-[#717fe8]' : 'border-gray-200'
-                                }`}
+                              {/* Replace src with your actual icon paths */}
+                              <div
+                                className={`relative flex items-center justify-center h-40 w-40 rounded-full border-2 transition-all ${selected
+                                    ? 'border-[#717fe8] ring-4 ring-[#717fe8]/20 shadow-md'
+                                    : 'border-[#717fe8] hover:shadow-md'
+                                  } bg-white`}
                               >
-                                <span
-                                  className={`h-3.5 w-3.5 rounded-full transition-colors ${
-                                    selected ? 'bg-[#717fe8]' : 'bg-gray-200'
-                                  }`}
+                                <img
+                                  src={
+                                    opt === 'Affiliate Partners' ? '/partners.png'
+                                      : opt === 'None' ? '/none.png'
+                                        : opt === 'Buying A List' ? '/List.png'
+                                          : '/ads.png'
+                                  }
+                                  alt=""
+                                  className="h-16 w-16 object-contain"
                                 />
+                                <span
+                                  className={`absolute -bottom-3 z-10 h-7 w-7 rounded-full bg-white border-2 flex items-center justify-center ${selected ? 'border-[#717fe8]' : 'border-gray-200'
+                                    }`}
+                                >
+                                  <span
+                                    className={`h-3.5 w-3.5 rounded-full transition-colors ${selected ? 'bg-[#717fe8]' : 'bg-gray-200'
+                                      }`}
+                                  />
+                                </span>
+                              </div>
+                              <span className="mt-4 font-semibold text-gray-900 [font-family:'Inter',Helvetica]">
+                                {opt}
                               </span>
-                            </div>
-                            <span className="mt-4 font-semibold text-gray-900 [font-family:'Inter',Helvetica]">
-                              {opt}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div role="radiogroup" className="flex flex-col gap-4 mb-8">
-                      {currentQuestion.options.map((opt) => {
-                        const selected = answers[currentQuestion.id] === opt;
-                        return (
-                          <button
-                            key={opt}
-                            type="button"
-                            role="radio"
-                            aria-checked={selected}
-                            onClick={() => handleOptionClick(currentQuestion.id, opt)}
-                            className={`w-full flex items-center gap-4 rounded-xl border px-5 py-4 text-left transition-all ${
-                              selected
-                                ? 'bg-white border-[#717fe8] ring-2 ring-[#717fe8] shadow-md'
-                                : 'bg-white border-gray-200 hover:border-[#717fe8] hover:shadow-md'
-                            }`}
-                          >
-                            <span
-                              aria-hidden
-                              className={`flex items-center justify-center h-5 w-5 rounded-full border-2 ${
-                                selected ? 'border-[#717fe8]' : 'border-[#717fe8]'
-                              }`}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div role="radiogroup" className="flex flex-col gap-4 mb-8">
+                        {currentQuestion.options.map((opt) => {
+                          const selected = answers[currentQuestion.id] === opt;
+                          return (
+                            <button
+                              key={opt}
+                              type="button"
+                              role="radio"
+                              aria-checked={selected}
+                              onClick={() => handleOptionClick(currentQuestion.id, opt)}
+                              className={`w-full flex items-center gap-4 rounded-xl border px-5 py-4 text-left transition-all ${selected
+                                  ? 'bg-white border-[#717fe8] ring-2 ring-[#717fe8] shadow-md'
+                                  : 'bg-white border-gray-200 hover:border-[#717fe8] hover:shadow-md'
+                                }`}
                             >
-                              <span className={`h-2.5 w-2.5 rounded-full ${selected ? 'bg-[#717fe8]' : 'bg-transparent'}`} />
-                            </span>
-                            <span className="font-semibold text-gray-900 [font-family:'Inter',Helvetica]">
-                              {opt}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
+                              <span
+                                aria-hidden
+                                className={`flex items-center justify-center h-5 w-5 rounded-full border-2 ${selected ? 'border-[#717fe8]' : 'border-[#717fe8]'
+                                  }`}
+                              >
+                                <span className={`h-2.5 w-2.5 rounded-full ${selected ? 'bg-[#717fe8]' : 'bg-transparent'}`} />
+                              </span>
+                              <span className="font-semibold text-gray-900 [font-family:'Inter',Helvetica]">
+                                {opt}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
 
-                  <div className="flex items-center justify-between">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={handleBack}
-                      disabled={stepIndex === 0}
-                    >
-                      Back
-                    </Button>
-                    {/* Auto-advance on selection; keep space minimal */}
-                    <div />
-                  </div>
+                    <div className="flex items-center justify-between">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={handleBack}
+                        disabled={stepIndex === 0}
+                      >
+                        Back
+                      </Button>
+                      {/* Auto-advance on selection; keep space minimal */}
+                      <div />
+                    </div>
                   </>
                 ) : (
                   <>
-                  <div className="mb-6">
-                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold mb-3">
-                      Contact details
+                    <div className="mb-6">
+                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold mb-3">
+                        Contact details
+                      </div>
+                      <h2 className="text-xl sm:text-2xl font-extrabold text-black [font-family:'Inter',Helvetica]">
+                        Where can we reach you?
+                      </h2>
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-extrabold text-black [font-family:'Inter',Helvetica]">
-                      Where can we reach you?
-                    </h2>
-                  </div>
 
-                  <div className="grid grid-cols-1 gap-4 mb-6">
-                    <div>
-              <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Name</label>
-              <input
-                        id="name"
-                type="text"
-                        value={details.name}
-                        onChange={(e) => setDetails((d) => ({ ...d, name: e.target.value }))}
-                placeholder="Enter your full name"
-                className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
-              />
-            </div>
-                    <div>
-              <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Email</label>
-              <input
-                        id="email"
-                type="email"
-                        value={details.email}
-                        onChange={(e) => setDetails((d) => ({ ...d, email: e.target.value }))}
-                placeholder="your.email@example.com"
-                className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
-              />
-            </div>
-                    <div>
-                      <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Phone (with country code)</label>
-              <input
-                        id="phone"
-                type="tel"
-                        value={details.phone}
-                        onChange={(e) => setDetails((d) => ({ ...d, phone: e.target.value }))}
-                        placeholder="+1 555 123 4567"
-                className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
-              />
-            </div>
-                  </div>
+                    <div className="grid grid-cols-1 gap-4 mb-6">
+                      <div>
+                        <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Name</label>
+                        <input
+                          id="name"
+                          type="text"
+                          value={details.name}
+                          onChange={(e) => setDetails((d) => ({ ...d, name: e.target.value }))}
+                          placeholder="Enter your full name"
+                          className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Email</label>
+                        <input
+                          id="email"
+                          type="email"
+                          value={details.email}
+                          onChange={(e) => setDetails((d) => ({ ...d, email: e.target.value }))}
+                          placeholder="your.email@example.com"
+                          className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2 [font-family:'Inter',Helvetica]">Phone (with country code)</label>
+                        <input
+                          id="phone"
+                          type="tel"
+                          value={details.phone}
+                          onChange={(e) => setDetails((d) => ({ ...d, phone: e.target.value }))}
+                          placeholder="+1 555 123 4567"
+                          className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8] focus:border-transparent transition duration-200"
+                        />
+                      </div>
+                    </div>
 
-                  <div className="flex items-center justify-between">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={handleBack}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={handleSubmit}
-                      disabled={!canGoNext() || isSubmitting}
-                      className="bg-gradient-to-r from-[#717fe8] to-[#954ad2] text-white hover:from-[#5a67d8] hover:to-[#7e3eb3]"
-                    >
-                      {isSubmitting ? 'Submitting...' : 'Submit'}
-                    </Button>
-                  </div>
-                  {submitError && (
-                    <p className="mt-3 text-sm text-red-600 [font-family:'Inter',Helvetica]">{submitError}</p>
-                  )}
+                    <div className="flex items-center justify-between">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={handleBack}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={handleSubmit}
+                        disabled={!canGoNext() || isSubmitting}
+                        className="bg-gradient-to-r from-[#717fe8] to-[#954ad2] text-white hover:from-[#5a67d8] hover:to-[#7e3eb3]"
+                      >
+                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                      </Button>
+                    </div>
+                    {submitError && (
+                      <p className="mt-3 text-sm text-red-600 [font-family:'Inter',Helvetica]">{submitError}</p>
+                    )}
                   </>
                 )}
               </AnimatedStep>
             </div>
-        </>
-      ) : (
-        <>
+          </>
+        ) : (
+          <>
             <div className="w-full text-center">
               <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-gradient-to-r from-[#717fe8] to-[#954ad2] flex items-center justify-center text-white">
                 <CheckIcon className="h-6 w-6" />
@@ -593,10 +587,10 @@ export const ContactUs = (): JSX.Element => {
                 </div>
               </div>
             )}
-        </>
-      )}
+          </>
+        )}
       </div>
-      
+
       {/* Footer Section - Matching main page */}
       <footer className="w-full bg-gray-900 text-gray-300 py-8 sm:py-12 px-4 sm:px-8 mt-12 sm:mt-16">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-6 md:gap-0">
