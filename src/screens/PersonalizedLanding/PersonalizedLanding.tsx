@@ -23,6 +23,225 @@ interface FAQ {
   icon: string;
 }
 
+// Industry-specific keyword mappings
+const INDUSTRY_KEYWORDS: Record<string, Record<string, string>> = {
+  'general': {},
+  'plumbing': {
+    'leads': 'plumbing leads',
+    'lead': 'plumbing lead',
+    'clients': 'plumbing clients',
+    'client': 'plumbing client',
+    'business': 'plumbing business',
+    'businesses': 'plumbing businesses',
+    'customers': 'plumbing customers',
+    'customer': 'plumbing customer',
+    'services': 'plumbing services',
+    'service': 'plumbing service',
+    'calls': 'plumbing calls',
+    'call': 'plumbing call',
+    'appointments': 'plumbing appointments',
+    'appointment': 'plumbing appointment',
+    'jobs': 'plumbing jobs',
+    'job': 'plumbing job',
+  },
+  'roofing': {
+    'leads': 'roofing leads',
+    'lead': 'roofing lead',
+    'clients': 'roofing clients',
+    'client': 'roofing client',
+    'business': 'roofing business',
+    'businesses': 'roofing businesses',
+    'customers': 'roofing customers',
+    'customer': 'roofing customer',
+    'services': 'roofing services',
+    'service': 'roofing service',
+    'calls': 'roofing calls',
+    'call': 'roofing call',
+    'appointments': 'roofing appointments',
+    'appointment': 'roofing appointment',
+    'jobs': 'roofing jobs',
+    'job': 'roofing job',
+    'projects': 'roofing projects',
+    'project': 'roofing project',
+  },
+  'christmas-lighting': {
+    'leads': 'Christmas lighting leads',
+    'lead': 'Christmas lighting lead',
+    'clients': 'Christmas lighting clients',
+    'client': 'Christmas lighting client',
+    'business': 'Christmas lighting business',
+    'businesses': 'Christmas lighting businesses',
+    'customers': 'Christmas lighting customers',
+    'customer': 'Christmas lighting customer',
+    'services': 'Christmas lighting services',
+    'service': 'Christmas lighting service',
+    'calls': 'Christmas lighting calls',
+    'call': 'Christmas lighting call',
+    'appointments': 'Christmas lighting appointments',
+    'appointment': 'Christmas lighting appointment',
+    'jobs': 'Christmas lighting jobs',
+    'job': 'Christmas lighting job',
+    'bookings': 'Christmas lighting bookings',
+    'booking': 'Christmas lighting booking',
+  },
+  'pressure-wash': {
+    'leads': 'pressure washing leads',
+    'lead': 'pressure washing lead',
+    'clients': 'pressure washing clients',
+    'client': 'pressure washing client',
+    'business': 'pressure washing business',
+    'businesses': 'pressure washing businesses',
+    'customers': 'pressure washing customers',
+    'customer': 'pressure washing customer',
+    'services': 'pressure washing services',
+    'service': 'pressure washing service',
+    'calls': 'pressure washing calls',
+    'call': 'pressure washing call',
+    'appointments': 'pressure washing appointments',
+    'appointment': 'pressure washing appointment',
+    'jobs': 'pressure washing jobs',
+    'job': 'pressure washing job',
+  },
+};
+
+// Helper function to personalize text with industry-specific keywords
+const personalizeText = (text: string, industry: string = 'general'): string => {
+  // Return original text if general or no industry specified
+  if (!industry || industry === 'general' || !INDUSTRY_KEYWORDS[industry]) {
+    return text;
+  }
+
+  const keywords = INDUSTRY_KEYWORDS[industry];
+  let personalizedText = text;
+
+  // Sort keywords by length (longest first) to avoid partial replacements
+  const sortedKeywords = Object.keys(keywords).sort((a, b) => b.length - a.length);
+
+  // Replace each keyword with its industry-specific version
+  for (const keyword of sortedKeywords) {
+    const replacement = keywords[keyword];
+    
+    // Case-insensitive replacement preserving original case pattern
+    const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+    personalizedText = personalizedText.replace(regex, (match) => {
+      // Preserve the case of the original match
+      if (match[0] === match[0].toUpperCase()) {
+        // First letter was uppercase
+        return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+      }
+      return replacement;
+    });
+  }
+
+  return personalizedText;
+};
+
+// Hero text variations based on pain points and angles
+interface HeroTextContent {
+  main: string;
+  mainHighlight?: string; // Key phrase to highlight
+  highlightColor: 'red' | 'green'; // red for negative/problem, green for positive/solution
+  sub: string;
+}
+
+const HERO_TEXTS: Record<string, HeroTextContent> = {
+  default: {
+    main: '{businessName}, your follow-up is',
+    mainHighlight: 'costing you clients',
+    highlightColor: 'red',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  // Pain Point #1 - Missed Calls / Lost Leads
+  angle1: {
+    main: '{businessName}, your leads are',
+    mainHighlight: 'talking to competitors',
+    highlightColor: 'red',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  angle2: {
+    main: '{businessName}, every unanswered call becomes',
+    mainHighlight: 'someone else\'s client',
+    highlightColor: 'red',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  // Pain Point #2 - Slow Follow-Up / No System
+  angle3: {
+    main: '{businessName}, you lose leads because of',
+    mainHighlight: 'slow responses',
+    highlightColor: 'red',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  angle4: {
+    main: '{businessName}, manual follow-up is dead. Today,',
+    mainHighlight: 'AI wins instantly',
+    highlightColor: 'green',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  // Pain Point #3 - VAs Are Expensive + Inconsistent
+  angle5: {
+    main: '{businessName}, AI does the work at',
+    mainHighlight: 'half the cost',
+    highlightColor: 'green',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  angle6: {
+    main: '{businessName}, VAs sleep and forget. AI responds',
+    mainHighlight: 'instantly 24/7',
+    highlightColor: 'green',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  // Pain Point #4 - Wasted Ad Spend
+  angle7: {
+    main: '{businessName}, slow follow-up means your budget',
+    mainHighlight: 'funds competitors',
+    highlightColor: 'red',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  angle8: {
+    main: '{businessName}, your ads are working —',
+    mainHighlight: 'your follow-up isn\'t',
+    highlightColor: 'red',
+    sub: 'You need better conversion from the leads you already paid for.'
+  },
+  // Pain Point #5 - Time Drain & Overworked Team
+  angle9: {
+    main: '{businessName}, your team should only talk to',
+    mainHighlight: 'serious buyers',
+    highlightColor: 'green',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  angle10: {
+    main: '{businessName}, focus on closing —',
+    mainHighlight: 'AI handles everything',
+    highlightColor: 'green',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  // Pain Point #6 - Low Ad Conversion Rate
+  angle11: {
+    main: '{businessName}, your ads work — but',
+    mainHighlight: 'conversion dies',
+    highlightColor: 'red',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  },
+  angle12: {
+    main: '{businessName}, leads convert when you',
+    mainHighlight: 'respond instantly',
+    highlightColor: 'green',
+    sub: 'Turn those leads into booked calls instantly — before your competition does.'
+  }
+};
+
+// Helper function to get hero text with personalization
+const getHeroText = (key: string, businessName: string, industry: string = 'general') => {
+  const text = HERO_TEXTS[key] || HERO_TEXTS.default;
+  return {
+    main: personalizeText(text.main.replace('{businessName}', businessName), industry),
+    mainHighlight: text.mainHighlight ? personalizeText(text.mainHighlight, industry) : undefined,
+    highlightColor: text.highlightColor,
+    sub: personalizeText(text.sub, industry)
+  };
+};
+
 // Slide to Call Button Component
 const SlideToCallButton = ({ phoneNumber }: { phoneNumber: string }) => {
   const x = useMotionValue(0);
@@ -519,16 +738,31 @@ export const PersonalizedLanding = (): JSX.Element => {
 
         {/* Personalized Hero Content */}
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center pt-2 sm:pt-4 px-4 pb-6 sm:pb-12">
-          <h1 className="scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-5xl mb-6">
-            {pageData.businessName}, your follow-up is<span className="hidden sm:inline"><br /></span> <span className="text-red-600">costing you clients</span>.
-          </h1>
-          
-          <p className="text-xl text-muted-foreground max-w-3xl mb-2 hidden sm:block">
-            You spend money getting Facebook leads.
-          </p>
-          <p className="text-xl text-muted-foreground max-w-3xl mb-8">
-            Turn those leads into booked calls <strong className="font-semibold">instantly</strong> — before your competition does.
-          </p>
+          {(() => {
+            const heroContent = getHeroText(pageData.heroText || 'default', pageData.businessName, pageData.industry);
+            return (
+              <>
+                <h1 className="scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-5xl mb-6">
+                  {heroContent.main}
+                  {heroContent.mainHighlight && (
+                    <>
+                      <span className="hidden sm:inline"><br /></span>{' '}
+                      <span className={heroContent.highlightColor === 'green' ? 'text-green-600' : 'text-red-600'}>
+                        {heroContent.mainHighlight}
+                      </span>
+                    </>
+                  )}.
+                </h1>
+                
+                <p className="text-xl text-muted-foreground max-w-3xl mb-2 hidden sm:block">
+                  You spend money getting {personalizeText('Facebook leads', pageData.industry)}.
+                </p>
+                <p className="text-xl text-muted-foreground max-w-3xl mb-8">
+                  {heroContent.sub}
+                </p>
+              </>
+            );
+          })()}
           
           <div className="mt-4">
             <p className="text-lg font-semibold text-foreground mb-6">
@@ -537,40 +771,45 @@ export const PersonalizedLanding = (): JSX.Element => {
           </div>
 
           {/* YouTube Video Embed */}
-          {videoId && (
-            <div ref={videoRef} className="w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl bg-gray-200">
-              <div className="relative pt-[56.25%]">
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src={`https://www.youtube.com/embed/${videoId}`}
-                  title={`Video for ${pageData.businessName}`}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
-          )}
-
-          {!videoId && (
-            <div className="w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl bg-muted flex items-center justify-center" style={{ minHeight: '400px' }}>
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-secondary flex items-center justify-center">
-                  <svg className="w-8 h-8 text-muted-foreground" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                  </svg>
+          {pageData.sections?.videoSection !== false && (
+            <>
+              {videoId && (
+                <div ref={videoRef} className="w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl bg-gray-200">
+                  <div className="relative pt-[56.25%]">
+                    <iframe
+                      className="absolute inset-0 w-full h-full"
+                      src={`https://www.youtube.com/embed/${videoId}`}
+                      title={`Video for ${pageData.businessName}`}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
                 </div>
-                <p className="text-muted-foreground">Video placeholder</p>
-                <p className="text-sm text-muted-foreground/70 mt-2">Add a YouTube video ID to display the video</p>
-              </div>
-            </div>
+              )}
+
+              {!videoId && (
+                <div className="w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl bg-muted flex items-center justify-center" style={{ minHeight: '400px' }}>
+                  <div className="text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-secondary flex items-center justify-center">
+                      <svg className="w-8 h-8 text-muted-foreground" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                      </svg>
+                    </div>
+                    <p className="text-muted-foreground">Video placeholder</p>
+                    <p className="text-sm text-muted-foreground/70 mt-2">Add a YouTube video ID to display the video</p>
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
           {/* Trusted By Section - Logo Scroll */}
-          <ScrollReveal className="w-full max-w-5xl mt-12 sm:mt-16">
-            <p className="text-center text-sm font-semibold text-muted-foreground mb-6 tracking-wider uppercase">
-              Trusted by businesses nationwide
-            </p>
+          {pageData.sections?.trustedByLogos !== false && (
+            <ScrollReveal className="w-full max-w-5xl mt-12 sm:mt-16">
+              <p className="text-center text-sm font-semibold text-muted-foreground mb-6 tracking-wider uppercase">
+                Trusted by {personalizeText('businesses', pageData.industry)} nationwide
+              </p>
             <div className="relative overflow-hidden">
               {/* Gradient overlays for fade effect */}
               <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10" />
@@ -629,30 +868,32 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
               </div>
             </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          )}
 
           {/* Book a Call CTA */}
           <BookCallButton />
 
           {/* Call AI Assistant + Testimonials Section */}
-          <ScrollReveal className="w-full mt-16 sm:mt-24 px-4">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-              <div className="w-full max-w-3xl lg:max-w-none mx-auto lg:mx-0">
-                <div className="text-center">
-                  {/* Section Title */}
-                  <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-6">
-                    Your AI Assistant Wants to Talk To You, Call Now?
-                  </h2>
-                  
-                  {/* Section Subtext */}
-                  <div className="mb-10">
-                    <p className="leading-7 text-muted-foreground mb-2">
-                      Your AI assistant is live right now.
-                    </p>
-                    <p className="leading-7 text-muted-foreground">
-                      It will greet you, answer your questions, and show you exactly how it follows up with your leads 24/7.
-                    </p>
-                  </div>
+          {pageData.sections?.callAiAssistant !== false && (
+            <ScrollReveal className="w-full mt-16 sm:mt-24 px-4">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+                <div className="w-full max-w-3xl lg:max-w-none mx-auto lg:mx-0">
+                  <div className="text-center">
+                    {/* Section Title */}
+                    <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-6">
+                      Your AI Assistant Wants to Talk To You, {personalizeText('Call', pageData.industry)} Now?
+                    </h2>
+                    
+                    {/* Section Subtext */}
+                    <div className="mb-10">
+                      <p className="leading-7 text-muted-foreground mb-2">
+                        Your AI assistant is live right now.
+                      </p>
+                      <p className="leading-7 text-muted-foreground">
+                        It will greet you, answer your questions, and show you exactly how it follows up with your {personalizeText('leads', pageData.industry)} 24/7.
+                      </p>
+                    </div>
 
                   {/* Slide to Call Button */}
                   <div className="mb-8">
@@ -902,13 +1143,15 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
               </div>
             </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          )}
 
           {/* Book a Call CTA */}
           <BookCallButton showGetAiCall={true} onGetAiCallClick={() => setShowPopup(true)} />
 
           {/* VA Replacement Section */}
-          <ScrollReveal className="w-full max-w-6xl mt-24 px-2 sm:px-4">
+          {pageData.sections?.vaReplacement !== false && (
+            <ScrollReveal className="w-full max-w-6xl mt-24 px-2 sm:px-4">
             {/* Section Title */}
             <div className="text-center mb-10 sm:mb-12">
               <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 mb-3">
@@ -932,11 +1175,11 @@ export const PersonalizedLanding = (): JSX.Element => {
                       Instant response without human delays
                     </h3>
                     <p className="leading-6 sm:leading-7 text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">
-                      Your VA juggles tasks, forgets leads, and calls back hours later. AI calls within <Highlighter action="circle" color="#22c55e" strokeWidth={2} isView={true}>3 seconds</Highlighter> — every single time.
+                      Your VA juggles tasks, forgets {personalizeText('leads', pageData.industry)}, and {personalizeText('calls', pageData.industry)} back hours later. AI {personalizeText('calls', pageData.industry)} within <Highlighter action="circle" color="#22c55e" strokeWidth={2} isView={true}>3 seconds</Highlighter> — every single time.
                     </p>
                     <div className="bg-muted p-3 sm:p-4 rounded-lg">
                       <p className="text-xs sm:text-sm text-muted-foreground">
-                        <strong className="font-semibold"><Highlighter action="highlight" color="#fbbf24" strokeWidth={2} isView={true}>72% of Facebook leads go cold in under 5 minutes.</Highlighter></strong> AI never misses that window.
+                        <strong className="font-semibold"><Highlighter action="highlight" color="#fbbf24" strokeWidth={2} isView={true}>72% of {personalizeText('Facebook leads', pageData.industry)} go cold in under 5 minutes.</Highlighter></strong> AI never misses that window.
                       </p>
                     </div>
                   </div>
@@ -957,11 +1200,11 @@ export const PersonalizedLanding = (): JSX.Element => {
                       <Highlighter action="underline" color="#22c55e" strokeWidth={2} isView={true}>Perfect follow-up</Highlighter>, unlimited scale
                     </h3>
                     <p className="leading-6 sm:leading-7 text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">
-                      VAs handle 20 leads per day and give up after 2–3 attempts. AI follows up 8–12 times automatically and calls 200+ leads simultaneously.
+                      VAs handle 20 {personalizeText('leads', pageData.industry)} per day and give up after 2–3 attempts. AI follows up 8–12 times automatically and {personalizeText('calls', pageData.industry)} 200+ {personalizeText('leads', pageData.industry)} simultaneously.
                     </p>
                     <div className="bg-muted p-3 sm:p-4 rounded-lg">
                       <p className="text-xs sm:text-sm text-muted-foreground">
-                        <strong className="font-semibold"><Highlighter action="box" color="#22c55e" strokeWidth={2} isView={true}>Works 24/7</Highlighter>.</strong> No sick days, no breaks, no salary — just qualified leads in your calendar.
+                        <strong className="font-semibold"><Highlighter action="box" color="#22c55e" strokeWidth={2} isView={true}>Works 24/7</Highlighter>.</strong> No sick days, no breaks, no salary — just qualified {personalizeText('leads', pageData.industry)} in your calendar.
                       </p>
                     </div>
                   </div>
@@ -982,24 +1225,26 @@ export const PersonalizedLanding = (): JSX.Element => {
                       Your closer only talks to <Highlighter action="highlight" color="#22c55e" isView={true}>qualified buyers</Highlighter>
                     </h3>
                     <p className="leading-6 sm:leading-7 text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">
-                      AI qualifies leads in 30 seconds using tone, intent, and keywords. Only ready-to-buy leads reach your calendar.
+                      AI qualifies {personalizeText('leads', pageData.industry)} in 30 seconds using tone, intent, and keywords. Only ready-to-buy {personalizeText('leads', pageData.industry)} reach your calendar.
                     </p>
                     <div className="bg-green-50 p-3 sm:p-4 rounded-lg border-l-4 border-green-600">
                       <p className="text-xs sm:text-sm text-foreground font-semibold">
-                        <span className="text-green-600">No more chasing dead leads.</span> Your team closes, AI does everything else.
+                        <span className="text-green-600">No more chasing dead {personalizeText('leads', pageData.industry)}.</span> Your team closes, AI does everything else.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          )}
 
           {/* Book a Call CTA */}
           <BookCallButton showGetAiCall={true} onGetAiCallClick={() => setShowPopup(true)} />
 
           {/* Why Manual Follow-Up Fails Section */}
-          <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4">
+          {pageData.sections?.whyManualFails !== false && (
+            <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4">
             {/* Section Title */}
             <div className="text-center mb-12 sm:mb-16">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-4 leading-tight flex items-center justify-center gap-3">
@@ -1033,13 +1278,13 @@ export const PersonalizedLanding = (): JSX.Element => {
                     <li className="flex items-start gap-2 sm:gap-3">
                       <span className="text-[#7d2e2e] font-bold text-xl flex-shrink-0 mt-0.5">•</span>
                       <p className="text-base sm:text-lg lg:text-xl text-foreground leading-relaxed">
-                        <strong className="text-[#7d2e2e] font-bold"><Highlighter action="strike-through" color="#ef4444" strokeWidth={2} isView={true}>Facebook leads go cold in under 5 minutes</Highlighter></strong>, but humans follow up in hours.
+                        <strong className="text-[#7d2e2e] font-bold"><Highlighter action="strike-through" color="#ef4444" strokeWidth={2} isView={true}>{personalizeText('Facebook leads', pageData.industry)} go cold in under 5 minutes</Highlighter></strong>, but humans follow up in hours.
                       </p>
                     </li>
                     <li className="flex items-start gap-2 sm:gap-3">
                       <span className="text-[#7d2e2e] font-bold text-xl flex-shrink-0 mt-0.5">•</span>
                       <p className="text-base sm:text-lg lg:text-xl text-foreground leading-relaxed">
-                        <strong className="text-[#7d2e2e] font-bold">VAs juggle tasks</strong> — they miss calls, forget messages, or reply late.
+                        <strong className="text-[#7d2e2e] font-bold">VAs juggle tasks</strong> — they miss {personalizeText('calls', pageData.industry)}, forget messages, or reply late.
                       </p>
                     </li>
                     <li className="flex items-start gap-2 sm:gap-3">
@@ -1051,7 +1296,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                     <li className="flex items-start gap-2 sm:gap-3">
                       <span className="text-[#7d2e2e] font-bold text-xl flex-shrink-0 mt-0.5">•</span>
                       <p className="text-base sm:text-lg lg:text-xl text-foreground leading-relaxed">
-                        <strong className="text-[#7d2e2e] font-bold"><Highlighter action="highlight" color="#fca5a5" strokeWidth={2} isView={true}>72% of your ad spend gets wasted</Highlighter></strong> because no one responds instantly.
+                        <strong className="text-[#7d2e2e] font-bold"><Highlighter action="highlight" color="#fca5a5" strokeWidth={2} isView={true}>72% of your {personalizeText('ad spend', pageData.industry)} gets wasted</Highlighter></strong> because no one responds instantly.
                       </p>
                     </li>
                   </ul>
@@ -1064,7 +1309,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                   </h4>
                   
                   <p className="text-base sm:text-lg lg:text-xl text-foreground font-semibold mb-3 sm:mb-4">
-                    Every minute you wait, your leads:
+                    Every minute you wait, your {personalizeText('leads', pageData.industry)}:
                   </p>
                   
                   <ul className="space-y-3 sm:space-y-4 mb-5 sm:mb-6">
@@ -1077,13 +1322,13 @@ export const PersonalizedLanding = (): JSX.Element => {
                   </ul>
                   
                   <p className="text-base sm:text-lg lg:text-xl text-foreground font-medium mb-5 sm:mb-6 leading-relaxed">
-                    And when your VA misses even <strong className="text-[#7d2e2e]">ONE</strong> lead?<br />
-                    That's a potential client gone forever.
+                    And when your VA misses even <strong className="text-[#7d2e2e]">ONE</strong> {personalizeText('lead', pageData.industry)}?<br />
+                    That's a potential {personalizeText('client', pageData.industry)} gone forever.
                   </p>
                   
                   <div className="bg-[#7d2e2e] text-white p-4 sm:p-5 rounded-lg shadow-lg">
                     <p className="text-base sm:text-lg lg:text-xl font-bold text-center leading-relaxed">
-                      <strong>You paid for the lead.</strong><br />
+                      <strong>You paid for the {personalizeText('lead', pageData.industry)}.</strong><br />
                       You just didn't claim it fast enough.
                     </p>
                   </div>
@@ -1101,15 +1346,15 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
                 
                 <p className="text-base sm:text-lg lg:text-xl text-foreground font-semibold mb-5 sm:mb-6">
-                  The moment a lead comes in:
+                  The moment a {personalizeText('lead', pageData.industry)} comes in:
                 </p>
                 
                   <ul className="space-y-4 sm:space-y-5 mb-6 sm:mb-8">
                   {[
-                    { text: 'AI calls within 1–2 seconds', highlight: true },
+                    { text: personalizeText('AI calls within 1–2 seconds', pageData.industry), highlight: true },
                     { text: 'AI texts immediately', highlight: false },
                     { text: 'AI handles objections', highlight: false },
-                    { text: 'AI books appointments', highlight: false },
+                    { text: personalizeText('AI books appointments', pageData.industry), highlight: false },
                     { text: 'AI follows up for days automatically', highlight: true },
                     { text: 'AI never sleeps, never forgets, never gets tired', highlight: true }
                   ].map((item, idx) => (
@@ -1147,13 +1392,15 @@ export const PersonalizedLanding = (): JSX.Element => {
                 <Highlighter action="underline" color="#4ade80" strokeWidth={3} isView={true}>AI makes sure you never lose again.</Highlighter>
               </p>
             </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          )}
 
           {/* Book a Call CTA */}
           <BookCallButton showGetAiCall={true} onGetAiCallClick={() => setShowPopup(true)} />
 
           {/* Testimonial-Only Pricing Section */}
-          <ScrollReveal className="w-full max-w-5xl mt-16 sm:mt-24 px-4">
+          {pageData.sections?.testimonialPricing !== false && (
+            <ScrollReveal className="w-full max-w-5xl mt-16 sm:mt-24 px-4">
             {/* 1. Top Banner */}
             <div className="mb-8 sm:mb-12">
               <div className="relative inline-block w-full">
@@ -1200,7 +1447,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                             userSelect: 'none',
                           }}
                         >
-                          $199
+                          ${pageData.pricing || 199}
                         </div>
                         <p className="text-sm sm:text-base text-muted-foreground mb-6">
                           Tap to reveal your testimonial-only discount
@@ -1226,7 +1473,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                           }}
                         >
                           <span className="text-3xl sm:text-4xl font-bold text-muted-foreground relative inline-block price-strike">
-                            $499/mo
+                            ${Math.round((pageData.pricing || 199) * 2.5)}/mo
                           </span>
                         </div>
                         
@@ -1238,7 +1485,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                           }}
                         >
                           <span className="text-6xl sm:text-8xl font-extrabold text-green-600">
-                            $199
+                            ${pageData.pricing || 199}
                           </span>
                           <p 
                             className="text-base sm:text-lg text-foreground font-semibold mt-2"
@@ -1352,17 +1599,19 @@ export const PersonalizedLanding = (): JSX.Element => {
                   rel="noopener noreferrer"
                   className="inline-block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold text-lg sm:text-xl py-4 sm:py-5 px-8 sm:px-12 rounded-xl shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
                 >
-                  Get My AI Outreach System → $199/mo
+                  Get My AI Outreach System → ${pageData.pricing || 199}/mo
                 </a>
                 <p className="text-sm sm:text-base text-muted-foreground mt-4">
                   No contracts. No risk. Just results → then testimonial.
                 </p>
               </div>
             </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          )}
 
           {/* FAQ Section */}
-          <ScrollReveal className="w-full max-w-4xl mt-16 sm:mt-24 px-4">
+          {pageData.sections?.faqSection !== false && (
+            <ScrollReveal className="w-full max-w-4xl mt-16 sm:mt-24 px-4">
             {/* Section Title */}
             <div className="mb-12 sm:mb-16">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground leading-tight">
@@ -1437,16 +1686,18 @@ export const PersonalizedLanding = (): JSX.Element => {
                 rel="noopener noreferrer"
                 className="inline-block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold text-lg sm:text-xl py-4 sm:py-5 px-8 sm:px-12 rounded-xl shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
               >
-                Get My AI Outreach System → $199/mo
+                Get My AI Outreach System → ${pageData.pricing || 199}/mo
               </a>
               <p className="text-sm sm:text-base text-muted-foreground mt-4">
                 Still have questions? Book a call and we'll answer everything.
               </p>
             </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          )}
 
           {/* Final CTA Section */}
-          <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4 mb-12 sm:mb-16">
+          {pageData.sections?.finalCta !== false && (
+            <ScrollReveal className="w-full max-w-6xl mt-16 sm:mt-24 px-4 mb-12 sm:mb-16">
             <div 
               className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-foreground to-foreground/90"
             >
@@ -1466,11 +1717,11 @@ export const PersonalizedLanding = (): JSX.Element => {
               <div className="relative z-10 px-6 sm:px-10 lg:px-16 py-12 sm:py-16 lg:py-20 text-center">
                 {/* Headline */}
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground mb-3 sm:mb-4 leading-tight">
-                  Stop Losing Leads. Start Converting Them — Today.
+                  Stop Losing {personalizeText('Leads', pageData.industry)}. Start Converting Them — Today.
                 </h2>
                 
                 <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 font-semibold mb-6 sm:mb-8">
-                  Every hour you wait, your competitors are capturing YOUR leads.
+                  Every hour you wait, your competitors are capturing YOUR {personalizeText('leads', pageData.industry)}.
                 </p>
                 
                 {/* Subtext */}
@@ -1482,7 +1733,7 @@ export const PersonalizedLanding = (): JSX.Element => {
                     The only question left is: <span className="text-green-400 font-bold">Are you ready to act?</span>
                   </p>
                   <p className="text-base sm:text-lg lg:text-xl text-primary-foreground font-semibold leading-relaxed">
-                    Book a quick 5-minute call — we'll show you exactly how <span className="text-green-400">{pageData.businessName}</span> can turn every lead into revenue.
+                    Book a quick 5-minute {personalizeText('call', pageData.industry)} — we'll show you exactly how <span className="text-green-400">{pageData.businessName}</span> can turn every {personalizeText('lead', pageData.industry)} into revenue.
                   </p>
                 </div>
                 
@@ -1521,7 +1772,8 @@ export const PersonalizedLanding = (): JSX.Element => {
                 </div>
               </div>
             </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          )}
         </div>
       </header>
       

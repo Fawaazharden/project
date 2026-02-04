@@ -106,6 +106,10 @@ export async function getPersonalizedPageBySlug(slug: string) {
       businessLogo {
         asset->
       },
+      industry,
+      pricing,
+      sections,
+      heroText,
       createdAt
     }
   `, { slug });
@@ -138,7 +142,20 @@ export async function uploadImage(file: File) {
 export async function createPersonalizedPage(
   businessName: string, 
   youtubeUrl: string, 
-  logoFile?: File
+  logoFile?: File,
+  industry: string = 'general',
+  pricing: number = 199,
+  sections?: {
+    videoSection?: boolean;
+    trustedByLogos?: boolean;
+    callAiAssistant?: boolean;
+    vaReplacement?: boolean;
+    whyManualFails?: boolean;
+    testimonialPricing?: boolean;
+    faqSection?: boolean;
+    finalCta?: boolean;
+  },
+  heroText: string = 'default'
 ) {
   const slug = businessName
     .toLowerCase()
@@ -159,6 +176,19 @@ export async function createPersonalizedPage(
     };
   }
   
+  // Default all sections to true if not provided
+  const defaultSections = {
+    videoSection: true,
+    trustedByLogos: true,
+    callAiAssistant: true,
+    vaReplacement: true,
+    whyManualFails: true,
+    testimonialPricing: true,
+    faqSection: true,
+    finalCta: true,
+    ...sections
+  };
+  
   return client.create({
     _type: 'personalizedPage',
     businessName,
@@ -167,6 +197,10 @@ export async function createPersonalizedPage(
       current: slug
     },
     youtubeUrl,
+    industry,
+    pricing,
+    sections: defaultSections,
+    heroText,
     ...(businessLogo && { businessLogo }),
     createdAt: new Date().toISOString()
   });

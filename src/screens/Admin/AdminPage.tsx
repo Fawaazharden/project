@@ -243,6 +243,21 @@ export const AdminPage = (): JSX.Element => {
                   const formData = new FormData(e.currentTarget);
                   const businessName = formData.get('businessName') as string;
                   const youtubeUrl = formData.get('youtubeUrl') as string;
+                  const heroText = formData.get('heroText') as string;
+                  const industry = formData.get('industry') as string;
+                  const pricing = parseInt(formData.get('pricing') as string, 10);
+                  
+                  // Collect section visibility settings
+                  const sections = {
+                    videoSection: formData.get('section_videoSection') === 'on',
+                    trustedByLogos: formData.get('section_trustedByLogos') === 'on',
+                    callAiAssistant: formData.get('section_callAiAssistant') === 'on',
+                    vaReplacement: formData.get('section_vaReplacement') === 'on',
+                    whyManualFails: formData.get('section_whyManualFails') === 'on',
+                    testimonialPricing: formData.get('section_testimonialPricing') === 'on',
+                    faqSection: formData.get('section_faqSection') === 'on',
+                    finalCta: formData.get('section_finalCta') === 'on',
+                  };
                   
                   if (!businessName || !youtubeUrl) {
                     alert('Please fill in all fields');
@@ -250,7 +265,15 @@ export const AdminPage = (): JSX.Element => {
                   }
                   
                   try {
-                    await createPersonalizedPage(businessName.trim(), youtubeUrl.trim(), logoFile || undefined);
+                    await createPersonalizedPage(
+                      businessName.trim(), 
+                      youtubeUrl.trim(), 
+                      logoFile || undefined,
+                      industry || 'general',
+                      pricing || 199,
+                      sections,
+                      heroText || 'default'
+                    );
                     alert(`✅ Landing page created!\n\nURL: vocalxlabs.com/${businessName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '')}`);
                     e.currentTarget.reset();
                     removeLogo();
@@ -321,7 +344,7 @@ export const AdminPage = (): JSX.Element => {
                     <p className="text-xs text-gray-500 mt-1">Upload the business logo to show partnership (Vocalx & Their Logo)</p>
                   </div>
                   
-                  <div className="mb-6">
+                  <div className="mb-4">
                     <label htmlFor="youtubeUrl" className="block text-gray-700 text-sm font-bold mb-2">
                       YouTube Video URL
                     </label>
@@ -334,6 +357,286 @@ export const AdminPage = (): JSX.Element => {
                       className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8]"
                     />
                     <p className="text-xs text-gray-500 mt-1">Full YouTube URL (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-3">
+                      Hero Message (Pain Point & Angle)
+                    </label>
+                    <div className="border border-gray-300 rounded-lg p-4 max-h-96 overflow-y-auto">
+                      {/* Default option */}
+                      <label className="flex items-start gap-3 p-3 border-2 rounded-lg mb-3 cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                        <input type="radio" name="heroText" value="default" defaultChecked className="mt-1 w-4 h-4 text-[#717fe8]" />
+                        <div className="flex-1">
+                          <p className="font-semibold text-gray-900 mb-1">Default Message</p>
+                          <p className="text-sm text-gray-600">Your follow-up is <span className="text-red-600 font-bold">costing you clients</span></p>
+                        </div>
+                      </label>
+                      
+                      {/* Pain Point 1 */}
+                      <details className="mb-2 border rounded-lg">
+                        <summary className="cursor-pointer p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-semibold text-gray-900 transition-colors">
+                          Pain Point #1 - Missed Calls / Lost Leads
+                        </summary>
+                        <div className="p-3 space-y-2">
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle1" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 1: Immediate Loss</p>
+                              <p className="text-xs text-gray-600">Your leads are <span className="text-red-600 font-bold">talking to competitors</span>.</p>
+                            </div>
+                          </label>
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle2" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 2: Every Missed Call = Money Lost</p>
+                              <p className="text-xs text-gray-600">Every unanswered call becomes <span className="text-red-600 font-bold">someone else's client</span>.</p>
+                            </div>
+                          </label>
+                        </div>
+                      </details>
+
+                      {/* Pain Point 2 */}
+                      <details className="mb-2 border rounded-lg">
+                        <summary className="cursor-pointer p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-semibold text-gray-900 transition-colors">
+                          Pain Point #2 - Slow Follow-Up / No System
+                        </summary>
+                        <div className="p-3 space-y-2">
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle3" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 3: Response Time Kills ROI</p>
+                              <p className="text-xs text-gray-600">You lose leads because of <span className="text-red-600 font-bold">slow responses</span>.</p>
+                            </div>
+                          </label>
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle4" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 4: Your CRM Isn't Fast Enough</p>
+                              <p className="text-xs text-gray-600">Manual follow-up is dead. Today, <span className="text-green-600 font-bold">AI wins instantly</span>.</p>
+                            </div>
+                          </label>
+                        </div>
+                      </details>
+
+                      {/* Pain Point 3 */}
+                      <details className="mb-2 border rounded-lg">
+                        <summary className="cursor-pointer p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-semibold text-gray-900 transition-colors">
+                          Pain Point #3 - VAs Are Expensive + Inconsistent
+                        </summary>
+                        <div className="p-3 space-y-2">
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle5" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 5: Cost of Manual Labor</p>
+                              <p className="text-xs text-gray-600">AI does the work at <span className="text-green-600 font-bold">half the cost</span>.</p>
+                            </div>
+                          </label>
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle6" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 6: People Get Busy. AI Doesn't.</p>
+                              <p className="text-xs text-gray-600">VAs sleep and forget. AI responds <span className="text-green-600 font-bold">instantly 24/7</span>.</p>
+                            </div>
+                          </label>
+                        </div>
+                      </details>
+
+                      {/* Pain Point 4 */}
+                      <details className="mb-2 border rounded-lg">
+                        <summary className="cursor-pointer p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-semibold text-gray-900 transition-colors">
+                          Pain Point #4 - Wasted Ad Spend
+                        </summary>
+                        <div className="p-3 space-y-2">
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle7" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 7: Traffic Without Conversion</p>
+                              <p className="text-xs text-gray-600">Slow follow-up means your budget <span className="text-red-600 font-bold">funds competitors</span>.</p>
+                            </div>
+                          </label>
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle8" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 8: Your Ads Are Working — Your Follow-Up Isn't</p>
+                              <p className="text-xs text-gray-600">Your ads are working — <span className="text-red-600 font-bold">your follow-up isn't</span>.</p>
+                            </div>
+                          </label>
+                        </div>
+                      </details>
+
+                      {/* Pain Point 5 */}
+                      <details className="mb-2 border rounded-lg">
+                        <summary className="cursor-pointer p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-semibold text-gray-900 transition-colors">
+                          Pain Point #5 - Time Drain & Overworked Team
+                        </summary>
+                        <div className="p-3 space-y-2">
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle9" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 9: Team Bottleneck</p>
+                              <p className="text-xs text-gray-600">Your team should only talk to <span className="text-green-600 font-bold">serious buyers</span>.</p>
+                            </div>
+                          </label>
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle10" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 10: AI Handles The Busy Work</p>
+                              <p className="text-xs text-gray-600">Focus on closing — <span className="text-green-600 font-bold">AI handles everything</span>.</p>
+                            </div>
+                          </label>
+                        </div>
+                      </details>
+
+                      {/* Pain Point 6 */}
+                      <details className="mb-2 border rounded-lg">
+                        <summary className="cursor-pointer p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-semibold text-gray-900 transition-colors">
+                          Pain Point #6 - Low Ad Conversion Rate
+                        </summary>
+                        <div className="p-3 space-y-2">
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle11" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 11: The Click Isn't the Win</p>
+                              <p className="text-xs text-gray-600">Your ads work — but <span className="text-red-600 font-bold">conversion dies</span>.</p>
+                            </div>
+                          </label>
+                          <label className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-[#717fe8] has-[:checked]:bg-blue-50">
+                            <input type="radio" name="heroText" value="angle12" className="mt-1 w-4 h-4 text-[#717fe8]" />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm mb-1">Angle 12: You Don't Need More Clicks — You Need More Conversations</p>
+                              <p className="text-xs text-gray-600">Leads convert when you <span className="text-green-600 font-bold">respond instantly</span>.</p>
+                            </div>
+                          </label>
+                        </div>
+                      </details>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">Choose a hero message that resonates with your client's main pain point</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <label htmlFor="industry" className="block text-gray-700 text-sm font-bold mb-2">
+                      Industry
+                    </label>
+                    <select
+                      id="industry"
+                      name="industry"
+                      defaultValue="general"
+                      className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8]"
+                    >
+                      <option value="general">General Page</option>
+                      <option value="plumbing">Plumbing</option>
+                      <option value="roofing">Roofing</option>
+                      <option value="christmas-lighting">Christmas Lighting</option>
+                      <option value="pressure-wash">Pressure Wash</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">Select the industry for keyword personalization</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <label htmlFor="pricing" className="block text-gray-700 text-sm font-bold mb-2">
+                      Monthly Pricing ($)
+                    </label>
+                    <input
+                      type="number"
+                      id="pricing"
+                      name="pricing"
+                      defaultValue={199}
+                      min={0}
+                      step={1}
+                      required
+                      className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#717fe8]"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Set the monthly pricing for this client</p>
+                  </div>
+
+                  <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-bold mb-3">
+                      Page Sections
+                    </label>
+                    <div className="border border-gray-300 rounded-lg p-4 space-y-3">
+                      <p className="text-xs text-gray-500 mb-3">Select which sections to display on the landing page</p>
+                      
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="section_videoSection"
+                          defaultChecked
+                          className="w-4 h-4 text-[#717fe8] border-gray-300 rounded focus:ring-[#717fe8]"
+                        />
+                        <span className="text-sm text-gray-700">Video Section</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="section_trustedByLogos"
+                          defaultChecked
+                          className="w-4 h-4 text-[#717fe8] border-gray-300 rounded focus:ring-[#717fe8]"
+                        />
+                        <span className="text-sm text-gray-700">Trusted By Logos</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="section_callAiAssistant"
+                          defaultChecked
+                          className="w-4 h-4 text-[#717fe8] border-gray-300 rounded focus:ring-[#717fe8]"
+                        />
+                        <span className="text-sm text-gray-700">Call AI Assistant + Testimonials</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="section_vaReplacement"
+                          defaultChecked
+                          className="w-4 h-4 text-[#717fe8] border-gray-300 rounded focus:ring-[#717fe8]"
+                        />
+                        <span className="text-sm text-gray-700">VA Replacement Section</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="section_whyManualFails"
+                          defaultChecked
+                          className="w-4 h-4 text-[#717fe8] border-gray-300 rounded focus:ring-[#717fe8]"
+                        />
+                        <span className="text-sm text-gray-700">Why Manual Follow-Up Fails</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="section_testimonialPricing"
+                          defaultChecked
+                          className="w-4 h-4 text-[#717fe8] border-gray-300 rounded focus:ring-[#717fe8]"
+                        />
+                        <span className="text-sm text-gray-700">Testimonial-Only Pricing</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="section_faqSection"
+                          defaultChecked
+                          className="w-4 h-4 text-[#717fe8] border-gray-300 rounded focus:ring-[#717fe8]"
+                        />
+                        <span className="text-sm text-gray-700">FAQ Section</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="section_finalCta"
+                          defaultChecked
+                          className="w-4 h-4 text-[#717fe8] border-gray-300 rounded focus:ring-[#717fe8]"
+                        />
+                        <span className="text-sm text-gray-700">Final CTA Section</span>
+                      </label>
+                    </div>
                   </div>
                   
                   <button
