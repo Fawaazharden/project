@@ -1,0 +1,13 @@
+# Dependencies (not used at runtime; site is static)
+node_modules/
+package-lock.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Tailwind local cache, if any
+.tailwindcss-cache/
