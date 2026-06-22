@@ -7,7 +7,7 @@
   <title>Replace ReSimpli's AI Subscription with a One-Time Setup | vocalxlabs</title>
   <meta name="description" content="Stop paying ReSimpli $0.50 per AI SMS and $0.50 per AI minute. We build the same AI SMS and voice agents inside your existing ReSimpli account for a one-time fee. Lifetime support.">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23ffffff'/><g transform='translate(11 14) scale(0.73)'><path d='M26 6 C6 28 6 72 26 94 C14 72 14 28 26 6 Z' fill='%230a2540'/><ellipse cx='46' cy='50' rx='12' ry='33' fill='none' stroke='%230a2540' stroke-width='9'/><ellipse cx='72' cy='50' rx='8' ry='21' fill='none' stroke='%230a2540' stroke-width='7'/><ellipse cx='92' cy='50' rx='3.6' ry='8' fill='%230a2540'/></g></svg>">
+  <link rel="icon" type="image/png" href="img/favicon.png">
 
   <meta property="og:title" content="Stop paying ReSimpli for AI. Build it once. Own it forever.">
   <meta property="og:description" content="We build ReSimpli's AI SMS and voice agents inside your existing ReSimpli account. One setup fee. No more $0.50 per text. No more $0.50 per AI minute.">
@@ -15,6 +15,9 @@
   <meta property="og:url" content="https://vocalxlabs.com/resimpli">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://vocalxlabs.com/resimpli">
+
+  <link rel="preconnect" href="https://assets.calendly.com">
+  <link rel="preconnect" href="https://calendly.com" crossorigin>
 
   <link rel="stylesheet" href="fonts/fonts.css">
   <link rel="stylesheet" href="assets/styles.css">
@@ -77,12 +80,7 @@
     <div class="max-w-content mx-auto px-5 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <a href="#" class="flex items-center gap-2.5" aria-label="vocalxlabs home">
-          <svg viewBox="0 0 104 100" class="h-6 w-auto text-navy" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M26 6 C6 28 6 72 26 94 C14 72 14 28 26 6 Z" fill="currentColor"/>
-            <ellipse cx="46" cy="50" rx="12" ry="33" stroke="currentColor" stroke-width="9"/>
-            <ellipse cx="72" cy="50" rx="8" ry="21" stroke="currentColor" stroke-width="7"/>
-            <ellipse cx="92" cy="50" rx="3.6" ry="8" fill="currentColor"/>
-          </svg>
+          <img src="img/logo.png" alt="vocalxlabs" class="h-8 w-8 object-contain" width="32" height="32">
           <span class="font-semibold text-ink tracking-tight">vocalxlabs</span>
           <span class="hidden sm:inline text-ink-muted text-sm font-normal">/ ReSimpli</span>
         </a>
@@ -273,6 +271,17 @@
         You're paying ReSimpli $35,376 a year for $5,376 of actual API usage plus your base plan. The other $30,000 funds their sales team, exec comp, and the fact that they built it first. Nothing crooked. That's how SaaS pricing works. The question is whether you keep funding it next year.
       </p>
       <p class="mt-4 text-sm text-ink-muted italic">Your numbers will be different. We run yours specifically before the call.</p>
+
+      <div class="mt-8 rounded-xl border-2 border-navy bg-paper p-6 md:p-7 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+        <div class="flex-1">
+          <p class="text-xs font-semibold uppercase tracking-wider text-ink-muted mb-1">Even if you run just one agent</p>
+          <p class="text-ink leading-snug text-base md:text-lg">ReSimpli's <span class="font-semibold">Lead Manager AI</span> by itself is <span class="font-semibold">$1,000/mo</span>, about <span class="font-semibold">$12,000 a year</span>. We replace it with a one-time setup from $899. Nothing monthly from us.</p>
+        </div>
+        <a href="#pricing" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-navy hover:bg-navy-hover text-paper text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0">
+          See the offer
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
 
     </div>
   </section>
@@ -747,28 +756,31 @@
           One payment. Not another monthly bill.
         </h2>
         <p class="mt-5 text-base md:text-lg text-ink-soft leading-relaxed">
-          ReSimpli's Lead Manager AI runs $1,000/mo, forever. We build the same lead-qualifying system (and more) inside your ReSimpli for a one-time setup fee. After that you only pay your own raw API usage.
+          ReSimpli's Lead Manager AI costs $1,000/mo, forever. We build that same lead-qualifying system (and more) inside your ReSimpli for one upfront setup fee, then charge you nothing monthly. You own it, and you only pay your own raw API usage after.
         </p>
       </div>
 
       <div class="max-w-3xl">
         <div class="bg-paper rounded-2xl border-2 border-navy p-7 md:p-10 shadow-lg shadow-navy/5">
-          <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
-            <div>
-              <p class="text-sm font-semibold text-navy mb-2">One-time setup</p>
-              <p class="flex items-baseline gap-2">
-                <span class="text-sm text-ink-muted">from</span>
-                <span class="display text-6xl md:text-7xl text-ink leading-none">$899</span>
-                <span class="text-sm text-ink-muted">once</span>
-              </p>
-              <p class="mt-3 text-sm text-ink-soft max-w-sm">Final scope and price are set on the call, based on your pipeline and how much you want automated.</p>
+          <div class="inline-flex items-center gap-2 rounded-full bg-money-soft border border-money/20 px-3 py-1.5 text-xs font-medium text-money mb-6">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            We replace ReSimpli's monthly bill with one setup fee
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="rounded-xl bg-danger-soft border border-danger/20 p-5">
+              <p class="text-xs font-semibold uppercase tracking-wider text-danger/80 mb-2">What ReSimpli charges</p>
+              <p class="display text-4xl text-danger leading-none"><span class="line-through decoration-2 decoration-danger/50">$1,000</span><span class="text-base text-danger/70">/mo</span></p>
+              <p class="text-sm text-ink-soft mt-2">ReSimpli Lead Manager AI. Every month, forever. About $12,000 a year.</p>
             </div>
-            <div class="sm:text-right shrink-0 rounded-xl bg-danger-soft border border-danger/20 px-4 py-3">
-              <p class="text-xs uppercase tracking-wider text-danger/80">ReSimpli Lead Manager AI</p>
-              <p class="display text-3xl text-danger leading-none mt-1">$1,000<span class="text-base text-danger/70">/mo</span></p>
-              <p class="text-xs text-ink-muted mt-1">every month, forever</p>
+            <div class="rounded-xl bg-money-soft border border-money/30 p-5">
+              <p class="text-xs font-semibold uppercase tracking-wider text-money mb-2">What you pay us</p>
+              <p class="display text-4xl text-ink leading-none"><span class="text-base text-ink-muted">from </span>$899<span class="text-base text-ink-muted"> once</span></p>
+              <p class="text-sm text-ink-soft mt-2"><span class="font-semibold text-ink">No monthly fees. No retainer.</span> Just the one-time setup.</p>
             </div>
           </div>
+
+          <p class="mt-5 text-sm text-ink-soft">Final scope and price are set on the call, based on your pipeline and how much you want automated. After setup you only pay your own raw API usage (cents per message), nothing to us.</p>
 
           <div class="mt-8 pt-8 border-t border-border grid sm:grid-cols-2 gap-x-8 gap-y-3 text-sm text-ink-soft">
             <div class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-money flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12"/></svg><span>AI SMS that qualifies leads and books them on your calendar</span></div>
@@ -945,8 +957,12 @@
         </div>
 
         <div class="lg:col-span-2">
-          <div class="bg-paper rounded-xl p-2 md:p-3">
-            <div class="calendly-inline-widget rounded-lg overflow-hidden" data-url="https://calendly.com/vocalxlabs_fawaaz/discovery-call?hide_gdpr_banner=1&primary_color=0a2540" style="min-width:280px;height:680px;"></div>
+          <div class="bg-paper rounded-xl p-2 md:p-3 relative">
+            <div id="cal-loading" class="absolute inset-2 md:inset-3 rounded-lg bg-paper-soft flex flex-col items-center justify-center text-center gap-3 z-10">
+              <span class="inline-block w-7 h-7 rounded-full border-2 border-border-strong border-t-navy animate-spin"></span>
+              <p class="text-sm text-ink-muted">Loading your calendar…</p>
+            </div>
+            <div id="calendly-widget" class="calendly-inline-widget rounded-lg overflow-hidden" data-url="https://calendly.com/vocalxlabs_fawaaz/discovery-call?hide_gdpr_banner=1&primary_color=0a2540" style="min-width:280px;height:680px;"></div>
             <noscript>
               <div class="p-8 text-center">
                 <a href="https://calendly.com/vocalxlabs_fawaaz/discovery-call" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-navy text-paper font-medium">Book a 15-min discovery call</a>
@@ -973,12 +989,7 @@
 
         <div class="md:col-span-1">
           <div class="flex items-center gap-2.5 mb-5">
-            <svg viewBox="0 0 104 100" class="h-6 w-auto text-navy" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M26 6 C6 28 6 72 26 94 C14 72 14 28 26 6 Z" fill="currentColor"/>
-              <ellipse cx="46" cy="50" rx="12" ry="33" stroke="currentColor" stroke-width="9"/>
-              <ellipse cx="72" cy="50" rx="8" ry="21" stroke="currentColor" stroke-width="7"/>
-              <ellipse cx="92" cy="50" rx="3.6" ry="8" fill="currentColor"/>
-            </svg>
+            <img src="img/logo.png" alt="vocalxlabs" class="h-8 w-8 object-contain" width="32" height="32">
             <span class="font-semibold text-ink tracking-tight">vocalxlabs</span>
           </div>
           <p class="text-sm text-ink-soft leading-relaxed">
@@ -1025,8 +1036,7 @@
     </a>
   </div>
 
-  <!-- Calendly embed -->
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <!-- Calendly loads lazily (see script below) -->
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -1078,6 +1088,34 @@
       function update() { if (window.scrollY > 8) nav.classList.add('nav-shadow'); else nav.classList.remove('nav-shadow'); }
       window.addEventListener('scroll', update, { passive: true });
       update();
+    })();
+
+    // ===== Calendly: lazy-load as the booking section approaches =====
+    (function () {
+      var loaded = false;
+      function load() {
+        if (loaded) return; loaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://assets.calendly.com/assets/external/widget.js';
+        s.async = true;
+        document.head.appendChild(s);
+        var w = document.getElementById('calendly-widget');
+        var loader = document.getElementById('cal-loading');
+        if (w && loader) {
+          var mo = new MutationObserver(function () {
+            if (w.querySelector('iframe')) { loader.style.display = 'none'; mo.disconnect(); }
+          });
+          mo.observe(w, { childList: true, subtree: true });
+          setTimeout(function () { loader.style.display = 'none'; }, 8000);
+        }
+      }
+      var sec = document.getElementById('book');
+      if ('IntersectionObserver' in window && sec) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) { load(); io.disconnect(); } });
+        }, { rootMargin: '800px' });
+        io.observe(sec);
+      } else { load(); }
     })();
 
     // ===== Savings + ROI calculator =====
