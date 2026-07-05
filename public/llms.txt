@@ -1,0 +1,25 @@
+# Vocalxlabs: AI Acquisition Manager
+
+> Vocalxlabs builds and runs a done-for-you AI Acquisition Manager for real estate wholesalers and investors. It uses AI cold SMS to generate and qualify motivated seller leads on motivation, asking price, condition and repairs, and timeline, then delivers them ready to call. Clients sign contracts for roughly $100 to $300 in marketing cost. Every engagement starts with a free 2-week pilot.
+
+## What it is
+- The AI Acquisition Manager runs cold SMS outbound to skip-traced lists, holds real, human-sounding conversations with property owners, and qualifies interested sellers with a 4-point system: motivation, asking price, condition and repairs, and timeline.
+- It nurtures sellers who are not ready yet, books appointments or hands off with a full briefing, and updates the CRM in real time.
+- It is done-for-you: Vocalxlabs builds it, trains it on the client's scripts and market, runs it, and manages it. The client only takes the calls.
+
+## Who it is for
+- Real estate wholesalers and investors doing 0 to 5 deals a month who want a consistent, hands-off flow of qualified motivated sellers, without hiring VAs or overpaying for PPC and direct mail.
+
+## The offer
+- Free 2-week pilot. The client covers only data costs (skip tracing and sending), usually under $100. No setup fee until the system has produced qualified sellers.
+- Optional ongoing management, month-to-month, with no lock-in.
+- Compliance is handled: A2P registration, opt-outs, and legal send-windows.
+
+## Key facts
+- Cost per signed contract: roughly $100 to $300 in marketing cost, versus $2,000 to $10,000 or more per deal on PPC or direct mail.
+- Channel: AI cold SMS, with an optional AI voice follow-up add-on.
+- Compliance: A2P-registered and TCPA-compliant. Recipients can reply STOP to opt out.
+- Lists: works with DealMachine, ReSimpli, or PropStream, or Vocalxlabs helps pull them.
+
+## Contact
+- Book a free 15-minute strategy call: https://calendly.com/vocalxlabs_fawaaz/discovery-call

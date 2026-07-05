@@ -1,4 +1,8 @@
-# Redirects for Single Page Application (SPA)
-# This tells Netlify to serve index.html for all routes and let React Router handle client-side routing
+# Homepage: serve the AI Acquisition Manager static page at the root
+/                            /ai-acquisition-manager/index.html   200
 
-/*    /index.html   200 
+# Redirects for Single Page Application (SPA)
+# This tells Netlify to serve index.html for all OTHER routes and let React Router handle client-side routing
+# (admin, blog, contact, terms, privacy, and personalized /:businessName pages)
+
+/*    /index.html   200
