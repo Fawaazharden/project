@@ -915,11 +915,17 @@
 
         <div class="lg:col-span-2">
           <div class="bg-paper rounded-xl p-2 md:p-3 relative">
-            <div id="cal-loading" class="absolute inset-2 md:inset-3 rounded-lg bg-paper-soft flex flex-col items-center justify-center text-center gap-3 z-10">
+            <div id="cal-loading" class="absolute inset-2 md:inset-3 rounded-lg bg-paper-soft flex flex-col items-center justify-center text-center gap-3 z-10 transition-opacity duration-200">
               <span class="inline-block w-7 h-7 rounded-full border-2 border-border-strong border-t-navy animate-spin"></span>
               <p class="text-sm text-ink-muted">Loading your calendar…</p>
             </div>
-            <div id="calendly-widget" class="calendly-inline-widget rounded-lg overflow-hidden" data-url="https://calendly.com/vocalxlabs_fawaaz/discovery-call?hide_gdpr_banner=1&primary_color=0a2540" style="min-width:280px;height:680px;"></div>
+            <iframe id="calendly-frame"
+              src="https://calendly.com/vocalxlabs_fawaaz/discovery-call?embed_domain=vocalxlabs.com&embed_type=Inline&hide_gdpr_banner=1&primary_color=0a2540"
+              title="Book a 15-minute discovery call"
+              loading="eager"
+              onload="var l=document.getElementById('cal-loading'); if(l){l.style.opacity='0'; setTimeout(function(){l.style.display='none';},200);}"
+              class="rounded-lg overflow-hidden block w-full"
+              style="min-width:280px;height:680px;border:0;"></iframe>
             <noscript>
               <div class="p-8 text-center">
                 <a href="https://calendly.com/vocalxlabs_fawaaz/discovery-call" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-navy text-paper font-medium">Book a 15-min discovery call</a>
@@ -1101,32 +1107,16 @@
       update();
     })();
 
-    // ===== Calendly: lazy-load as the booking section approaches =====
+    // ===== Calendly: native iframe embed (no widget.js), just hide the loader once ready =====
     (function () {
-      var loaded = false;
-      function load() {
-        if (loaded) return; loaded = true;
-        var s = document.createElement('script');
-        s.src = 'https://assets.calendly.com/assets/external/widget.js';
-        s.async = true;
-        document.head.appendChild(s);
-        var w = document.getElementById('calendly-widget');
-        var loader = document.getElementById('cal-loading');
-        if (w && loader) {
-          var mo = new MutationObserver(function () {
-            if (w.querySelector('iframe')) { loader.style.display = 'none'; mo.disconnect(); }
-          });
-          mo.observe(w, { childList: true, subtree: true });
-          setTimeout(function () { loader.style.display = 'none'; }, 8000);
-        }
-      }
-      var sec = document.getElementById('book');
-      if ('IntersectionObserver' in window && sec) {
-        var io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) { if (e.isIntersecting) { load(); io.disconnect(); } });
-        }, { rootMargin: '800px' });
-        io.observe(sec);
-      } else { load(); }
+      var frame = document.getElementById('calendly-frame');
+      var loader = document.getElementById('cal-loading');
+      if (!frame || !loader) return;
+      function hide() { loader.style.opacity = '0'; setTimeout(function () { loader.style.display = 'none'; }, 200); }
+      // If the iframe already finished loading before this script ran, hide immediately.
+      try { if (frame.contentWindow && frame.contentDocument && frame.contentDocument.readyState === 'complete') hide(); } catch (e) {}
+      // Safety net: never leave the spinner up indefinitely.
+      setTimeout(hide, 6000);
     })();
 
     // ===== Testimonial videos: defer poster past first paint, pre-buffer on intent =====
