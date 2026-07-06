@@ -33,6 +33,11 @@
     .card p { font-size:0.92rem; color:#57534E; line-height:1.6; margin:0 0 1.1rem; flex-grow:1; }
     .card .meta { font-family:'Inter',sans-serif; font-size:0.8rem; color:#78716C; display:inline-flex; align-items:center; gap:0.4rem; }
     .card:hover .meta { color:#047857; }
+    .cta-card { background:#0A2540; border-radius:1rem; padding:2rem; margin-top:3.5rem; }
+    .cta-card h2 { color:#fff; margin:0 0 0.6rem; font-size:1.6rem; line-height:1.25; font-weight:600; letter-spacing:-0.01em; }
+    .cta-card p { color:#cbd5e1; margin:0 0 1.3rem; font-size:1rem; line-height:1.65; max-width:42rem; }
+    .cta-card a.cta-btn { display:inline-flex; align-items:center; gap:0.5rem; background:#fff; color:#0A2540; font-weight:600; padding:0.85rem 1.5rem; border-radius:0.6rem; text-decoration:none; }
+    .cta-card a.cta-btn:hover { background:#F5F5F4; }
   </style>
 
   <script type="application/ld+json">
@@ -168,17 +173,12 @@
 
     </div>
 
-    <div class="mt-14 md:mt-16 rounded-2xl bg-ink text-paper px-6 py-10 md:px-10 md:py-12">
-      <div class="max-w-2xl">
-        <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-paper leading-tight mb-3">Done reading? Let the system do the work.</h2>
-        <p class="text-paper/75 leading-relaxed mb-6">
-          The AI Acquisition Manager runs compliant AI cold SMS that texts your market, holds real conversations, and qualifies sellers on motivation, price, condition, and timeline. Free 2-week pilot, only data costs, no setup fee until it produces.
-        </p>
-        <a href="/#book" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-paper hover:bg-paper-warm text-navy font-semibold transition-colors">
-          Start the free 2-week pilot
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-      </div>
+    <div class="cta-card">
+      <h2>Done reading? Let the system do the work.</h2>
+      <p>The AI Acquisition Manager runs compliant AI cold SMS that texts your market, holds real conversations, and qualifies sellers on motivation, price, condition, and timeline. Free 2-week pilot, only data costs, no setup fee until it produces.</p>
+      <a class="cta-btn" href="/#book">Start the free 2-week pilot
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
     </div>
 
   </main>

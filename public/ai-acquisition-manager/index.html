@@ -518,7 +518,8 @@
                role="button" tabindex="0" aria-label="Play Ron Jones video testimonial"
                onclick="playTestimonial(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playTestimonial(this);}">
             <video class="absolute inset-0 w-full h-full object-cover" muted playsinline preload="none" fetchpriority="low"
-                   src="https://assets.cdn.filesafe.space/qmXJdLQTCzANbI5LCD8t/media/6a31748bc87bd94b12256f6f.mp4#t=1.5"></video>
+                   poster="/ai-acquisition-manager/img/ron-testimonial-poster.jpg"
+                   src="https://assets.cdn.filesafe.space/qmXJdLQTCzANbI5LCD8t/media/6a31748bc87bd94b12256f6f.mp4"></video>
             <div data-overlay class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25"></div>
             <div data-overlay class="absolute top-4 left-4 right-4 flex items-center justify-between">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm text-paper text-xs font-medium border border-paper/15">
@@ -553,7 +554,8 @@
                role="button" tabindex="0" aria-label="Play Michael video testimonial"
                onclick="playTestimonial(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playTestimonial(this);}">
             <video class="absolute inset-0 w-full h-full object-cover" muted playsinline preload="none" fetchpriority="low"
-                   src="https://assets.cdn.filesafe.space/qmXJdLQTCzANbI5LCD8t/media/6a3174bd602476018d59400d.mp4#t=1.5"></video>
+                   poster="/ai-acquisition-manager/img/michael-testimonial-poster.jpg"
+                   src="https://assets.cdn.filesafe.space/qmXJdLQTCzANbI5LCD8t/media/6a3174bd602476018d59400d.mp4"></video>
             <div data-overlay class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25"></div>
             <div data-overlay class="absolute top-4 left-4 right-4 flex items-center justify-between">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm text-paper text-xs font-medium border border-paper/15">
@@ -1141,8 +1143,8 @@
         if ('requestIdleCallback' in window) { requestIdleCallback(loadPosters, { timeout: 2000 }); }
         else { setTimeout(loadPosters, 600); }
       }
-      if (document.readyState === 'complete') { kick(); }
-      else { window.addEventListener('load', kick, { once: true }); }
+      // Posters are real images now, so skip the idle metadata preload; videos stay at zero bytes until the user clicks.
+      void kick;
       // Pre-buffer the full clip on hover/touch so playback starts instantly
       facades.forEach(function (f) {
         var warm = function () {
