@@ -8,4 +8,13 @@
 # Legal: old privacy URL redirects to the new privacy page
 /privacy-policy              /privacy                             301
 
+# Removed blog posts (deleted from Sanity): redirect stale/indexed URLs to the blog index
+/blog/ai-content-systems-aws-lambda-sanity                                      /blog   301
+/blog/the-future-of-ai-powered-content-marketing                                /blog   301
+/blog/the-future-of-web-development-ai-powered-tools-transforming-the-industry  /blog   301
+/blog/test-blog-post-mcp                                                        /blog   301
+/blog/ai-powered-content-marketing-revolution                                   /blog   301
+/blog/voice-technology-trends-shaping-indias-future-a-business-guide            /blog   301
+/blog/voice-technology-trends-in-india-shaping-the-future-of-communication      /blog   301
+
 /*    /index.html   200
