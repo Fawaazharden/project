@@ -5,6 +5,9 @@
 # This tells Netlify to serve index.html for all OTHER routes and let React Router handle client-side routing
 # (admin, blog, contact, terms, privacy, and personalized /:businessName pages)
 
+# Consolidate the empty SPA /contact shell into the real static contact page
+/contact                     /contact-us                          301
+
 # Legal: old privacy URL redirects to the new privacy page
 /privacy-policy              /privacy                             301
 
