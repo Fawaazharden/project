@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a2540">
+  <title>Free Wholesale Real Estate Calculator (ARV & MAO)</title>
+  <meta name="description" content="Free wholesale real estate calculator. Enter ARV, repair costs, and your fee to get your maximum allowable offer (MAO) and exactly what to offer the seller.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+
+  <link rel="icon" type="image/png" href="/ai-acquisition-manager/img/favicon.png">
+  <link rel="canonical" href="https://vocalxlabs.com/blog/wholesale-real-estate-calculator/">
+
+  <meta property="og:title" content="Free Wholesale Real Estate Calculator (ARV & MAO)">
+  <meta property="og:description" content="Enter ARV, repairs, and your assignment fee. Get your maximum allowable offer and the exact number to offer the seller, based on the 70% rule.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vocalxlabs.com/blog/wholesale-real-estate-calculator/">
+  <meta property="og:image" content="https://vocalxlabs.com/ai-acquisition-manager/img/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="/ai-acquisition-manager/fonts/fonts.css">
+  <link rel="stylesheet" href="/ai-acquisition-manager/assets/styles.css">
+
+  <style>
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    .display { font-family: 'Instrument Serif', Georgia, serif; letter-spacing: -0.02em; font-weight: 400; }
+
+    /* Scoped article styles (compiled Tailwind is purged, so the page owns its typography and tables) */
+    .post { color:#292524; font-size:1.0625rem; line-height:1.75; }
+    .post > p { margin:0 0 1.15rem; }
+    .post h2 { font-family:'Inter',sans-serif; font-size:1.6rem; line-height:1.25; font-weight:600; color:#0A2540; letter-spacing:-0.01em; margin:2.6rem 0 0.85rem; }
+    .post h3 { font-family:'Inter',sans-serif; font-size:1.2rem; font-weight:600; color:#0A2540; margin:1.85rem 0 0.55rem; }
+    .post ul, .post ol { margin:0 0 1.15rem; padding-left:1.3rem; }
+    .post li { margin-bottom:0.45rem; }
+    .post ul { list-style:disc; }
+    .post ol { list-style:decimal; }
+    .post a { color:#047857; text-decoration:underline; text-underline-offset:2px; font-weight:500; }
+    .post a:hover { color:#0A2540; }
+    .post strong { color:#0A2540; font-weight:600; }
+
+    .wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:1.25rem 0 1.6rem; }
+    .post table { width:100%; border-collapse:collapse; font-size:0.95rem; min-width:520px; }
+    .post th, .post td { text-align:left; padding:0.7rem 0.85rem; border-bottom:1px solid #E7E5E4; vertical-align:top; }
+    .post thead th { background:#0A2540; color:#fff; font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.03em; }
+    .post tbody tr:nth-child(even) { background:#FAFAF9; }
+    .post td:first-child { font-weight:600; color:#0A0A0A; }
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    .callout { background:#F5F5F4; border-left:3px solid #047857; border-radius:0 0.6rem 0.6rem 0; padding:1.05rem 1.25rem; margin:1.6rem 0; }
+    .callout p { margin:0; }
+    .key { background:#fff; border:1px solid #E7E5E4; border-radius:0.9rem; padding:1.2rem 1.4rem; margin:1.8rem 0; }
+    .key p { margin:0 0 0.6rem; font-weight:600; color:#0A2540; }
+    .key ul { margin:0; }
+
+    .cta-card { background:#0A2540; border-radius:1rem; padding:1.85rem; margin:2.4rem 0; }
+    .cta-card h2 { color:#fff; margin:0 0 0.6rem; font-size:1.45rem; }
+    .cta-card p { color:#cbd5e1; margin:0 0 1.2rem; font-size:1rem; line-height:1.65; }
+    .post a.cta-btn { display:inline-flex; align-items:center; gap:0.5rem; background:#fff; color:#0A2540; font-weight:600; padding:0.85rem 1.5rem; border-radius:0.6rem; text-decoration:none; }
+    .post a.cta-btn:hover { background:#F5F5F4; color:#0A2540; }
+
+    .crumb a { color:#78716C; text-decoration:none; }
+    .crumb a:hover { color:#0A2540; }
+    .faq-q { font-family:'Inter',sans-serif; font-size:1.12rem; font-weight:600; color:#0A2540; margin:1.6rem 0 0.4rem; }
+    .src { font-size:0.9rem; color:#57534E; }
+    .src a { color:#57534E; }
+
+    /* ===== Calculator widget (scoped, dependency-free) ===== */
+    .calc { background:#fff; border:1px solid #E7E5E4; border-radius:1rem; padding:1.4rem; margin:1.8rem 0 2rem; box-shadow:0 1px 2px rgba(10,37,64,0.04); }
+    .calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; }
+    @media (max-width:720px){ .calc-grid { grid-template-columns:1fr; gap:1.1rem; } }
+    .calc-inputs { display:flex; flex-direction:column; gap:1rem; }
+    .calc-field { display:flex; flex-direction:column; gap:0.4rem; }
+    .calc-field > span:first-child { font-size:0.9rem; font-weight:600; color:#0A2540; }
+    .calc-inbox { display:flex; align-items:center; border:1px solid #D6D3D1; border-radius:0.55rem; overflow:hidden; background:#FAFAF9; transition:border-color .15s, box-shadow .15s; }
+    .calc-inbox:focus-within { border-color:#047857; box-shadow:0 0 0 3px rgba(4,120,87,0.12); background:#fff; }
+    .calc-pre { padding:0 0.2rem 0 0.8rem; color:#78716C; font-weight:600; }
+    .calc-inbox input { flex:1; border:0; outline:0; background:transparent; padding:0.7rem 0.8rem 0.7rem 0.2rem; font-size:1.05rem; font-weight:600; color:#0A0A0A; font-variant-numeric:tabular-nums; width:100%; -moz-appearance:textfield; }
+    .calc-inbox input::-webkit-outer-spin-button, .calc-inbox input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+    .calc-range { width:100%; accent-color:#047857; margin:0.15rem 0; }
+    .calc-hint { font-size:0.8rem; color:#78716C; font-weight:400; line-height:1.4; }
+    .calc-results { background:#0A2540; border-radius:0.8rem; padding:1.3rem 1.4rem; display:flex; flex-direction:column; justify-content:center; }
+    .calc-headline { border-bottom:1px solid rgba(255,255,255,0.14); padding-bottom:1rem; margin-bottom:1rem; }
+    .calc-rlabel { display:block; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:#7DD3B0; font-weight:600; }
+    .calc-rbig { display:block; font-family:'Instrument Serif',Georgia,serif; font-size:2.6rem; line-height:1.1; color:#fff; margin:0.25rem 0; font-variant-numeric:tabular-nums; }
+    .calc-rsub { display:block; font-size:0.82rem; color:#94A3B8; }
+    .calc-row { display:flex; justify-content:space-between; align-items:baseline; gap:1rem; padding:0.4rem 0; font-size:0.92rem; color:#CBD5E1; }
+    .calc-row span:last-child { font-weight:700; color:#fff; font-variant-numeric:tabular-nums; }
+    .calc-warn { margin:0.8rem 0 0; font-size:0.85rem; color:#FCA5A5; line-height:1.45; }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vocalxlabs.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://vocalxlabs.com/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Wholesale real estate calculator" }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://vocalxlabs.com/blog/wholesale-real-estate-calculator/#app",
+        "name": "Wholesale Real Estate Calculator",
+        "url": "https://vocalxlabs.com/blog/wholesale-real-estate-calculator/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web browser",
+        "browserRequirements": "Requires JavaScript",
+        "description": "A free wholesale real estate calculator that turns ARV, repair costs, and your assignment fee into a maximum allowable offer (MAO) and the exact price to offer a seller, using the 70% rule.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "creator": { "@type": "Organization", "name": "Vocalxlabs", "legalName": "VOCALXLABS LLC", "url": "https://vocalxlabs.com/" },
+        "isAccessibleForFree": true
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://vocalxlabs.com/blog/wholesale-real-estate-calculator/#faq",
+        "mainEntity": [
+          { "@type": "Question", "name": "How do you calculate a wholesale real estate offer?", "acceptedAnswer": { "@type": "Answer", "text": "Start with the after repair value (ARV) and multiply by 70%, then subtract estimated repair costs. That gives the maximum allowable offer (MAO), which is the most a cash buyer should pay. To get your offer to the seller, subtract your assignment fee from the MAO. Formula: Offer to seller = (ARV x 0.70) - repairs - your fee." } },
+          { "@type": "Question", "name": "What is the 70% rule in wholesaling?", "acceptedAnswer": { "@type": "Answer", "text": "The 70% rule says an investor should pay no more than 70% of a property's after repair value minus repair costs. The remaining 30% cushion covers the flipper's holding costs, closing costs, selling costs, and profit. Wholesalers use it to work out the maximum offer their cash buyers will accept, then price their own offer below it." } },
+          { "@type": "Question", "name": "How much should a wholesale assignment fee be?", "acceptedAnswer": { "@type": "Answer", "text": "The national average wholesale assignment fee is about $13,000, according to a 2025 survey of over 1,000 wholesalers by Real Estate Bees. It ranges from around $5,000 in Arizona to $22,000 in North Carolina and Georgia. Most wholesalers set the fee between $5,000 and $20,000 depending on the market and the size of the spread." } },
+          { "@type": "Question", "name": "What is ARV in real estate?", "acceptedAnswer": { "@type": "Answer", "text": "ARV stands for after repair value: what a property will be worth once it is fully renovated. It is estimated from recent sales of comparable renovated homes (comps) in the same area, ideally sold within the last 3 to 6 months, similar in size, age, and condition. ARV is the starting point for every wholesale and flip calculation." } },
+          { "@type": "Question", "name": "Is 70% the right number to use?", "acceptedAnswer": { "@type": "Answer", "text": "It is the common default, but it flexes with the market. In hot markets with hungry buyers, investors may go to 75% or higher. On heavy rehabs or in slower markets, buyers often want 65% or less to protect their margin. This calculator lets you slide the percentage so you can match what your actual cash buyers accept." } }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="font-sans text-ink bg-paper antialiased">
+
+  <header class="sticky top-0 z-40 bg-paper/85 backdrop-blur-md border-b border-border">
+    <div class="max-w-content mx-auto px-5 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="/" class="flex items-center gap-2.5" aria-label="Vocalxlabs home">
+          <img src="/ai-acquisition-manager/img/logo.png" alt="Vocalxlabs" class="h-8 w-8 object-contain" width="32" height="32">
+          <span class="font-semibold text-ink tracking-tight">vocalxlabs</span>
+        </a>
+        <a href="/#book" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-navy hover:bg-navy-hover text-paper text-sm font-medium transition-colors">Book a call</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 lg:px-8 py-12 md:py-20">
+
+    <p class="crumb text-sm mb-5"><a href="/">Home</a> &nbsp;/&nbsp; <a href="/blog">Blog</a> &nbsp;/&nbsp; <span class="text-ink-muted">Wholesale calculator</span></p>
+
+    <p class="text-xs font-semibold uppercase tracking-wider text-money mb-3">Free Tool</p>
+    <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-ink leading-tight mb-4">Wholesale real estate calculator</h1>
+    <p class="text-sm text-ink-muted mb-6">By Daniel Grayson, Founder at Vocalxlabs &nbsp;·&nbsp; Updated July 15, 2026 &nbsp;·&nbsp; 7 min read</p>
+
+    <div class="post">
+
+      <p>Enter the after repair value, your repair estimate, and the assignment fee you want to make. This tool runs the <strong>70% rule</strong> and tells you two numbers that matter: the most a cash buyer should pay (your <strong>maximum allowable offer</strong>), and the exact price to offer the seller so your fee is protected. Slide the percentage to match what your buyers actually accept.</p>
+
+      <div class="calc" id="calc" role="group" aria-label="Wholesale real estate calculator">
+        <div class="calc-grid">
+          <div class="calc-inputs">
+            <label class="calc-field">
+              <span>After repair value (ARV)</span>
+              <span class="calc-inbox"><span class="calc-pre">$</span><input type="number" id="arv" value="220000" min="0" step="1000" inputmode="numeric" aria-label="After repair value in dollars"></span>
+            </label>
+            <label class="calc-field">
+              <span>Estimated repair costs</span>
+              <span class="calc-inbox"><span class="calc-pre">$</span><input type="number" id="repairs" value="35000" min="0" step="1000" inputmode="numeric" aria-label="Estimated repair costs in dollars"></span>
+            </label>
+            <label class="calc-field">
+              <span>Your assignment fee</span>
+              <span class="calc-inbox"><span class="calc-pre">$</span><input type="number" id="fee" value="12000" min="0" step="500" inputmode="numeric" aria-label="Your assignment fee in dollars"></span>
+            </label>
+            <label class="calc-field">
+              <span>Buyer's margin rule: <strong id="ruleLabel">70%</strong></span>
+              <input type="range" id="rule" min="60" max="80" step="1" value="70" class="calc-range" aria-label="Buyer margin percentage rule">
+              <span class="calc-hint">Most cash buyers use the 70% rule. Lower it in hot markets, raise it for turnkey buyers.</span>
+            </label>
+          </div>
+          <div class="calc-results" id="results" aria-live="polite">
+            <div class="calc-headline">
+              <span class="calc-rlabel">Offer this to the seller</span>
+              <span class="calc-rbig" id="offerOut">$107,000</span>
+              <span class="calc-rsub">Your contract price with the seller</span>
+            </div>
+            <div class="calc-rows">
+              <div class="calc-row"><span>Assign to your cash buyer for</span><span id="assignOut">$119,000</span></div>
+              <div class="calc-row"><span>Your assignment fee</span><span id="feeOut">$12,000</span></div>
+              <div class="calc-row"><span>Buyer's built-in margin</span><span id="marginOut">$66,000</span></div>
+            </div>
+            <p class="calc-warn" id="warn" hidden>Your fee leaves nothing for the seller at this price. Lower the fee or your repair estimate, or the deal will not pencil for a cash buyer.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="src" style="margin-top:-0.8rem;">Directional tool for deal screening, not an appraisal. Always confirm ARV with local comps and repairs with a contractor before you contract a property.</p>
+
+      <div class="key">
+        <p>The three formulas inside this tool</p>
+        <ul>
+          <li><strong>Maximum allowable offer (MAO)</strong> = ARV x rule% &minus; repairs</li>
+          <li><strong>Your offer to the seller</strong> = MAO &minus; your assignment fee</li>
+          <li><strong>Buyer's built-in margin</strong> = ARV x (100% &minus; rule%)</li>
+        </ul>
+      </div>
+
+      <h2>How the wholesale calculator works</h2>
+      <p>Wholesaling has one job: get a property under contract for less than a cash buyer will pay, then assign that contract for a fee. Every number in the deal hangs off the <strong>after repair value</strong>, so that is where the math starts.</p>
+      <p>The calculator applies the 70% rule to the ARV, subtracts the repairs, and lands on the <strong>maximum allowable offer</strong>: the ceiling a flipper or landlord will pay and still make money. Then it subtracts the fee you want, which gives the number you actually put in front of the seller. Offer at or below that, and your fee is baked in before you ever pick up the phone.</p>
+      <p>The last figure, the buyer's built-in margin, is the part new wholesalers forget. If there is no room left for the cash buyer, the deal does not sell no matter how motivated the seller is. Keeping that cushion visible stops you from tying up properties nobody will take off your hands.</p>
+
+      <h2>What is ARV and how do you calculate it?</h2>
+      <p>ARV is what the house is worth after it is fully fixed up, not what it is worth today. You get it from <strong>comparable sales</strong>, or comps: recently sold, renovated homes near the subject property that match it on size, age, and layout.</p>
+      <ul>
+        <li>Pull 3 to 5 sold comps within about half a mile, sold in the last 3 to 6 months.</li>
+        <li>Match square footage within roughly 20%, same bed and bath count where you can.</li>
+        <li>Use sold prices, not list prices. Active listings tell you hope, not value.</li>
+        <li>Take the price per square foot of the comps and apply it to the subject home.</li>
+      </ul>
+      <p>Get ARV wrong and every other number is wrong with it. When in doubt, pull fresh comps or ask an investor-friendly agent. A confident ARV is worth more than a fast one.</p>
+
+      <h2>The 70% rule, and when to move off it</h2>
+      <p>The 70% rule is shorthand for how cash buyers protect themselves: pay no more than 70% of ARV minus repairs, and the remaining 30% of ARV covers holding, closing, selling costs, and profit. It is a default, not a law.</p>
+      <div class="wrap">
+      <table>
+        <thead>
+          <tr><th>Situation</th><th>Rule to use</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Hot market, hungry buyers</td><td class="tabular">72 to 75%</td><td>Buyers accept thinner margins to win inventory</td></tr>
+          <tr><td>Standard flip</td><td class="tabular">70%</td><td>The reliable middle most buyers underwrite to</td></tr>
+          <tr><td>Heavy rehab or slow market</td><td class="tabular">65% or less</td><td>More risk means buyers want a bigger cushion</td></tr>
+          <tr><td>Turnkey rental buyer</td><td class="tabular">75 to 80%</td><td>Landlords holding for cash flow tolerate less spread</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Slide the rule in the tool to whatever your real buyers accept. If you do not know yet, ask the buyers on your list what percentage they underwrite to. That single question is worth more than any formula.</p>
+
+      <h2>Estimating repair costs without a contractor on site</h2>
+      <p>For a first-pass offer you do not need a line-item bid, you need a defensible ballpark. Most wholesalers screen with a price-per-square-foot band, then confirm with a contractor before closing.</p>
+      <div class="wrap">
+      <table>
+        <thead>
+          <tr><th>Rehab level</th><th>Rough cost / sq ft</th><th>What it covers</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Light / cosmetic</td><td class="tabular">$10 to $25</td><td>Paint, flooring, fixtures, cleanup</td></tr>
+          <tr><td>Medium</td><td class="tabular">$25 to $45</td><td>Kitchen and baths, some systems, curb appeal</td></tr>
+          <tr><td>Heavy</td><td class="tabular">$45 to $75+</td><td>Full gut, roof, HVAC, electrical, foundation</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="src">Ranges are directional national ballparks and vary widely by market, labor, and material costs. Use them to screen, not to sign.</p>
+
+      <h2>Setting your assignment fee</h2>
+      <p>Your fee is the spread you keep for finding and controlling the deal. Set it too high and the offer to the seller drops so low they walk. Set it too low and you leave your own money on the table.</p>
+      <p>For a reference point, the national average wholesale assignment fee is about <strong>$13,000</strong>, based on a 2025 survey of more than 1,000 wholesalers. It swings hard by state, from around <strong>$5,000 in Arizona to $22,000 in North Carolina and Georgia</strong>. We break the numbers down further in our <a href="/blog/real-estate-wholesaling-statistics">real estate wholesaling statistics</a> roundup, and cover the full economics in <a href="/blog/cost-per-deal-wholesaling">cost per deal in wholesaling</a>.</p>
+
+      <h2>A worked example</h2>
+      <p>Say a tired 3-bed in a Tier 2 metro will be worth <strong>$220,000</strong> renovated, needs about <strong>$35,000</strong> of medium rehab, and you want a <strong>$12,000</strong> fee, with buyers underwriting at 70%. Here is how the tool pencils it:</p>
+      <ul>
+        <li><strong>Assign price to your cash buyer (MAO)</strong> = $220,000 x 0.70 &minus; $35,000 = <strong>$119,000</strong></li>
+        <li><strong>Your offer to the seller</strong> = $119,000 &minus; $12,000 fee = <strong>$107,000</strong></li>
+        <li><strong>Buyer's built-in margin</strong> = $220,000 x 30% = <strong>$66,000</strong>, to cover holding, closing, selling, and profit</li>
+      </ul>
+      <p>So you contract at $107,000, assign at $119,000, and keep $12,000, while your buyer still has real room to make the flip work. Change any input in the tool and all three numbers move together. Your deal is not this example, so plug in your real ARV, repairs, and target fee, and let the math tell you your walk-away price before you ever talk to the seller.</p>
+
+      <div class="cta-card">
+        <h2>You have the number. Now you need the seller.</h2>
+        <p>A calculator tells you what to offer. It does not find the motivated seller to offer it to. Vocalxlabs runs the AI Acquisition Manager: compliant AI cold SMS that texts your market, holds real conversations, and qualifies sellers on motivation, price, condition, and timeline, then hands you the ones ready to talk. Start with a free 2-week pilot. You cover only data costs, usually under $100, and there is no setup fee until it produces qualified sellers.</p>
+        <a class="cta-btn" href="/#book">Start the free 2-week pilot
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <h2>Frequently asked questions</h2>
+
+      <p class="faq-q">How do you calculate a wholesale real estate offer?</p>
+      <p>Multiply the ARV by 70%, subtract repair costs to get the maximum allowable offer, then subtract your assignment fee to get your offer to the seller. In short: Offer to seller = (ARV x 0.70) &minus; repairs &minus; your fee. The tool above does it live as you type.</p>
+
+      <p class="faq-q">What is the 70% rule in wholesaling?</p>
+      <p>It says a cash buyer should pay no more than 70% of a property's after repair value minus repairs. The other 30% of ARV covers holding, closing, selling costs, and profit. Wholesalers use it to find the ceiling their buyers accept, then price their own offer below it.</p>
+
+      <p class="faq-q">How much should a wholesale assignment fee be?</p>
+      <p>The national average is about $13,000, ranging from roughly $5,000 in Arizona to $22,000 in North Carolina and Georgia, per a 2025 survey of over 1,000 wholesalers. Most operators set the fee between $5,000 and $20,000 depending on market and spread.</p>
+
+      <p class="faq-q">What is ARV in real estate?</p>
+      <p>ARV is the after repair value, what a home will be worth once fully renovated. It is estimated from recent sales of comparable renovated homes nearby, ideally sold in the last 3 to 6 months and similar in size and condition.</p>
+
+      <p class="faq-q">Is 70% always the right number?</p>
+      <p>No. It is the common default. Buyers go to 75% or higher in hot markets, and want 65% or less on heavy rehabs or in slower markets. Slide the percentage in the calculator to match what your actual cash buyers underwrite to.</p>
+
+      <h2>The bottom line</h2>
+      <p>A wholesale deal lives or dies on three numbers: ARV, repairs, and the spread. Get those right and the offer prices itself. This calculator keeps the buyer's margin visible so you only tie up properties that will actually assign. The math is the easy part. The hard part is finding a motivated seller to run these numbers on, which is <a href="/blog/how-to-find-motivated-sellers">a problem worth solving on purpose</a>.</p>
+
+      <p class="src"><strong>Sources:</strong> Average wholesale assignment fee by state, survey of 1,000+ wholesalers (<a href="https://realestatebees.com/statistics/average-wholesale-assignment-fee/" rel="nofollow noopener" target="_blank">Real Estate Bees, 2025</a>); 70% rule and MAO methodology (standard real estate investing practice); repair cost bands (directional national contractor ranges).</p>
+
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-paper-soft border-t border-border">
+    <div class="max-w-content mx-auto px-5 lg:px-8 py-12 md:py-16">
+      <div class="grid md:grid-cols-3 gap-10 lg:gap-14">
+
+        <div class="md:col-span-1">
+          <div class="flex items-center gap-2.5 mb-5">
+            <img src="/ai-acquisition-manager/img/logo.png" alt="Vocalxlabs" class="h-8 w-8 object-contain" width="32" height="32">
+            <span class="font-semibold text-ink tracking-tight">VOCALXLABS LLC</span>
+          </div>
+          <p class="text-sm text-ink-soft leading-relaxed mb-5">
+            We build and run AI acquisition systems that generate and qualify motivated seller leads for real estate wholesalers and investors. Done-for-you, compliant, no sales floor.
+          </p>
+          <ul class="space-y-2.5 text-sm text-ink-soft">
+            <li class="flex gap-2.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-ink-muted flex-shrink-0 mt-0.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>30 N Gould St Ste R, Sheridan, WY 82801</span></li>
+            <li class="flex gap-2.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-ink-muted flex-shrink-0 mt-0.5"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg><a href="tel:+17087737231" class="hover:text-ink transition-colors">+1 708-773-7231</a></li>
+            <li class="flex gap-2.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-ink-muted flex-shrink-0 mt-0.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg><a href="mailto:team@vocalxlabs.com" class="hover:text-ink transition-colors">team@vocalxlabs.com</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-ink-muted mb-4">Guides</p>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="/blog" class="text-ink-soft hover:text-ink transition-colors">All guides</a></li>
+            <li><a href="/blog/how-much-do-motivated-seller-leads-cost" class="text-ink-soft hover:text-ink transition-colors">Cost of motivated seller leads</a></li>
+            <li><a href="/blog/pay-per-lead-services-worth-it" class="text-ink-soft hover:text-ink transition-colors">Are pay-per-lead services worth it</a></li>
+            <li><a href="/blog/is-cold-texting-real-estate-legal" class="text-ink-soft hover:text-ink transition-colors">Is cold texting legal</a></li>
+            <li><a href="/blog/cost-per-deal-wholesaling" class="text-ink-soft hover:text-ink transition-colors">Cost per deal in wholesaling</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-ink-muted mb-4">Company</p>
+          <ul class="space-y-2.5 text-sm mb-6">
+            <li><a href="/" class="text-ink-soft hover:text-ink transition-colors">Home</a></li>
+            <li><a href="/blog" class="text-ink-soft hover:text-ink transition-colors">Blog</a></li>
+            <li><a href="/privacy" class="text-ink-soft hover:text-ink transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms" class="text-ink-soft hover:text-ink transition-colors">Terms &amp; Conditions</a></li>
+            <li><a href="/contact-us" class="text-ink-soft hover:text-ink transition-colors">Contact Us</a></li>
+          </ul>
+          <a href="/#book" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-navy hover:bg-navy-hover text-paper text-sm font-medium transition-colors">
+            Book a call
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-border text-xs text-ink-muted">
+        &copy; 2026 VOCALXLABS LLC. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var el = function(id){ return document.getElementById(id); };
+    function fmt(n){ if(!isFinite(n)){ n=0; } return '$' + Math.round(n).toLocaleString('en-US'); }
+    function calc(){
+      var arv = parseFloat(el('arv').value) || 0;
+      var repairs = parseFloat(el('repairs').value) || 0;
+      var fee = parseFloat(el('fee').value) || 0;
+      var rule = parseFloat(el('rule').value) || 70;
+      el('ruleLabel').textContent = rule + '%';
+      var mao = arv * (rule/100) - repairs;   // assign price to the cash buyer
+      var offer = mao - fee;                   // your offer to the seller
+      var margin = arv * (1 - rule/100);       // buyer's built-in cushion
+      el('assignOut').textContent = fmt(mao > 0 ? mao : 0);
+      el('feeOut').textContent = fmt(fee);
+      el('marginOut').textContent = fmt(margin);
+      if (offer <= 0) {
+        el('offerOut').textContent = fmt(0);
+        el('warn').hidden = false;
+      } else {
+        el('offerOut').textContent = fmt(offer);
+        el('warn').hidden = true;
+      }
+    }
+    ['arv','repairs','fee','rule'].forEach(function(id){
+      el(id).addEventListener('input', calc);
+    });
+    calc();
+  })();
+  </script>
+
+</body>
+</html>
