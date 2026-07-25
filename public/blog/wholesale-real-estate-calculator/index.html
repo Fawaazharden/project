@@ -95,14 +95,28 @@
       {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vocalxlabs.com/" },
-          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://vocalxlabs.com/blog/" },
-          { "@type": "ListItem", "position": 3, "name": "Wholesale real estate calculator" }
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://vocalxlabs.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://vocalxlabs.com/blog/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Wholesale real estate calculator"
+          }
         ]
       },
       {
         "@type": "WebApplication",
-        "dateModified": "2026-07-23",
+        "dateModified": "2026-07-25",
         "@id": "https://vocalxlabs.com/blog/wholesale-real-estate-calculator/#app",
         "name": "Wholesale Real Estate Calculator",
         "url": "https://vocalxlabs.com/blog/wholesale-real-estate-calculator/",
@@ -110,19 +124,63 @@
         "operatingSystem": "Web browser",
         "browserRequirements": "Requires JavaScript",
         "description": "A free wholesale real estate calculator that turns ARV, repair costs, and your assignment fee into a maximum allowable offer (MAO) and the exact price to offer a seller, using the 70% rule.",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "creator": { "@type": "Organization", "name": "Vocalxlabs", "legalName": "VOCALXLABS LLC", "url": "https://vocalxlabs.com/" },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "Vocalxlabs",
+          "legalName": "VOCALXLABS LLC",
+          "url": "https://vocalxlabs.com/"
+        },
         "isAccessibleForFree": true
       },
       {
         "@type": "FAQPage",
         "@id": "https://vocalxlabs.com/blog/wholesale-real-estate-calculator/#faq",
         "mainEntity": [
-          { "@type": "Question", "name": "How do you calculate a wholesale real estate offer?", "acceptedAnswer": { "@type": "Answer", "text": "Start with the after repair value (ARV) and multiply by 70%, then subtract estimated repair costs. That gives the maximum allowable offer (MAO), which is the most a cash buyer should pay. To get your offer to the seller, subtract your assignment fee from the MAO. Formula: Offer to seller = (ARV x 0.70) - repairs - your fee." } },
-          { "@type": "Question", "name": "What is the 70% rule in wholesaling?", "acceptedAnswer": { "@type": "Answer", "text": "The 70% rule says an investor should pay no more than 70% of a property's after repair value minus repair costs. The remaining 30% cushion covers the flipper's holding costs, closing costs, selling costs, and profit. Wholesalers use it to work out the maximum offer their cash buyers will accept, then price their own offer below it." } },
-          { "@type": "Question", "name": "How much should a wholesale assignment fee be?", "acceptedAnswer": { "@type": "Answer", "text": "The national average wholesale assignment fee is about $13,000, according to a 2025 survey of over 1,000 wholesalers by Real Estate Bees. It ranges from around $5,000 in Arizona to $22,000 in North Carolina and Georgia. Most wholesalers set the fee between $5,000 and $20,000 depending on the market and the size of the spread." } },
-          { "@type": "Question", "name": "What is ARV in real estate?", "acceptedAnswer": { "@type": "Answer", "text": "ARV stands for after repair value: what a property will be worth once it is fully renovated. It is estimated from recent sales of comparable renovated homes (comps) in the same area, ideally sold within the last 3 to 6 months, similar in size, age, and condition. ARV is the starting point for every wholesale and flip calculation." } },
-          { "@type": "Question", "name": "Is 70% the right number to use?", "acceptedAnswer": { "@type": "Answer", "text": "It is the common default, but it flexes with the market. In hot markets with hungry buyers, investors may go to 75% or higher. On heavy rehabs or in slower markets, buyers often want 65% or less to protect their margin. This calculator lets you slide the percentage so you can match what your actual cash buyers accept." } }
+          {
+            "@type": "Question",
+            "name": "How do you calculate a wholesale real estate offer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Multiply the ARV by 70%, subtract repair costs to get the maximum allowable offer, then subtract your assignment fee to get your offer to the seller. In short: Offer to seller = (ARV x 0.70) − repairs − your fee. The tool above does it live as you type."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the 70% rule in wholesaling?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It says a cash buyer should pay no more than 70% of a property's after repair value minus repairs. The other 30% of ARV covers holding, closing, selling costs, and profit. Wholesalers use it to find the ceiling their buyers accept, then price their own offer below it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much should a wholesale assignment fee be?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The national average is about $13,000, ranging from roughly $5,000 in Arizona to $22,000 in North Carolina and Georgia, per a 2025 survey of over 1,000 wholesalers. Most operators set the fee between $5,000 and $20,000 depending on market and spread."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is ARV in real estate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ARV is the after repair value, what a home will be worth once fully renovated. It is estimated from recent sales of comparable renovated homes nearby, ideally sold in the last 3 to 6 months and similar in size and condition."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is 70% always the right number?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It is the common default. Buyers go to 75% or higher in hot markets, and want 65% or less on heavy rehabs or in slower markets. Slide the percentage in the calculator to match what your actual cash buyers underwrite to."
+            }
+          }
         ]
       }
     ]
@@ -155,7 +213,7 @@
 
     <p class="text-xs font-semibold uppercase tracking-wider text-money mb-3">Free Tool</p>
     <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-ink leading-tight mb-4">Wholesale real estate calculator</h1>
-    <p class="text-sm text-ink-muted mb-6">By Daniel Grayson, Founder at Vocalxlabs &nbsp;·&nbsp; Updated July 23, 2026 &nbsp;·&nbsp; 7 min read</p>
+    <p class="text-sm text-ink-muted mb-6">By Daniel Grayson, Founder at Vocalxlabs &nbsp;·&nbsp; Updated July 25, 2026 &nbsp;·&nbsp; 7 min read</p>
 
     <div class="post">
 
