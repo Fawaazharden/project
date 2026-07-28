@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting to Vocalxlabs</title>
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://vocalxlabs.com/" />
+    <link rel="icon" type="image/png" href="/ai-acquisition-manager/img/favicon.png" />
+
+    <!-- Netlify serves this page for any path that matches no file and no rule
+         in _redirects, which is every mistyped URL (vocalxlabs.com/), stray
+         punctuation from a pasted link, dead inbound links). Send those
+         visitors straight to the live site instead of showing them a dead end.
+
+         A same-domain "/*  /  301" in _redirects cannot do this: "/" matches
+         "/*", so Netlify treats the rule as a redirect loop and drops it. -->
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        // Keep visitors in context where we can: an unknown post goes to the
+        // blog index, everything else goes to the homepage.
+        var target = path.indexOf('/blog/') === 0 ? '/blog/' : '/';
+        // replace() so the broken URL does not sit in the back button.
+        window.location.replace(target);
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=/" />
+    </noscript>
+
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0a2540;
+        color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      }
+      a {
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Taking you to <a href="/">vocalxlabs.com</a>&hellip;</p>
+  </body>
+</html>

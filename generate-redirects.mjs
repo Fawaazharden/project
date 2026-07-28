@@ -87,11 +87,11 @@ function buildRedirects(slugs) {
 ${spaRules}
 
 # ── Catch-all ───────────────────────────────────────────────────────────────
-# Any unknown blog URL goes to the blog index; anything else goes to the live
-# homepage. This is what stops typos like https://vocalxlabs.com/) from
+# Deliberately none. A same-domain "/*  /  301" does not work: "/" matches
+# "/*", so Netlify reads the rule as a redirect loop and silently drops it.
+# Unmatched paths fall through to public/404.html, which forwards to the live
+# homepage. That is what stops typos like https://vocalxlabs.com/) from
 # rendering the retired Vocalx page.
-/blog/*                      /blog                                301
-/*                           /                                    301
 `;
 }
 
