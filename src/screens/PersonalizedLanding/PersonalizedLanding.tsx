@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, type HTMLAttributes, type ReactNode } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getPersonalizedPageBySlug, extractYouTubeVideoId, urlFor } from "../../lib/sanity";
 import { Highlighter } from "../../components/ui/highlighter";
 import { ShineBorder } from "../../components/ui/shine-border";
@@ -463,7 +463,6 @@ const BookCallButton = ({ showGetAiCall = false, onGetAiCallClick }: { showGetAi
 
 export const PersonalizedLanding = (): JSX.Element => {
   const { businessName } = useParams<{ businessName: string }>();
-  const navigate = useNavigate();
   const [pageData, setPageData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [videoId, setVideoId] = useState<string>("");
@@ -658,8 +657,11 @@ export const PersonalizedLanding = (): JSX.Element => {
         const data = await getPersonalizedPageBySlug(businessName);
         
         if (!data) {
-          // Page not found - redirect to home
-          navigate("/");
+          // Page not found. Use a full page load, not client-side navigation:
+          // "/" is served by Netlify from the AI Acquisition Manager static
+          // page, and only a real request reaches that rule. navigate("/")
+          // would stay inside the bundle and render the retired Vocalx page.
+          window.location.replace("/");
           return;
         }
         
@@ -670,14 +672,14 @@ export const PersonalizedLanding = (): JSX.Element => {
         }
       } catch (error) {
         console.error("Error fetching personalized page:", error);
-        navigate("/");
+        window.location.replace("/");
       } finally {
         setLoading(false);
       }
     };
 
     fetchPage();
-  }, [businessName, navigate]);
+  }, [businessName]);
 
   // Scroll video into view on mobile devices after page loads
   useEffect(() => {
