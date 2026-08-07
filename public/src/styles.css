@@ -317,7 +317,9 @@ p{margin:0}
 .contact-list a:hover{color:var(--ink)}
 .calendly-shell{min-height:640px;overflow:hidden;border:1px solid var(--line);
   border-radius:var(--radius-lg);background:#fff}
-.calendly-inline-widget{min-width:280px;height:640px}
+/* min() rather than a flat 280px: inside a 271px shell at 320px the flat floor
+   pushed 9px of the booking widget under overflow:hidden and clipped it. */
+.calendly-inline-widget{min-width:min(280px,100%);height:640px}
 
 .muted{color:var(--muted)}
 .center{text-align:center}
@@ -336,38 +338,50 @@ p{margin:0}
    animated state only exists under html.js, so a script failure or a browser
    with reduced motion shows a complete, readable graphic rather than an
    empty box. */
-.tl{padding:22px;border:1px solid var(--line);border-radius:var(--radius-lg);
+.tl{padding:16px;border:1px solid var(--line);border-radius:var(--radius-lg);
   background:#fff;box-shadow:var(--shadow)}
 .tl-head{display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding-bottom:18px;margin-bottom:20px;border-bottom:1px solid var(--line-2)}
-.tl-head b{font:800 15px var(--display);letter-spacing:-.02em}
-.tl-head span{display:inline-flex;align-items:center;gap:7px;color:var(--muted-2);
-  font-size:14px;font-weight:700}
+  padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line-2)}
+.tl-head b{font:800 14px var(--display);letter-spacing:-.02em}
+.tl-head span{display:inline-flex;align-items:center;gap:6px;color:var(--muted-2);
+  font-size:13px;font-weight:700}
 .tl-head span::before{content:"";width:7px;height:7px;border-radius:50%;
   background:var(--green)}
 
 /* Everything in this block is the FINISHED state: filled dots, filled rail,
-   every chip visible. That is what renders with no JS at all. */
-.tl-track{display:grid;gap:0}
-.tl-stop{position:relative;display:grid;grid-template-columns:20px 1fr;
-  column-gap:14px;padding-bottom:18px}
-.tl-stop:last-child{padding-bottom:0}
-/* vertical rail on phones */
-.tl-stop::before{content:"";position:absolute;left:9px;top:18px;bottom:0;width:2px;
-  background:var(--blue)}
-.tl-stop:last-child::before{display:none}
-.tl-node{display:contents}
-.tl-dot{position:relative;z-index:1;grid-column:1;width:20px;height:20px;border-radius:50%;
+   every chip visible. That is what renders with no JS at all.
+
+   The rail is horizontal at every width. A vertical variant on phones made the
+   card 604px tall, which meant scrolling a hero graphic to see the end of it.
+   Horizontal keeps the whole story in one glance on a 375px screen. */
+/* minmax(0,1fr), not 1fr: a plain 1fr floors at min-content, so the "Qualified"
+   column stole 10px from every other stop and the rail sat unevenly. */
+.tl-track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+  grid-template-rows:auto repeat(5,auto);column-gap:6px;row-gap:0}
+.tl-stop{display:contents}
+.tl-node{position:relative;display:grid;justify-items:start;gap:8px;
+  grid-row:1;padding-bottom:16px}
+/* right offset bridges the column gap plus the 8px to the next dot's centre */
+.tl-node::before{content:"";position:absolute;left:8px;right:-14px;top:7px;height:2px;
+  background:var(--blue);transition:.4s ease}
+.tl-stop:last-child .tl-node::before{display:none}
+.tl-dot{position:relative;z-index:1;grid-column:1;width:16px;height:16px;border-radius:50%;
   border:2px solid var(--blue);background:var(--blue)}
-.tl-label{grid-column:2;align-self:center;font:800 15px var(--display);letter-spacing:-.02em;
+.tl-label{grid-column:1;font:800 12.5px/1.2 var(--display);letter-spacing:-.02em;
   color:var(--ink)}
-.tl-chip{grid-column:2;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;
-  margin-top:8px;padding:9px 13px;border:1px solid var(--line);border-radius:11px;
+.tl-chip{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;
+  margin-bottom:6px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;
   background:var(--soft-2)}
-.tl-chip b{font:700 14px var(--body);letter-spacing:0}
-.tl-chip span{color:var(--muted-2);font-size:14px}
-.tl-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-2);
-  color:var(--muted-2);font-size:14px}
+.tl-stop:last-child .tl-chip{margin-bottom:0}
+.tl-stop:nth-child(1) .tl-chip{grid-row:2}
+.tl-stop:nth-child(2) .tl-chip{grid-row:3}
+.tl-stop:nth-child(3) .tl-chip{grid-row:4}
+.tl-stop:nth-child(4) .tl-chip{grid-row:5}
+.tl-stop:nth-child(5) .tl-chip{grid-row:6}
+.tl-chip b{font:700 13px var(--body);letter-spacing:0}
+.tl-chip span{color:var(--muted-2);font-size:13px}
+.tl-foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line-2);
+  color:var(--muted-2);font-size:13px;line-height:1.5}
 
 /* Animated state, only once app.js has confirmed it is running. A stop is
    .on while it is the current step and .done once the run has passed it.
@@ -377,11 +391,11 @@ p{margin:0}
   transition:opacity .42s ease,transform .42s cubic-bezier(.22,.8,.28,1)}
 .js .tl-stop.on .tl-chip,.js .tl-stop.done .tl-chip{opacity:1;transform:none}
 .js .tl-stop.on .tl-chip{border-color:#ccd8fb;background:var(--blue-soft)}
-.js .tl-dot,.js .tl-label,.js .tl-stop::before{transition:.4s ease}
+.js .tl-dot,.js .tl-label{transition:.4s ease}
 .js .tl-stop:not(.on):not(.done) .tl-dot{border-color:var(--line);background:#fff}
 .js .tl-stop:not(.on):not(.done) .tl-label{color:var(--muted-3)}
-.js .tl-stop:not(.done)::before{background:var(--line)}
-.js .tl-stop.on .tl-dot{box-shadow:0 0 0 4px rgba(47,82,239,.13)}
+.js .tl-stop:not(.done) .tl-node::before{background:var(--line)}
+.js .tl-stop.on .tl-dot{box-shadow:0 0 0 3px rgba(47,82,239,.13)}
 
 /* ---------- positioning strip ----------
    Not a logo wall. The single sentence that separates this from every tool that
@@ -398,60 +412,77 @@ p{margin:0}
 .points li:last-child{border-bottom:1px solid var(--line)}
 .points b{color:var(--ink);font-weight:700}
 
-/* ---------- comparison, two cards, never a table ---------- */
-.cmp{display:grid;gap:16px;margin-top:40px}
-.cmp-card{padding:26px;border:1px solid var(--line);border-radius:var(--radius);
-  background:#fff}
-.cmp-card.ours{border-color:#c9d4fb;background:var(--blue-soft)}
-.cmp-head{padding-bottom:18px;border-bottom:1px solid var(--line)}
-.cmp-card.ours .cmp-head{border-color:#d4dcfb}
-.cmp-head b{display:block;font:800 20px var(--display);letter-spacing:-.03em}
-.cmp-head small{display:block;margin-top:5px;color:var(--muted-2);font-size:14px}
-.cmp-row{padding:18px 0;border-bottom:1px solid var(--line-2)}
-.cmp-card.ours .cmp-row{border-color:#dde3fb}
-.cmp-row:last-child{border-bottom:0;padding-bottom:0}
-.cmp-row small{display:block;color:var(--muted-2);font-size:14px}
-.cmp-row span{display:block;margin-top:4px;font-size:17px;font-weight:600}
-.cmp-card.ours .cmp-row span{color:var(--ink)}
-.cmp-note{margin-top:20px;color:var(--muted-2);font-size:14px;line-height:1.6}
+/* ---------- comparison ----------
+   One grid, two value columns, and the row label spanning both above each pair.
+   Stacking the two sides as separate cards cost 1620px on a phone and made you
+   scroll a screen of the competitor before reaching us; repeating the labels in
+   both columns wasted the width that made side by side possible. This reads the
+   same at 320px and at 1280px, and never scrolls sideways. */
+.cmp{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:28px;
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
+/* the tint behind the right hand column, drawn once so the label rows do not
+   chop it into stripes. Exactly 50% because the two columns are 1fr each. */
+.cmp::after{content:"";position:absolute;inset:0 0 0 50%;background:var(--blue-soft);
+  pointer-events:none}
+.cmp>*{position:relative;z-index:1}
+.cmp-col{padding:13px 14px;border-bottom:1px solid var(--line)}
+.cmp-col b{display:block;font:800 15px/1.25 var(--display);letter-spacing:-.025em}
+.cmp-col small{display:block;margin-top:3px;color:var(--muted-2);font-size:12.5px;
+  line-height:1.35}
+.cmp-col.ours b{color:#1c2f9e}
+.cmp-label{grid-column:1/-1;padding:12px 14px 5px;border-top:1px solid var(--line-2);
+  color:var(--muted-2);font-size:12.5px;font-weight:700;letter-spacing:.02em}
+.cmp-label:first-of-type{border-top:0}
+.cmp-val{padding:0 14px 13px;font-size:14.5px;font-weight:600;line-height:1.4}
+.cmp-val.ours{color:var(--ink)}
+.cmp-note{margin-top:16px;color:var(--muted-2);font-size:13px;line-height:1.6}
 
 /* ---------- intent match ----------
    The differentiator section. Same motion technique as the hero timeline: the
    static default is the finished state and app.js walks a .shown class down the
    [data-i] elements, so a script failure leaves the whole story readable. */
-.im{display:grid;gap:0;margin-top:36px;padding:22px;border:1px solid var(--line);
-  border-radius:var(--radius-lg);background:#fff;box-shadow:var(--shadow)}
-.im-cap{display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--muted-2);
-  font-size:14px;font-weight:700}
-.im-cap::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue)}
-.im-rows{display:grid;gap:8px}
-.im-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;
-  padding:12px 14px;border:1px solid var(--line-2);border-radius:11px;background:var(--soft-2)}
-.im-row b{font:700 15px var(--body);letter-spacing:0;line-height:1.35}
-.im-row i{color:var(--muted-2);font-size:14px;font-style:normal;white-space:nowrap}
-.im-row em{display:block;margin-top:2px;color:var(--blue);font-size:14px;font-style:normal;
-  font-weight:700}
+/* Two columns at every width: cause on the left, effect on the right. Stacked,
+   this ran 1007px on a phone, so you scrolled past the activity before ever
+   reaching the message it produced, which is the whole point of the graphic. */
+.im{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px;padding:14px;
+  border:1px solid var(--line);border-radius:var(--radius-lg);background:#fff;
+  box-shadow:var(--shadow)}
+.im-cap{display:flex;align-items:baseline;gap:7px;margin-bottom:10px;color:var(--muted-2);
+  font-size:12.5px;font-weight:700;line-height:1.3}
+.im-cap::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;
+  background:var(--blue);transform:translateY(-2px)}
+.im-rows{display:grid;gap:6px}
+.im-row{display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:1px;
+  padding:9px 10px;border:1px solid var(--line-2);border-radius:9px;background:var(--soft-2)}
+.im-row b,.im-row i,.im-row em{grid-column:2}
+.im-eye{grid-column:1;margin-top:4px}
+.im-row b{font:700 13px/1.3 var(--body);letter-spacing:0}
+.im-row i{color:var(--muted-2);font-size:12px;font-style:normal}
+.im-row em{display:block;color:var(--blue);font-size:12px;font-style:normal;font-weight:700;
+  line-height:1.3}
 /* the eye mark, a plain geometric glyph rather than an icon standing in for meaning */
-.im-eye{width:16px;height:10px;flex:none;border:1.5px solid var(--muted-3);
+.im-eye{width:14px;height:9px;border:1.5px solid var(--muted-3);
   border-radius:50% 50% 50% 50%/60% 60% 40% 40%}
 .im-row.hot{border-color:#ccd8fb;background:var(--blue-soft)}
 .im-row.hot .im-eye{border-color:var(--blue)}
 
-.im-read{margin:16px 0;padding:16px 18px;border-left:3px solid var(--blue);
-  border-radius:0 12px 12px 0;background:var(--blue-soft)}
-.im-read small{display:block;color:#2b41a8;font-size:14px;font-weight:700}
-.im-read b{display:block;margin-top:5px;font:800 17px/1.4 var(--display);letter-spacing:-.02em}
+.im-read{margin-top:10px;padding:10px 12px;border-left:3px solid var(--blue);
+  border-radius:0 10px 10px 0;background:var(--blue-soft)}
+.im-read small{display:block;color:#2b41a8;font-size:12px;font-weight:700}
+.im-read b{display:block;margin-top:3px;font:800 13px/1.35 var(--display);
+  letter-spacing:-.015em}
 
-.im-thread{padding-top:18px;border-top:1px solid var(--line-2)}
-.im-msg{max-width:88%;margin-top:10px;padding:12px 15px;border-radius:15px;font-size:15px;
-  line-height:1.5}
-.im-msg.out{margin-left:auto;color:#fff;background:var(--blue);border-bottom-right-radius:5px}
+.im-thread{padding-left:14px;border-left:1px solid var(--line-2)}
+.im-msg{margin-top:8px;padding:9px 11px;border-radius:12px;font-size:13px;line-height:1.45}
+.im-msg.out{color:#fff;background:var(--blue);border-bottom-right-radius:4px}
 .im-msg.in{color:var(--ink);background:var(--soft);border:1px solid var(--line);
-  border-bottom-left-radius:5px}
-.im-won{display:flex;align-items:center;gap:9px;margin-top:16px;padding-top:16px;
-  border-top:1px solid var(--line-2);color:#0f6f50;font-size:15px;font-weight:700}
-.im-won::before{content:"";width:14px;height:7px;flex:none;border-left:2px solid var(--green);
-  border-bottom:2px solid var(--green);transform:rotate(-45deg)}
+  border-bottom-left-radius:4px}
+.im-won{display:flex;align-items:flex-start;gap:7px;margin-top:12px;padding-top:12px;
+  border-top:1px solid var(--line-2);color:#0f6f50;font-size:12.5px;font-weight:700;
+  line-height:1.35}
+.im-won::before{content:"";width:12px;height:6px;flex:none;margin-top:4px;
+  border-left:2px solid var(--green);border-bottom:2px solid var(--green);
+  transform:rotate(-45deg)}
 
 .js .im [data-i]{opacity:0;transform:translateY(6px) scale(.985);
   transition:opacity .4s ease,transform .4s cubic-bezier(.22,.8,.28,1)}
@@ -530,24 +561,117 @@ p{margin:0}
    Phones. A real iPhone shows about 635px on first load, and the header plus
    the sticky CTA take roughly 140px of it, so the headline, subhead and button
    have to land inside about 500px of usable window.
+
+   The type scale steps down here as a set. At 17px body and 18px secondary the
+   page read like a desktop layout squeezed onto a phone: correct line lengths,
+   far too much height. 16/15 keeps every line comfortably readable and takes
+   whole screens out of the scroll.
    ========================================================================= */
 @media(max-width:639px){
-  .hero{padding:26px 0 44px}
-  .hero h1{margin:16px 0 16px}
-  .hero .lead{font-size:17px}
-  .actions{margin-top:24px}
-  .hero-assure{font-size:15px}
-  .tl{padding:18px}
-  .tl-chip{padding:8px 12px}
-  .cmp-card,.card,.callout,.offer{padding:24px 20px}
-  .video-card{grid-template-columns:104px 1fr;gap:14px;padding:14px}
-  .video-copy blockquote{font-size:16px}
-  .ev-row{padding:18px}
-  .im{padding:18px}
-  .im-row{padding:11px 12px;grid-template-columns:auto 1fr;row-gap:2px}
-  .im-row i{grid-column:2;justify-self:start}
-  .im-claim{padding:22px 20px}
-  .casefeat{padding:26px 22px}
+  body{font-size:16px;line-height:1.6}
+  .section{padding:56px 0}
+  .section.deep{padding:68px 0}
+  .section.close{padding:36px 0}
+
+  .hero{padding:22px 0 36px}
+  .hero-grid{gap:26px}
+  .hero h1{margin:14px 0 12px;font-size:clamp(31px,8.2vw,40px);line-height:1.06}
+  .hero .lead{font-size:16px}
+  .actions{margin-top:20px}
+  .hero-assure{margin-top:12px;font-size:14px}
+  .eyebrow{padding:7px 12px;font-size:13px}
+
+  .kicker{font-size:13px}
+  .section-head h2{margin:10px 0 12px;font-size:clamp(25px,6.2vw,32px)}
+  .section-head p,.lede{font-size:16px}
+  .button{min-height:48px;font-size:15px}
+  .button.large{min-height:52px;padding:0 22px;font-size:16px}
+
+  .trust .container{gap:9px;padding:26px 0}
+  .trust b{font-size:clamp(18px,5vw,22px)}
+  .trust p{font-size:15px}
+
+  .points{margin-top:26px}
+  .points li{padding:15px 0;font-size:15.5px}
+
+  .flow{margin-top:28px}
+  .flow-step{grid-template-columns:32px 1fr;gap:14px;padding-bottom:24px}
+  .flow-step::before{left:15px;top:34px}
+  .flow-step>span{width:32px;height:32px;font-size:13px}
+  .flow-step b{font-size:16.5px}
+  .flow-step small{margin-top:5px;font-size:15px}
+
+  .grid-2,.grid-3{gap:10px;margin-top:28px}
+  .card{padding:18px}
+  .card h3{margin-bottom:6px;font-size:17.5px}
+  .card p{font-size:15px}
+  .callout,.offer{padding:20px 18px}
+  .check-list{gap:10px;margin-top:20px}
+  .check-list li{padding-left:26px;font-size:15px}
+  .cta-list li{font-size:15px}
+
+  .videos{gap:12px;margin-top:28px}
+  .video-card{grid-template-columns:96px 1fr;gap:13px;padding:13px}
+  .video-copy blockquote{font-size:15px;line-height:1.4}
+  .video-copy cite{margin-top:10px;font-size:13.5px}
+  .video-copy cite b{font-size:14px}
+  .video-overlay .play{width:38px;height:38px}
+  .video-overlay .play::after{border-width:7px;border-left-width:11px}
+
+  .casefeat{gap:22px;padding:22px 18px}
+  .casefeat h3{margin:10px 0 12px;font-size:clamp(21px,5.4vw,26px)}
+  .casefeat>div>p{font-size:15.5px}
+  .casefeat-facts{margin-top:20px}
+  .casefeat-facts li{padding:12px 0}
+  .casefeat-facts b{font-size:19px}
+  .casefeat-facts span{font-size:14px}
+  .proof-sub{margin-top:32px;font-size:clamp(18px,4.8vw,22px)}
+
+  .im{margin-top:24px}
+  .im-claim{gap:4px;margin-top:24px;padding:18px}
+  .im-claim b{font-size:clamp(30px,8vw,38px)}
+  .im-claim span{font-size:15px}
+
+  .offer .amount{font-size:clamp(34px,9vw,44px)}
+  .offer .amount small{font-size:15px}
+  .offer>p{margin-top:12px;font-size:15.5px}
+
+  .faq{margin-top:28px}
+  .faq summary{gap:12px;padding:17px 0;font-size:16px}
+  .faq summary::after{width:10px;height:10px;margin-top:6px}
+  .faq details p{padding-bottom:18px;font-size:15px}
+
+  .cta-panel{gap:20px;padding:26px 20px}
+  .cta-panel h2{font-size:clamp(24px,6vw,30px)}
+  .cta-panel p{margin-top:12px;font-size:15.5px}
+
+  .ev-row{padding:16px}
+  .ev-top b{font-size:16px}
+  .ev-row p{font-size:15px}
+  .defect{padding:20px 18px}
+  .defect b{font-size:16.5px}
+  .defect p{font-size:15px}
+  .quote{padding:22px 20px}
+  .stat{padding:18px}
+  .stat small{font-size:14px}
+  .timeline article{padding:20px}
+  .page-hero,.case-hero{padding:34px 0 32px}
+  .page-hero h1,.case-hero h1{margin:12px 0 12px}
+  .page-hero p,.case-hero p{font-size:16px}
+  .hero.compact{padding:30px 0 28px}
+  .prose h2{margin:32px 0 10px;font-size:24px}
+  .prose h3{margin:22px 0 8px;font-size:18px}
+  .prose p,.prose li{font-size:15.5px}
+  .footer{padding:40px 0 96px}
+  .footer-copy,.footer-links a,.footer-links strong{font-size:14.5px}
+  .footer-bottom{margin-top:28px;padding-top:18px;font-size:13px}
+}
+
+/* Below 360px the intent card's two columns get too narrow for the message
+   bubbles, so the thread drops under the activity instead of squeezing. */
+@media(max-width:359px){
+  .im{grid-template-columns:1fr;gap:12px}
+  .im-thread{padding-left:0;padding-top:12px;border-left:0;border-top:1px solid var(--line-2)}
 }
 
 @media(max-width:899px){
@@ -572,12 +696,28 @@ p{margin:0}
   .grid-2{grid-template-columns:repeat(2,1fr)}
   .grid-3{grid-template-columns:repeat(2,1fr)}
   .stat-row{grid-template-columns:repeat(4,1fr)}
-  .cmp{grid-template-columns:repeat(2,1fr);gap:20px;align-items:start}
   .videos{grid-template-columns:repeat(2,1fr);gap:20px}
-  .video-card{grid-template-columns:130px 1fr;gap:20px;padding:20px}
+  .video-card{grid-template-columns:120px 1fr;gap:18px;padding:18px}
   .cta-panel{padding:46px 40px}
-  .im{padding:30px}
+  .tl{padding:24px}
+  .tl-label{font-size:14px}
+  .tl-chip{padding:9px 13px}
+  .tl-chip b,.tl-chip span{font-size:14px}
+  .im{gap:26px;padding:26px}
+  .im-thread{padding-left:26px}
+  .im-row{padding:11px 13px}
+  .im-row b{font-size:14px}
+  .im-row i,.im-row em{font-size:13px}
+  .im-read{padding:13px 15px}
+  .im-read b{font-size:15px}
+  .im-msg{font-size:14.5px;padding:11px 14px}
+  .im-won{font-size:14px}
   .im-claim{grid-template-columns:auto 1fr;align-items:center;gap:24px;padding:30px}
+  .cmp-col{padding:18px 20px}
+  .cmp-col b{font-size:18px}
+  .cmp-col small{font-size:13.5px}
+  .cmp-label{padding:16px 20px 6px;font-size:13.5px}
+  .cmp-val{padding:0 20px 18px;font-size:16px}
   .footer-grid{grid-template-columns:repeat(2,1fr)}
   .footer-bottom{grid-template-columns:1fr auto;align-items:center;gap:24px}
   .offer{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;padding:40px}
@@ -609,40 +749,33 @@ p{margin:0}
   .timeline{grid-template-columns:repeat(4,1fr)}
   .contact-grid{grid-template-columns:.85fr 1.15fr;gap:32px}
   .videos{gap:28px}
+  .video-card{grid-template-columns:130px 1fr;gap:20px;padding:20px}
   .points li{font-size:19px;padding:26px 0}
 
-  /* The timeline turns horizontal: the rail is row 1, and each chip takes its
-     own row underneath so it can run the full width of the card. display:contents
-     lets one .tl-stop place its node and its chip in two different grid rows. */
+  /* The rail has more room, so the dots and labels come back up to full size. */
   .tl{padding:28px}
-  .tl-track{grid-template-columns:repeat(5,1fr);
-    grid-template-rows:auto repeat(5,auto);column-gap:8px;row-gap:0}
-  .tl-stop{display:contents}
-  .tl-stop::before{display:none}
-  .tl-node{position:relative;display:grid;justify-items:start;gap:12px;
-    grid-row:1;padding-bottom:26px}
-  /* right:-18px so the rail runs dot centre to dot centre, bridging the 8px
-     column gap plus the 10px offset of the next dot's centre. */
-  .tl-node::before{content:"";position:absolute;left:10px;right:-18px;top:9px;height:2px;
-    background:var(--blue);transition:.4s ease}
-  .tl-stop:last-child .tl-node::before{display:none}
-  .js .tl-stop:not(.done) .tl-node::before{background:var(--line)}
-  .tl-dot,.tl-label{grid-column:1}
-  .tl-label{font-size:15px;line-height:1.25}
-  .tl-chip{grid-column:1/-1;margin-top:0;margin-bottom:10px}
-  .tl-stop:last-child .tl-chip{margin-bottom:0}
-  .tl-stop:nth-child(1) .tl-chip{grid-row:2}
-  .tl-stop:nth-child(2) .tl-chip{grid-row:3}
-  .tl-stop:nth-child(3) .tl-chip{grid-row:4}
-  .tl-stop:nth-child(4) .tl-chip{grid-row:5}
-  .tl-stop:nth-child(5) .tl-chip{grid-row:6}
+  .tl-track{column-gap:8px}
+  .tl-node{gap:12px;padding-bottom:26px}
+  .tl-node::before{left:10px;right:-18px;top:9px}
+  .tl-dot{width:20px;height:20px}
+  .tl-label{font-size:15px}
+  .tl-chip{margin-bottom:10px}
+  .tl-head b{font-size:15px}
+  .tl-head span,.tl-foot{font-size:14px}
 
-  /* The intent card goes side by side: what the lead did on the left, what the
-     AI sent on the right, so the cause and the effect read in one glance. */
-  .im{grid-template-columns:1fr 1fr;gap:34px;padding:32px}
-  .im-thread{padding-top:0;padding-left:34px;border-top:0;border-left:1px solid var(--line-2)}
-  .im-msg{max-width:94%}
+  .im{gap:34px;padding:32px}
+  .im-thread{padding-left:34px}
+  .im-cap{font-size:14px}
   .casefeat{grid-template-columns:1.25fr .75fr;gap:48px;align-items:center;padding:48px}
+
+  /* Wide enough for a label column of its own, so the two value columns line
+     up as a proper comparison. The tint follows the new column boundary. */
+  .cmp{grid-template-columns:1.1fr 1fr 1fr}
+  .cmp::after{left:calc((1.1 / 3.1) * 100% + (1 / 3.1) * 100%)}
+  .cmp-col:first-of-type{grid-column:2}
+  .cmp-label{grid-column:1;align-self:start;padding:18px 20px;border-top:1px solid var(--line-2);
+    color:var(--ink);font-size:15px}
+  .cmp-val{padding:18px 20px;border-top:1px solid var(--line-2)}
 }
 
 /* =========================================================================
@@ -662,15 +795,15 @@ p{margin:0}
   html{scroll-behavior:auto}
   .js .reveal{opacity:1;transform:none;transition:none}
 
-  /* Force the timeline back to its finished state whatever classes the script
-     left on it. .js .tl-stop .tl-chip is 0-3-0 against the 0-2-0 rule that
-     hides chips, and the :not() pairs repeat their originals verbatim and win
-     on order, because they sit at the end of the file. */
+  /* Force both motion mocks back to their finished state whatever classes the
+     script left on them. .js .tl-stop .tl-chip is 0-3-0 against the 0-2-0 rule
+     that hides chips, and the :not() pair repeats its original verbatim and
+     wins on order, because it sits at the end of the file. */
   .js .tl-stop .tl-chip{opacity:1;transform:none;transition:none}
   .js .tl-stop:not(.on):not(.done) .tl-dot{border-color:var(--blue);background:var(--blue)}
   .js .tl-stop:not(.on):not(.done) .tl-label{color:var(--ink)}
-  .js .tl-stop:not(.done)::before{background:var(--blue)}
   .js .tl-stop:not(.done) .tl-node::before{background:var(--blue)}
   .js .tl-stop.on .tl-dot{box-shadow:none}
-  .js .tl-dot,.js .tl-label,.js .tl-stop::before{transition:none}
+  .js .tl-dot,.js .tl-label{transition:none}
+  .js .im [data-i]{opacity:1;transform:none;transition:none}
 }
