@@ -1,0 +1,676 @@
+/* Follow Up Boss AI implementation, VocalX Labs.
+   One stylesheet for every page. Mobile first: base rules target 375px and
+   min-width queries scale up.
+
+   Design brief: whitespace is the design. Large type, hairline borders, one
+   accent colour, almost no decoration. Sections breathe at 80 to 120px of
+   vertical padding on desktop. Nothing in body copy goes under 15px.
+
+   The landing page owns the sections marked LANDING. Everything above that is
+   the shared kit the inner pages (how-it-works, ai-calling, case study, legal,
+   contact) are already written against, so those class contracts stay put. */
+
+:root{
+  --ink:#0c1120;--ink-2:#1b2338;--ink-3:#333e55;
+  --muted:#58637a;--muted-2:#5f6a80;--muted-3:#69748a;
+  /* muted-2 and muted-3 stay this dark on purpose: lighter greys failed WCAG AA
+     on white and they carry the fine print. */
+  --line:#e5e9f1;--line-2:#eff2f8;--soft:#f7f8fc;--soft-2:#fbfcfe;--paper:#fff;
+  --blue:#2f52ef;--blue-2:#2140cf;--blue-soft:#eef2ff;
+  --coral:#ff6846;--violet:#7c5ad4;--green:#17936a;--green-soft:#e8f7f1;--gold:#d99a1f;
+  --red:#d1354a;--red-soft:#fdeef0;
+  --container:1120px;
+  --display:"Manrope",system-ui,sans-serif;--body:"DM Sans",system-ui,sans-serif;
+  --radius:16px;--radius-lg:22px;
+  --shadow-sm:0 2px 10px rgba(12,17,32,.04);
+  --shadow:0 14px 40px rgba(12,17,32,.07);
+  --shadow-lg:0 28px 70px rgba(12,17,32,.11);
+}
+
+*{box-sizing:border-box}
+/* overflow-x lives on html, never on body. On body it makes body the scroll
+   container, which silently zeroes window.scrollY and kills every scroll
+   handler on the page (sticky CTA, header state). */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:84px;
+  overflow-x:hidden}
+body{margin:0;color:var(--ink);background:var(--paper);
+  font:400 17px/1.65 var(--body);-webkit-font-smoothing:antialiased}
+body.menu-open{overflow:hidden}
+img,video,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit;color:inherit}
+h1,h2,h3,h4{margin:0;font-family:var(--display);letter-spacing:-.035em;line-height:1.08}
+p{margin:0}
+::selection{background:rgba(47,82,239,.14)}
+.container{width:min(100% - 32px,var(--container));margin-inline:auto}
+.skip{position:fixed;z-index:999;left:10px;top:10px;transform:translateY(-200%);
+  padding:11px 15px;border-radius:10px;background:var(--ink);color:#fff;font-weight:700}
+.skip:focus{transform:none}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+/* ---------- header ---------- */
+.header{position:sticky;top:0;z-index:100;border-bottom:1px solid transparent;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(16px);transition:.2s}
+.header.scrolled{border-color:var(--line)}
+.nav{height:68px;display:flex;align-items:center;gap:16px}
+.brand{display:inline-flex;align-items:center;gap:10px;min-width:max-content}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand-copy{display:grid;line-height:1.1}
+.brand-copy strong{font:800 14px var(--display);letter-spacing:-.02em}
+.brand-copy small{margin-top:2px;color:var(--muted-2);font-size:12px;font-weight:700}
+.nav-links{display:none}
+.nav>.button{display:none}
+.menu{display:grid;place-content:center;gap:4px;width:44px;height:44px;margin-left:auto;
+  border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer}
+.menu span{display:block;width:17px;height:2px;border-radius:99px;background:var(--ink)}
+.mobile-nav{position:fixed;z-index:99;inset:69px 0 auto;max-height:calc(100dvh - 69px);
+  overflow-y:auto;padding:8px 16px calc(22px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line);background:#fff;box-shadow:0 20px 40px rgba(12,17,32,.12)}
+.mobile-nav a{display:flex;align-items:center;min-height:52px;font-size:16px;font-weight:700;
+  border-bottom:1px solid var(--line-2)}
+.mobile-nav .button{margin-top:16px;width:100%;border-bottom:0}
+
+/* ---------- buttons ---------- */
+.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:50px;padding:0 22px;border:1px solid transparent;border-radius:12px;
+  font-size:16px;font-weight:700;text-align:center;cursor:pointer;transition:.18s}
+.button.primary{color:#fff;background:var(--blue)}
+.button.primary:hover{background:var(--blue-2)}
+.button.secondary{border-color:var(--line);background:#fff}
+.button.secondary:hover{border-color:#c6d0e4;background:var(--soft-2)}
+.button.ghost{border-color:rgba(255,255,255,.28);color:#fff;background:rgba(255,255,255,.06)}
+.button.ghost:hover{background:rgba(255,255,255,.14)}
+.button.large{min-height:58px;padding:0 28px;font-size:17px;border-radius:13px}
+.button.block{width:100%}
+
+/* ---------- section shells ----------
+   Padding is the main design decision on this site. Do not tighten it. */
+.section{padding:72px 0}
+.section.deep{padding:88px 0}
+.section.close{padding:48px 0}
+.section.soft{background:var(--soft)}
+.section.dark{color:#fff;background:var(--ink)}
+.section.dark p,.section.dark li{color:#aab4c8}
+.section.tight{padding-top:0}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;color:var(--ink-3);
+  background:var(--soft);font-size:14px;font-weight:700;line-height:1}
+.eyebrow i{display:none}
+.kicker{color:var(--blue);font-size:14px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase}
+.section.dark .kicker{color:#93a6ff}
+.section-head{max-width:720px}
+.section-head h2{margin:14px 0 18px;font-size:clamp(30px,5.8vw,44px);letter-spacing:-.04em}
+.section-head p{color:var(--muted);font-size:18px}
+.section.dark .section-head p{color:#aab4c8}
+.section-head.center{margin-inline:auto;text-align:center}
+.lede{color:var(--muted);font-size:18px}
+.fine{color:var(--muted-2);font-size:14px;line-height:1.6}
+.section.dark .fine{color:#8b95a9}
+
+/* ---------- hero ----------
+   Deliberately flat. A grid mesh plus twin radial glows plus a gradient-clipped
+   headline is the most recognisable generated-landing-page combination there is,
+   and this audience has seen it on the last three vendors who pitched them. */
+.hero{position:relative;padding:44px 0 56px;background:var(--paper)}
+.grid-bg,.glow{display:none}
+.hero-grid{position:relative;z-index:1;display:grid;gap:40px;align-items:center}
+.hero h1{margin:20px 0 20px;font-size:clamp(36px,9vw,58px);letter-spacing:-.045em;
+  line-height:1.03}
+.gradient{color:var(--blue)}
+.hero .lead{max-width:540px;color:var(--muted);font-size:18px}
+.actions{display:grid;gap:12px;margin-top:30px}
+.hero-assure{margin-top:16px;color:var(--muted-2);font-size:15px}
+
+/* ---------- generic cards / grids ---------- */
+.grid-2,.grid-3{display:grid;gap:16px;margin-top:40px}
+.card{padding:28px;border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff}
+.card h3{margin-bottom:10px;font-size:20px;letter-spacing:-.025em}
+.card p{color:var(--muted);font-size:16px}
+.section.soft .card{background:#fff}
+.section.dark .card{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+.section.dark .card p{color:#a2aac0}
+/* One treatment. The old rotation coloured badges by their position in the loop,
+   which is decoration pretending to be meaning. */
+.num{display:inline-block;margin-bottom:14px;color:var(--muted-3);
+  font:700 14px var(--display);letter-spacing:.08em}
+.num.coral,.num.green,.num.violet{color:var(--muted-3)}
+.section.dark .num{color:#8b95a9}
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pill{padding:6px 12px;border:1px solid var(--line);border-radius:999px;
+  color:var(--muted);background:var(--soft);font-size:14px;font-weight:600}
+.section.dark .pill{border-color:rgba(255,255,255,.14);color:#b9c2d4;
+  background:rgba(255,255,255,.05)}
+
+.check-list{display:grid;gap:14px;margin:26px 0 0;padding:0;list-style:none}
+.check-list li{position:relative;padding-left:29px;color:var(--muted);font-size:16px}
+.check-list li::before{content:"";position:absolute;left:0;top:.55em;width:15px;height:8px;
+  border-left:2px solid var(--green);border-bottom:2px solid var(--green);
+  transform:rotate(-45deg)}
+.section.dark .check-list li{color:#aab4c8}
+.x-list{display:grid;gap:14px;margin:26px 0 0;padding:0;list-style:none}
+.x-list li{position:relative;padding-left:29px;color:var(--muted);font-size:16px}
+.x-list li::before{content:"\00d7";position:absolute;left:4px;top:-2px;
+  color:var(--red);font-size:20px;font-weight:700}
+
+/* ---------- callouts ---------- */
+.callout{margin-top:30px;padding:26px;border-radius:var(--radius);
+  border:1px solid var(--line);background:#fff}
+.callout.warn{border-left:3px solid var(--coral);background:#fffaf8}
+.callout.note{border-left:3px solid var(--blue);background:var(--blue-soft)}
+.callout strong{display:block;margin-bottom:8px;font:800 17px var(--display)}
+.callout p{color:var(--muted);font-size:16px}
+
+/* ---------- flow steps ----------
+   Shared by the landing mechanism section and the inner architecture pages. */
+.flow{display:grid;gap:0;margin-top:40px}
+.flow-step{position:relative;display:grid;grid-template-columns:38px 1fr;gap:18px;
+  padding:0 0 34px}
+.flow-step:last-child{padding-bottom:0}
+.flow-step::before{content:"";position:absolute;left:18px;top:40px;bottom:0;width:1px;
+  background:var(--line)}
+.flow-step:last-child::before{display:none}
+.flow-step>span{position:relative;z-index:1;display:grid;place-items:center;
+  width:38px;height:38px;border:1px solid var(--line);border-radius:50%;
+  background:#fff;color:var(--muted-2);font:700 14px var(--display)}
+.flow-step b{display:block;font:800 19px/1.3 var(--display);letter-spacing:-.025em}
+.flow-step small{display:block;margin-top:7px;color:var(--muted);font-size:16px;
+  line-height:1.6}
+/* The inner pages hang a stage label off the step as a third child. Without an
+   explicit column it auto-places into the 38px rail track and gets crushed. */
+.flow-step em{grid-column:2;justify-self:start;margin-top:10px;color:var(--muted-3);
+  font-size:13px;font-weight:700;font-style:normal;letter-spacing:.07em}
+.section.dark .flow-step>span{border-color:rgba(255,255,255,.16);
+  background:rgba(255,255,255,.05);color:#c3cbdc}
+.section.dark .flow-step::before{background:rgba(255,255,255,.12)}
+.section.dark .flow-step small{color:#aab4c8}
+
+/* ---------- stats ---------- */
+.stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px}
+.stat{padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
+.section.dark .stat{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.stat strong{display:block;font:800 clamp(28px,7vw,36px)/1 var(--display);letter-spacing:-.04em}
+.stat small{display:block;margin-top:10px;color:var(--muted);font-size:15px;line-height:1.5}
+.section.dark .stat small{color:#a2aac0}
+
+/* ---------- evidence table (case study) ---------- */
+.evidence{margin-top:36px;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;background:#fff}
+.ev-row{padding:22px;border-bottom:1px solid var(--line-2)}
+.ev-row:last-child{border-bottom:0}
+.ev-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px}
+.ev-top b{font:800 17px var(--display);letter-spacing:-.02em}
+.ev-row p{color:var(--muted);font-size:16px}
+.status{padding:5px 11px;border-radius:999px;font-size:14px;font-weight:700;
+  white-space:nowrap}
+.status.pass{color:#0f6f50;background:var(--green-soft)}
+.status.fixed{color:#82550a;background:#fbf3e2}
+.status.open{color:#2b41a8;background:var(--blue-soft)}
+
+/* ---------- defect cards ---------- */
+.defect{margin-top:16px;padding:26px;border:1px solid var(--line);
+  border-left:3px solid var(--coral);border-radius:4px var(--radius) var(--radius) 4px;
+  background:#fff}
+.section.dark .defect{border-color:rgba(255,255,255,.1);border-left-color:var(--coral);
+  background:rgba(255,255,255,.04)}
+.defect b{display:block;margin-bottom:8px;font:800 18px var(--display);letter-spacing:-.02em}
+.defect p{color:var(--muted);font-size:16px}
+.section.dark .defect p{color:#a2aac0}
+.defect .fix{display:block;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-2);
+  color:var(--ink);font-size:15px;font-weight:600}
+.section.dark .defect .fix{border-color:rgba(255,255,255,.12);color:#dfe5f0}
+
+/* ---------- quotes ---------- */
+.quote{margin-top:32px;padding:32px;border:1px solid var(--line);
+  border-radius:var(--radius-lg);background:#fff}
+.section.dark .quote{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.quote blockquote{margin:0;font:800 clamp(20px,4.4vw,26px)/1.34 var(--display);
+  letter-spacing:-.03em}
+.quote cite{display:block;margin-top:18px;color:var(--muted);font-size:15px;
+  font-style:normal;font-weight:600}
+.section.dark .quote cite{color:#98a2b6}
+.quote footer{display:flex;align-items:center;gap:13px;margin-top:20px}
+.quote footer b{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;
+  color:#fff;background:var(--blue);font:800 15px var(--display)}
+.quote footer strong{display:block;font:800 15px var(--display)}
+.quote footer small{display:block;color:var(--muted);font-size:14px}
+
+/* ---------- CTA panel ---------- */
+.cta-panel{position:relative;display:grid;gap:28px;padding:38px 28px;
+  border-radius:var(--radius-lg);color:#fff;background:var(--ink);overflow:hidden}
+.cta-panel h2{font-size:clamp(28px,6vw,40px);letter-spacing:-.04em}
+.cta-panel p{margin-top:16px;color:rgba(255,255,255,.78);font-size:17px}
+.cta-panel .kicker{color:#c9d3ff}
+.cta-list{display:grid;gap:11px;margin:22px 0 0;padding:0;list-style:none}
+.cta-list li{position:relative;padding-left:28px;color:rgba(255,255,255,.86);font-size:16px}
+.cta-list li::before{content:"";position:absolute;left:0;top:.55em;width:14px;height:7px;
+  border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg)}
+
+/* ---------- footer ---------- */
+.footer{padding:56px 0 108px;border-top:1px solid var(--line);background:var(--soft-2)}
+.footer-grid{display:grid;gap:34px}
+.footer-copy{max-width:340px;margin-top:16px;color:var(--muted);font-size:15px}
+.footer-links{display:grid;align-content:start;gap:12px}
+.footer-links strong{margin-bottom:2px;font:800 15px var(--display)}
+.footer-links a{color:var(--muted);font-size:15px}
+.footer-links a:hover{color:var(--ink)}
+.footer-bottom{display:grid;gap:12px;margin-top:40px;padding-top:26px;
+  border-top:1px solid var(--line);color:var(--muted-2);font-size:14px}
+
+/* ---------- sticky mobile CTA ---------- */
+.sticky-cta{position:fixed;z-index:90;inset:auto 0 0;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line);background:rgba(255,255,255,.96);backdrop-filter:blur(14px)}
+.sticky-cta[hidden]{display:none}
+
+/* ---------- prose (legal pages) ---------- */
+.prose{max-width:720px}
+.prose h2{margin:44px 0 14px;font-size:28px}
+.prose h3{margin:30px 0 10px;font-size:20px}
+.prose p,.prose li{margin-top:14px;color:var(--muted)}
+.prose ul{padding-left:20px}
+.prose a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- page hero (inner pages) ---------- */
+.page-hero{padding:52px 0 48px;background:var(--paper);border-bottom:1px solid var(--line-2)}
+.page-hero h1{margin:18px 0 18px;font-size:clamp(32px,8vw,50px);letter-spacing:-.045em}
+.page-hero p{max-width:640px;color:var(--muted);font-size:18px}
+.case-hero{padding:52px 0 48px;color:#fff;background:var(--ink)}
+.case-hero h1{margin:18px 0 18px;font-size:clamp(31px,7.6vw,48px);letter-spacing:-.045em}
+.case-hero p{max-width:660px;color:#aab4c8;font-size:18px}
+.case-hero .eyebrow{color:#fff;border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.07)}
+.case-hero .stat{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.05)}
+.case-hero .stat small{color:#a2aac0}
+
+/* ---------- inner page components ---------- */
+.hero.compact{padding:44px 0 40px}
+.hero.compact h1{font-size:clamp(32px,8vw,50px)}
+
+.timeline{display:grid;gap:16px;margin-top:36px}
+.timeline article{padding:26px;border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff}
+.timeline b{display:inline-block;margin-bottom:14px;color:var(--muted-3);
+  font:700 14px var(--display);letter-spacing:.08em}
+.timeline h3{margin-bottom:8px;font-size:19px;letter-spacing:-.025em}
+.timeline p{color:var(--muted);font-size:16px}
+
+.audit{padding:30px;border:1px solid var(--line);border-radius:var(--radius-lg);background:#fff}
+.section.dark .audit{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.audit small{color:var(--muted-2);font-size:14px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase}
+.audit strong{display:block;margin:8px 0 12px;
+  font:800 clamp(36px,9vw,52px)/1 var(--display);letter-spacing:-.045em;color:var(--blue)}
+.section.dark .audit strong{color:#93a6ff}
+.audit p{color:var(--muted);font-size:16px}
+.section.dark .audit p{color:#aab4c8}
+
+.notice{padding:26px;border-left:3px solid var(--blue);
+  border-radius:0 var(--radius) var(--radius) 0;background:var(--soft)}
+.notice p{color:var(--muted);font-size:16px}
+
+.contact-grid{display:grid;gap:24px;margin-top:36px}
+.contact-card{padding:30px;border:1px solid var(--line);border-radius:var(--radius-lg);
+  background:#fff}
+.contact-list{display:grid;gap:14px;margin-top:26px}
+.contact-list a,.contact-list span{display:flex;gap:10px;color:var(--muted);font-size:16px}
+.contact-list a:hover{color:var(--ink)}
+.calendly-shell{min-height:640px;overflow:hidden;border:1px solid var(--line);
+  border-radius:var(--radius-lg);background:#fff}
+.calendly-inline-widget{min-width:280px;height:640px}
+
+.muted{color:var(--muted)}
+.center{text-align:center}
+.mt-20{margin-top:20px}.mt-30{margin-top:30px}.mt-40{margin-top:40px}
+
+/* =========================================================================
+   LANDING
+   ========================================================================= */
+
+/* ---------- hero timeline visual ----------
+   A lead moving along its own lifecycle. The rail shows the five stops, and a
+   chip lands under it as each one activates. No library, no canvas: a JS
+   interval walks a .on class down the stops and CSS does the rest.
+
+   The static default state is the FINISHED state, every chip visible. The
+   animated state only exists under html.js, so a script failure or a browser
+   with reduced motion shows a complete, readable graphic rather than an
+   empty box. */
+.tl{padding:22px;border:1px solid var(--line);border-radius:var(--radius-lg);
+  background:#fff;box-shadow:var(--shadow)}
+.tl-head{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-bottom:18px;margin-bottom:20px;border-bottom:1px solid var(--line-2)}
+.tl-head b{font:800 15px var(--display);letter-spacing:-.02em}
+.tl-head span{display:inline-flex;align-items:center;gap:7px;color:var(--muted-2);
+  font-size:14px;font-weight:700}
+.tl-head span::before{content:"";width:7px;height:7px;border-radius:50%;
+  background:var(--green)}
+
+/* Everything in this block is the FINISHED state: filled dots, filled rail,
+   every chip visible. That is what renders with no JS at all. */
+.tl-track{display:grid;gap:0}
+.tl-stop{position:relative;display:grid;grid-template-columns:20px 1fr;
+  column-gap:14px;padding-bottom:18px}
+.tl-stop:last-child{padding-bottom:0}
+/* vertical rail on phones */
+.tl-stop::before{content:"";position:absolute;left:9px;top:18px;bottom:0;width:2px;
+  background:var(--blue)}
+.tl-stop:last-child::before{display:none}
+.tl-node{display:contents}
+.tl-dot{position:relative;z-index:1;grid-column:1;width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--blue);background:var(--blue)}
+.tl-label{grid-column:2;align-self:center;font:800 15px var(--display);letter-spacing:-.02em;
+  color:var(--ink)}
+.tl-chip{grid-column:2;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;
+  margin-top:8px;padding:9px 13px;border:1px solid var(--line);border-radius:11px;
+  background:var(--soft-2)}
+.tl-chip b{font:700 14px var(--body);letter-spacing:0}
+.tl-chip span{color:var(--muted-2);font-size:14px}
+.tl-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-2);
+  color:var(--muted-2);font-size:14px}
+
+/* Animated state, only once app.js has confirmed it is running. A stop is
+   .on while it is the current step and .done once the run has passed it.
+   The connector leaving a stop fills on .done, not .on, so the rail never
+   runs ahead of the marker. */
+.js .tl-chip{opacity:0;transform:translateY(5px) scale(.97);
+  transition:opacity .42s ease,transform .42s cubic-bezier(.22,.8,.28,1)}
+.js .tl-stop.on .tl-chip,.js .tl-stop.done .tl-chip{opacity:1;transform:none}
+.js .tl-stop.on .tl-chip{border-color:#ccd8fb;background:var(--blue-soft)}
+.js .tl-dot,.js .tl-label,.js .tl-stop::before{transition:.4s ease}
+.js .tl-stop:not(.on):not(.done) .tl-dot{border-color:var(--line);background:#fff}
+.js .tl-stop:not(.on):not(.done) .tl-label{color:var(--muted-3)}
+.js .tl-stop:not(.done)::before{background:var(--line)}
+.js .tl-stop.on .tl-dot{box-shadow:0 0 0 4px rgba(47,82,239,.13)}
+
+/* ---------- positioning strip ----------
+   Not a logo wall. The single sentence that separates this from every tool that
+   makes agents open a second tab. */
+.trust{border-block:1px solid var(--line-2);background:var(--soft-2)}
+.trust .container{display:grid;gap:12px;padding:36px 0;max-width:860px}
+.trust b{font:800 clamp(20px,4.8vw,27px)/1.28 var(--display);letter-spacing:-.035em}
+.trust p{color:var(--muted);font-size:17px}
+.trust em{color:var(--ink);font-style:normal;font-weight:700}
+
+/* ---------- plain point list (problem section) ---------- */
+.points{display:grid;gap:0;margin:40px 0 0;padding:0;list-style:none;max-width:720px}
+.points li{padding:22px 0;border-top:1px solid var(--line);color:var(--muted);font-size:18px}
+.points li:last-child{border-bottom:1px solid var(--line)}
+.points b{color:var(--ink);font-weight:700}
+
+/* ---------- comparison, two cards, never a table ---------- */
+.cmp{display:grid;gap:16px;margin-top:40px}
+.cmp-card{padding:26px;border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff}
+.cmp-card.ours{border-color:#c9d4fb;background:var(--blue-soft)}
+.cmp-head{padding-bottom:18px;border-bottom:1px solid var(--line)}
+.cmp-card.ours .cmp-head{border-color:#d4dcfb}
+.cmp-head b{display:block;font:800 20px var(--display);letter-spacing:-.03em}
+.cmp-head small{display:block;margin-top:5px;color:var(--muted-2);font-size:14px}
+.cmp-row{padding:18px 0;border-bottom:1px solid var(--line-2)}
+.cmp-card.ours .cmp-row{border-color:#dde3fb}
+.cmp-row:last-child{border-bottom:0;padding-bottom:0}
+.cmp-row small{display:block;color:var(--muted-2);font-size:14px}
+.cmp-row span{display:block;margin-top:4px;font-size:17px;font-weight:600}
+.cmp-card.ours .cmp-row span{color:var(--ink)}
+.cmp-note{margin-top:20px;color:var(--muted-2);font-size:14px;line-height:1.6}
+
+/* ---------- intent match ----------
+   The differentiator section. Same motion technique as the hero timeline: the
+   static default is the finished state and app.js walks a .shown class down the
+   [data-i] elements, so a script failure leaves the whole story readable. */
+.im{display:grid;gap:0;margin-top:36px;padding:22px;border:1px solid var(--line);
+  border-radius:var(--radius-lg);background:#fff;box-shadow:var(--shadow)}
+.im-cap{display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--muted-2);
+  font-size:14px;font-weight:700}
+.im-cap::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue)}
+.im-rows{display:grid;gap:8px}
+.im-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;
+  padding:12px 14px;border:1px solid var(--line-2);border-radius:11px;background:var(--soft-2)}
+.im-row b{font:700 15px var(--body);letter-spacing:0;line-height:1.35}
+.im-row i{color:var(--muted-2);font-size:14px;font-style:normal;white-space:nowrap}
+.im-row em{display:block;margin-top:2px;color:var(--blue);font-size:14px;font-style:normal;
+  font-weight:700}
+/* the eye mark, a plain geometric glyph rather than an icon standing in for meaning */
+.im-eye{width:16px;height:10px;flex:none;border:1.5px solid var(--muted-3);
+  border-radius:50% 50% 50% 50%/60% 60% 40% 40%}
+.im-row.hot{border-color:#ccd8fb;background:var(--blue-soft)}
+.im-row.hot .im-eye{border-color:var(--blue)}
+
+.im-read{margin:16px 0;padding:16px 18px;border-left:3px solid var(--blue);
+  border-radius:0 12px 12px 0;background:var(--blue-soft)}
+.im-read small{display:block;color:#2b41a8;font-size:14px;font-weight:700}
+.im-read b{display:block;margin-top:5px;font:800 17px/1.4 var(--display);letter-spacing:-.02em}
+
+.im-thread{padding-top:18px;border-top:1px solid var(--line-2)}
+.im-msg{max-width:88%;margin-top:10px;padding:12px 15px;border-radius:15px;font-size:15px;
+  line-height:1.5}
+.im-msg.out{margin-left:auto;color:#fff;background:var(--blue);border-bottom-right-radius:5px}
+.im-msg.in{color:var(--ink);background:var(--soft);border:1px solid var(--line);
+  border-bottom-left-radius:5px}
+.im-won{display:flex;align-items:center;gap:9px;margin-top:16px;padding-top:16px;
+  border-top:1px solid var(--line-2);color:#0f6f50;font-size:15px;font-weight:700}
+.im-won::before{content:"";width:14px;height:7px;flex:none;border-left:2px solid var(--green);
+  border-bottom:2px solid var(--green);transform:rotate(-45deg)}
+
+.js .im [data-i]{opacity:0;transform:translateY(6px) scale(.985);
+  transition:opacity .4s ease,transform .4s cubic-bezier(.22,.8,.28,1)}
+.js .im [data-i].shown{opacity:1;transform:none}
+
+/* the claim, carried as one number rather than a stats band */
+.im-claim{display:grid;gap:6px;margin-top:36px;padding:26px;border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--soft-2)}
+.im-claim b{font:800 clamp(34px,8vw,46px)/1 var(--display);letter-spacing:-.045em;
+  color:var(--blue)}
+.im-claim span{color:var(--muted);font-size:17px}
+
+/* ---------- case study feature, the heaviest block in the proof section ---------- */
+.casefeat{display:grid;gap:26px;margin-top:40px;padding:32px 26px;
+  border-radius:var(--radius-lg);color:#fff;background:var(--ink)}
+.casefeat .kicker{color:#c9d3ff}
+.casefeat h3{margin:14px 0 16px;font-size:clamp(26px,5.6vw,36px);letter-spacing:-.04em}
+.casefeat>div>p{color:rgba(255,255,255,.8);font-size:17px}
+.casefeat-facts{display:grid;gap:0;margin:26px 0 0;padding:0;list-style:none}
+.casefeat-facts li{padding:16px 0;border-top:1px solid rgba(255,255,255,.12)}
+.casefeat-facts li:last-child{border-bottom:1px solid rgba(255,255,255,.12)}
+.casefeat-facts b{display:block;font:800 22px var(--display);letter-spacing:-.03em}
+.casefeat-facts span{display:block;margin-top:3px;color:rgba(255,255,255,.72);font-size:15px}
+.proof-sub{margin-top:48px;font-size:clamp(20px,4.6vw,26px);letter-spacing:-.03em}
+
+/* ---------- video testimonials ----------
+   9/16 with object-fit:contain: these are portrait phone clips and cropping them
+   to a landscape box cut the speaker's head off. Contain guarantees the whole
+   frame, the column stays narrow so the card stays compact on a phone. */
+.videos{display:grid;gap:16px;margin-top:32px}
+.video-card{display:grid;grid-template-columns:112px 1fr;gap:16px;align-items:center;
+  padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
+.video-wrap{position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:12px;
+  background:var(--ink);cursor:pointer}
+.video-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.video-overlay{position:absolute;inset:0;display:grid;place-items:center;
+  background:linear-gradient(rgba(12,17,32,.12),rgba(12,17,32,.5))}
+.video-overlay .play{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;
+  background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.video-overlay .play::after{content:"";margin-left:4px;border:9px solid transparent;
+  border-left:14px solid var(--ink)}
+.video-copy blockquote{margin:0;font:800 17px/1.42 var(--display);letter-spacing:-.025em}
+.video-copy cite{display:block;margin-top:14px;color:var(--muted);font-size:15px;
+  font-style:normal}
+.video-copy cite b{display:block;color:var(--ink);font:800 15px var(--display)}
+
+/* ---------- offer ---------- */
+.offer{margin-top:40px;padding:32px;border:1px solid var(--line);
+  border-radius:var(--radius-lg);background:#fff}
+.offer .amount{font:800 clamp(40px,10vw,58px)/1 var(--display);letter-spacing:-.05em}
+.offer .amount small{font:700 17px var(--body);letter-spacing:0;color:var(--muted)}
+.offer>p{margin-top:16px;color:var(--muted);font-size:17px}
+
+/* ---------- FAQ ---------- */
+.faq{margin-top:40px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{display:flex;align-items:flex-start;gap:16px;padding:24px 0;cursor:pointer;
+  font:800 18px/1.4 var(--display);letter-spacing:-.025em;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+/* margin-right clears the rotated corner: an 11px square turned 45deg has a
+   ~15.6px bounding box, which pushed 3px past the container at 320px. */
+.faq summary::after{content:"";flex:none;width:11px;height:11px;margin-left:auto;
+  margin-right:4px;margin-top:7px;border-right:2px solid var(--muted-2);
+  border-bottom:2px solid var(--muted-2);transform:rotate(45deg);transition:.2s}
+.faq details[open] summary::after{transform:rotate(-135deg);margin-top:10px}
+.faq details p{padding-bottom:26px;color:var(--muted);font-size:17px}
+.faq details p+p{margin-top:14px}
+
+/* ---------- reveal ----------
+   Only hidden once JS has confirmed it is running. Without the html.js gate a
+   failed script would leave every section below the hero permanently invisible. */
+.js .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.js .reveal.visible{opacity:1;transform:none}
+
+/* =========================================================================
+   Phones. A real iPhone shows about 635px on first load, and the header plus
+   the sticky CTA take roughly 140px of it, so the headline, subhead and button
+   have to land inside about 500px of usable window.
+   ========================================================================= */
+@media(max-width:639px){
+  .hero{padding:26px 0 44px}
+  .hero h1{margin:16px 0 16px}
+  .hero .lead{font-size:17px}
+  .actions{margin-top:24px}
+  .hero-assure{font-size:15px}
+  .tl{padding:18px}
+  .tl-chip{padding:8px 12px}
+  .cmp-card,.card,.callout,.offer{padding:24px 20px}
+  .video-card{grid-template-columns:104px 1fr;gap:14px;padding:14px}
+  .video-copy blockquote{font-size:16px}
+  .ev-row{padding:18px}
+  .im{padding:18px}
+  .im-row{padding:11px 12px;grid-template-columns:auto 1fr;row-gap:2px}
+  .im-row i{grid-column:2;justify-self:start}
+  .im-claim{padding:22px 20px}
+  .casefeat{padding:26px 22px}
+}
+
+@media(max-width:899px){
+  /* Full height links, so every footer target clears 44px. */
+  .footer-links{gap:0}
+  .footer-links a{display:flex;align-items:center;min-height:46px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .footer-grid>div:first-child{grid-column:1/-1}
+}
+
+/* =========================================================================
+   640px and up
+   ========================================================================= */
+@media(min-width:640px){
+  .container{width:min(100% - 48px,var(--container))}
+  .section{padding:96px 0}
+  .section.deep{padding:112px 0}
+  .section.close{padding:56px 0}
+  .hero{padding:60px 0 72px}
+  .actions{display:flex;flex-wrap:wrap;gap:14px}
+  .actions .button{flex:0 0 auto}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+  .stat-row{grid-template-columns:repeat(4,1fr)}
+  .cmp{grid-template-columns:repeat(2,1fr);gap:20px;align-items:start}
+  .videos{grid-template-columns:repeat(2,1fr);gap:20px}
+  .video-card{grid-template-columns:130px 1fr;gap:20px;padding:20px}
+  .cta-panel{padding:46px 40px}
+  .im{padding:30px}
+  .im-claim{grid-template-columns:auto 1fr;align-items:center;gap:24px;padding:30px}
+  .footer-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-bottom{grid-template-columns:1fr auto;align-items:center;gap:24px}
+  .offer{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;padding:40px}
+}
+
+/* =========================================================================
+   900px and up
+   ========================================================================= */
+@media(min-width:900px){
+  .section{padding:112px 0}
+  .section.deep{padding:128px 0}
+  .nav{height:78px}
+  .nav-links{display:flex;gap:30px;margin-left:auto}
+  .nav-links a{color:#4c5870;font-size:16px;font-weight:600}
+  .nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--ink)}
+  .nav>.button{display:inline-flex}
+  .menu,.mobile-nav{display:none}
+  .sticky-cta{display:none}
+  .footer{padding:72px 0 56px}
+  .hero{padding:76px 0 92px}
+  .hero-grid{grid-template-columns:1.04fr .96fr;gap:56px}
+  .hero h1{font-size:clamp(46px,4.6vw,60px)}
+  .grid-3{grid-template-columns:repeat(3,1fr);gap:20px}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .split.wide-left{grid-template-columns:1.15fr .85fr}
+  .cta-panel{grid-template-columns:1.3fr auto;align-items:center;gap:48px;padding:56px}
+  .footer-grid{grid-template-columns:1.5fr repeat(3,.85fr);gap:48px}
+  .section-head h2{font-size:clamp(36px,3.4vw,46px)}
+  .timeline{grid-template-columns:repeat(4,1fr)}
+  .contact-grid{grid-template-columns:.85fr 1.15fr;gap:32px}
+  .videos{gap:28px}
+  .points li{font-size:19px;padding:26px 0}
+
+  /* The timeline turns horizontal: the rail is row 1, and each chip takes its
+     own row underneath so it can run the full width of the card. display:contents
+     lets one .tl-stop place its node and its chip in two different grid rows. */
+  .tl{padding:28px}
+  .tl-track{grid-template-columns:repeat(5,1fr);
+    grid-template-rows:auto repeat(5,auto);column-gap:8px;row-gap:0}
+  .tl-stop{display:contents}
+  .tl-stop::before{display:none}
+  .tl-node{position:relative;display:grid;justify-items:start;gap:12px;
+    grid-row:1;padding-bottom:26px}
+  /* right:-18px so the rail runs dot centre to dot centre, bridging the 8px
+     column gap plus the 10px offset of the next dot's centre. */
+  .tl-node::before{content:"";position:absolute;left:10px;right:-18px;top:9px;height:2px;
+    background:var(--blue);transition:.4s ease}
+  .tl-stop:last-child .tl-node::before{display:none}
+  .js .tl-stop:not(.done) .tl-node::before{background:var(--line)}
+  .tl-dot,.tl-label{grid-column:1}
+  .tl-label{font-size:15px;line-height:1.25}
+  .tl-chip{grid-column:1/-1;margin-top:0;margin-bottom:10px}
+  .tl-stop:last-child .tl-chip{margin-bottom:0}
+  .tl-stop:nth-child(1) .tl-chip{grid-row:2}
+  .tl-stop:nth-child(2) .tl-chip{grid-row:3}
+  .tl-stop:nth-child(3) .tl-chip{grid-row:4}
+  .tl-stop:nth-child(4) .tl-chip{grid-row:5}
+  .tl-stop:nth-child(5) .tl-chip{grid-row:6}
+
+  /* The intent card goes side by side: what the lead did on the left, what the
+     AI sent on the right, so the cause and the effect read in one glance. */
+  .im{grid-template-columns:1fr 1fr;gap:34px;padding:32px}
+  .im-thread{padding-top:0;padding-left:34px;border-top:0;border-left:1px solid var(--line-2)}
+  .im-msg{max-width:94%}
+  .casefeat{grid-template-columns:1.25fr .75fr;gap:48px;align-items:center;padding:48px}
+}
+
+/* =========================================================================
+   1100px and up
+   ========================================================================= */
+@media(min-width:1100px){
+  .section{padding:120px 0}
+  .hero h1{font-size:60px}
+}
+
+/* =========================================================================
+   Reduced motion. These selectors deliberately repeat the specificity of the
+   rules they override, because a media query adds none of its own: a bare
+   .reveal here would lose to .js .reveal and leave content invisible.
+   ========================================================================= */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .reveal{opacity:1;transform:none;transition:none}
+
+  /* Force the timeline back to its finished state whatever classes the script
+     left on it. .js .tl-stop .tl-chip is 0-3-0 against the 0-2-0 rule that
+     hides chips, and the :not() pairs repeat their originals verbatim and win
+     on order, because they sit at the end of the file. */
+  .js .tl-stop .tl-chip{opacity:1;transform:none;transition:none}
+  .js .tl-stop:not(.on):not(.done) .tl-dot{border-color:var(--blue);background:var(--blue)}
+  .js .tl-stop:not(.on):not(.done) .tl-label{color:var(--ink)}
+  .js .tl-stop:not(.done)::before{background:var(--blue)}
+  .js .tl-stop:not(.done) .tl-node::before{background:var(--blue)}
+  .js .tl-stop.on .tl-dot{box-shadow:none}
+  .js .tl-dot,.js .tl-label,.js .tl-stop::before{transition:none}
+}

@@ -1,51 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Redirecting to Vocalxlabs</title>
-    <meta name="robots" content="noindex, follow" />
-    <link rel="canonical" href="https://vocalxlabs.com/" />
-    <link rel="icon" type="image/png" href="/ai-acquisition-manager/img/favicon.png" />
-
-    <!-- Netlify serves this page for any path that matches no file and no rule
-         in _redirects, which is every mistyped URL (vocalxlabs.com/), stray
-         punctuation from a pasted link, dead inbound links). Send those
-         visitors straight to the live site instead of showing them a dead end.
-
-         A same-domain "/*  /  301" in _redirects cannot do this: "/" matches
-         "/*", so Netlify treats the rule as a redirect loop and drops it. -->
-    <script>
-      (function () {
-        var path = window.location.pathname;
-        // Keep visitors in context where we can: an unknown post goes to the
-        // blog index, everything else goes to the homepage.
-        var target = path.indexOf('/blog/') === 0 ? '/blog/' : '/';
-        // replace() so the broken URL does not sit in the back button.
-        window.location.replace(target);
-      })();
-    </script>
-    <noscript>
-      <meta http-equiv="refresh" content="0; url=/" />
-    </noscript>
-
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #0a2540;
-        color: #ffffff;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      }
-      a {
-        color: #ffffff;
-      }
-    </style>
-  </head>
-  <body>
-    <p>Taking you to <a href="/">vocalxlabs.com</a>&hellip;</p>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>Page not found | Follow Up Boss AI Implementation</title>
+<meta name="description" content="That page does not exist. Head back to the Follow Up Boss implementation overview, or book a call to map your own lead flow.">
+<meta name="robots" content="noindex">
+<!-- Absolute paths, because a 404 can be served for a path at any depth and
+     relative URLs would resolve against that depth instead of the site root. -->
+<link rel="icon" href="/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+<main class="hero" id="main">
+  <div class="grid-bg"></div><div class="glow a"></div>
+  <div class="container center" style="position:relative;z-index:1">
+    <div class="eyebrow"><i></i>404</div>
+    <h1 style="margin-top:16px">That page is not part of the build.</h1>
+    <p class="lead" style="margin-inline:auto">The link may be old or mistyped. The overview below covers the whole implementation, and the case study has the full build log.</p>
+    <div class="actions" style="justify-content:center">
+      <a class="button primary large" href="/">Back to the overview</a>
+      <a class="button secondary large" href="/case-studies/timothy-fub-implementation/">Read the build log</a>
+    </div>
+  </div>
+</main>
+<script type="module" src="/src/app.js"></script>
+</body>
 </html>

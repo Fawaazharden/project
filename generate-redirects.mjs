@@ -54,22 +54,40 @@ function buildRedirects(slugs) {
 # every static page under public/ keeps serving normally.
 
 # ── Homepage ────────────────────────────────────────────────────────────────
-# The live homepage is the AI Acquisition Manager static page.
-/                            /ai-acquisition-manager/index.html   200!
+# The live homepage is the Follow Up Boss AI page. It ships as home.html, not
+# index.html, because vite emits dist/index.html from the React entry and a
+# public/index.html would collide with it. Forced, so the SPA shell cannot win.
+/                            /home.html                           200!
 
-# The built SPA shell is not a page anyone should land on. Forced, because
-# dist/index.html is a real file and would otherwise win.
+# Neither shell nor source file is a page anyone should land on, and both are
+# real files in the publish directory, so both need the force.
+/home.html                   /                                    301!
 /index.html                  /                                    301!
 
-# ── Static CRM landing pages ────────────────────────────────────────────────
-/fub                         /fub/index.html                      200
-/fub/                        /fub/index.html                      200
+# ── Retired pages, consolidated into the new homepage ───────────────────────
+# The AI Acquisition Manager page and the old /fub/ landing page were both
+# replaced by the homepage above. Their URLs are indexed, so they redirect
+# rather than 404.
+#
+# public/ai-acquisition-manager/img/ deliberately still exists: every blog post
+# points its og:image at /ai-acquisition-manager/img/og/<slug>.png, so deleting
+# that directory would break 21 social cards. These rules are unforced, which
+# means they never shadow a real file, so the images keep serving and only the
+# retired HTML redirects. Do not add \`!\` to either rule.
+/ai-acquisition-manager      /                                    301
+/ai-acquisition-manager/*    /                                    301
+/fub                         /                                    301
+/fub/*                       /                                    301
+
+# ── Static landing pages ────────────────────────────────────────────────────
 /resimpli                    /resimpli/index.html                 200
 /resimpli/                   /resimpli/index.html                 200
 
 # ── Legacy URL consolidation ────────────────────────────────────────────────
-/contact                     /contact-us                          301
-/privacy-policy              /privacy                             301
+# /contact is now a real page, so the old /contact-us URL folds into it.
+/contact-us                  /contact/                            301
+/contact-us/*                /contact/                            301
+/privacy-policy              /privacy/                            301
 
 # Removed blog posts (deleted from Sanity): redirect stale/indexed URLs to the
 # blog index rather than the generic catch-all below.
