@@ -117,11 +117,12 @@ if (timeline) {
 }
 
 // Intent Match. The lead's own activity building up, then the matched follow up
-// that comes out of it. Slightly faster beat because it is a longer story.
+// that comes out of it. Eight beats at a brisk 700ms: the story is longer than
+// the hero timeline's, so a slower beat made you wait to reach the punchline.
 const intent = document.querySelector('[data-intent]');
 if (intent) {
   const steps = [...intent.querySelectorAll('[data-i]')];
-  replay(steps.length, 3, 1200, (i) => {
+  replay(steps.length, 4, 700, (i) => {
     steps.forEach((s, n) => s.classList.toggle('shown', n < i));
   });
 }
