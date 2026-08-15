@@ -1,25 +1,26 @@
-# Vocalxlabs: AI Acquisition Manager
+# Vocalxlabs: AI-first for Follow Up Boss
 
-> Vocalxlabs builds and runs a done-for-you AI Acquisition Manager for real estate wholesalers and investors. It uses AI cold SMS to generate and qualify motivated seller leads on motivation, asking price, condition and repairs, and timeline, then delivers them ready to call. Clients sign contracts for roughly $100 to $300 in marketing cost. Every engagement starts with a free 2-week pilot.
+> Vocalxlabs audits and rebuilds the Follow Up Boss account a real estate team already runs, then installs AI that works every lead every day. The distinguishing layer is intent: behaviour on the team's own search site decides who gets called first, so agents start the day on the leads who are actually ready. Positioning is "same agents, same leads, more closings". Every engagement starts with a free CRM audit.
 
 ## What it is
-- The AI Acquisition Manager runs cold SMS outbound to skip-traced lists, holds real, human-sounding conversations with property owners, and qualifies interested sellers with a 4-point system: motivation, asking price, condition and repairs, and timeline.
-- It nurtures sellers who are not ready yet, books appointments or hands off with a full briefing, and updates the CRM in real time.
-- It is done-for-you: Vocalxlabs builds it, trains it on the client's scripts and market, runs it, and manages it. The client only takes the calls.
+- A one-time build inside the client's own Follow Up Boss account, delivered in four layers: Foundation (stages, lead flows, smart lists, routing, action plans), Signal (Follow Up Boss Pixel, listings opened, repeat views, recency, saved searches, intent scoring), Conversation (AI texting and calling, qualification, listing match, appointment booking, full write-back), and Visibility (a weekly per-agent scoreboard by email).
+- Nothing new for agents to open. Everything appears on the Follow Up Boss person record and in the smart lists they already call from, so there is no rollout and no second dashboard.
+- Live in about fifteen days. Acceptance tested against a written script on test contacts before any real lead is in scope. First 90 days of managed operations included.
 
 ## Who it is for
-- Real estate wholesalers and investors doing 0 to 5 deals a month who want a consistent, hands-off flow of qualified motivated sellers, without hiring VAs or overpaying for PPC and direct mail.
+- US real estate teams and brokerages running Follow Up Boss as the system of record, usually 2,000 or more contacts and real monthly lead spend, often with agents producing at very different levels.
+- Not a fit for solo agents early on, for anyone whose problem is lead volume rather than lead handling, or for anyone shopping on price.
 
 ## The offer
-- Free 2-week pilot. The client covers only data costs (skip tracing and sending), usually under $100. No setup fee until the system has produced qualified sellers.
-- Optional ongoing management, month-to-month, with no lock-in.
-- Compliance is handled: A2P registration, opt-outs, and legal send-windows.
+- Free Follow Up Boss audit: 45 minutes inside the account, covering the CRM, the workflow and the process. The client receives a written report ranking where closings are being lost and what it is costing them, and keeps it whether or not they hire Vocalxlabs.
+- Pricing is set after the audit, not before. It is a one-time build. There is no per-reply charge and no monthly platform fee, because there is no platform.
 
 ## Key facts
-- Cost per signed contract: roughly $100 to $300 in marketing cost, versus $2,000 to $10,000 or more per deal on PPC or direct mail.
-- Channel: AI cold SMS, with an optional AI voice follow-up add-on.
-- Compliance: A2P-registered and TCPA-compliant. Recipients can reply STOP to opt out.
-- Lists: works with DealMachine, ReSimpli, or PropStream, or Vocalxlabs helps pull them.
+- The intent layer reads behaviour on the client's own search site through the Follow Up Boss Pixel: which listings a lead opens, how often, how recently, and what they search for. Browsing on third-party portals such as Zillow or Realtor.com is not visible and Vocalxlabs does not claim otherwise.
+- The client owns the build. Accounts, phone numbers, keys, data and documentation are in their name from day one, and everything keeps running if the relationship ends.
+- Carrier registration, opt-out handling and a timestamped audit trail are part of every build.
+- Reference build: Prime Realty Partners, broker Timothy Bowen, 8 agents across 3 South Jersey territories, 3,272 contacts. First message out 2.4 seconds after a lead lands, eleven acceptance scenarios signed off before a real lead was in scope, zero write-back failures across the run.
+- Vocalxlabs is not affiliated with, endorsed by, or a reseller of Follow Up Boss or Zillow Group.
 
 ## Guides and research
 Original, sourced research on motivated seller lead generation. Free to cite with attribution.
