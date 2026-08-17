@@ -236,6 +236,57 @@ h3,.h3{font-size:1.125rem}
 .hero-ctas{display:flex;flex-direction:column;gap:12px;margin-top:28px}
 @media(min-width:640px){.hero-ctas{flex-direction:row;align-items:center}}
 
+/* ---------- half a point, as a figure ----------
+   The strongest economic statement on the page was three lines of grey body
+   copy. The arithmetic on one side, the number it produces on the other. */
+.money-card{
+  display:grid;margin-top:28px;overflow:hidden;
+  border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper);
+}
+@media(min-width:800px){.money-card{grid-template-columns:1fr 1fr}}
+.money-math{padding:20px}
+@media(min-width:800px){.money-math{padding:26px}}
+.mrow{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:11px 0;border-bottom:1px dashed var(--line);
+}
+.mrow:first-child{padding-top:0}
+.mrow:last-child{padding-bottom:0;border-bottom:0}
+.mrow span{font-size:.875rem;color:var(--ink-muted)}
+.mrow b{font-size:1rem;font-weight:600;color:var(--ink)}
+.money-out{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:24px 20px;background:var(--money-soft);
+  border-top:1px solid rgba(4,120,87,.22);
+}
+@media(min-width:800px){
+  .money-out{padding:26px;border-top:0;border-left:1px solid rgba(4,120,87,.22)}
+}
+.money-out b{
+  display:block;margin-top:8px;font-family:var(--display);font-weight:400;
+  font-size:2.75rem;line-height:1;letter-spacing:-.03em;color:var(--money);
+}
+@media(min-width:768px){.money-out b{font-size:3.5rem}}
+.money-out>span{display:block;margin-top:10px;font-size:.9375rem;line-height:1.5;
+  color:var(--ink-soft)}
+
+/* ---------- the Follow Up Boss distinction ----------
+   Parallel line for line on purpose, so the difference lands without a paragraph
+   explaining it. Promoted out of a collapsed FAQ answer near the foot of the
+   page, where the sharpest line in the whole argument sat behind a click. */
+.vs{display:grid;gap:14px;margin-top:28px}
+@media(min-width:800px){.vs{grid-template-columns:1fr 1fr;gap:18px}}
+.vs-col{padding:22px 20px;border:1px solid var(--line);border-radius:var(--r-lg);
+  background:var(--paper-soft)}
+.vs-col .kicker{margin-bottom:14px}
+.vs-col li{position:relative;padding-left:24px;font-size:.9375rem;line-height:1.6;
+  color:var(--ink-soft)}
+.vs-col li+li{margin-top:11px}
+.vs-col li::before{content:'\2013';position:absolute;left:2px;top:0;
+  color:var(--ink-muted);font-weight:600}
+.vs-us{background:var(--money-soft);border-color:rgba(4,120,87,.22)}
+.vs-us li::before{content:'\2713';color:var(--money)}
+
 /* ---------- the FUB record card (hero + intent visual) ---------- */
 .rec{
   border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;
@@ -427,43 +478,106 @@ h3,.h3{font-size:1.125rem}
 }
 .stats-4 .stat span{font-size:.8125rem;margin-top:10px}
 
-/* per-client outcome block on the proof section */
-.outcome{margin-top:34px}
+/* Two-up at every width, for the outcome grid that sits inside a testimonial
+   unit rather than across the full container. Declared after .stats-4 and after
+   .stats' own 3-column query, so source order carries it at every breakpoint. */
+.stats-pair{grid-template-columns:repeat(2,1fr)}
+.stats-pair .stat{padding:18px 16px}
+.stats-pair .stat b{font-size:1.75rem}
+@media(min-width:768px){.stats-pair .stat b{font-size:2.125rem}}
+.stats-pair .stat span{font-size:.8125rem;margin-top:10px}
+
+/* A stat whose headline is a word rather than a figure. Two of these used to be
+   a bare up-arrow, which reads as a missing number on a page that promises
+   measurement. Sized down so the word sits on one line. */
+.stat b.word{font-size:1.25rem;letter-spacing:-.01em}
+@media(min-width:768px){.stat b.word{font-size:1.5rem}}
+
+/* heads the outcome grid inside a testimonial unit, naming whose numbers these are */
 .outcome-head{
   display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;
   margin-bottom:14px;font-size:1.0625rem;
 }
 .outcome-head span{font-size:.875rem;font-weight:400;color:var(--ink-muted)}
 
-/* ---------- business impact flow ----------
-   Pills with arrows between them. Wraps to as many rows as the viewport needs
-   and the arrow after the last pill is suppressed rather than hidden, so a
-   wrapped row never ends on a dangling arrow. */
-.flow{
-  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
-  gap:8px;margin-top:16px;
+/* ---------- business impact chain ----------
+   Was a wrapping pill row. At 375px four pills plus their arrows wrapped into a
+   ragged centred stack, each row ending on a dangling arrow, which read as a
+   layout bug rather than a sequence. Rebuilt as a real chain: a vertical rail
+   with steps on a phone, a horizontal run of tiles from 760px where there is
+   room for one. */
+.chain{margin-top:38px}
+.chain-list{display:grid;gap:0;margin-top:18px}
+.chain-list li{
+  position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;
+  padding:0 0 18px 26px;border-left:2px solid var(--line);
 }
-.flow li{display:inline-flex;align-items:center;gap:8px}
-.flow li b{
-  display:inline-flex;padding:9px 15px;border-radius:999px;
-  border:1px solid var(--line);background:var(--paper);
-  font-size:.8125rem;font-weight:600;line-height:1.2;color:var(--ink-soft);
+.chain-list li:last-child{padding-bottom:0;border-left-color:transparent}
+.chain-list li::before{
+  content:'';position:absolute;left:-6px;top:7px;width:10px;height:10px;
+  border-radius:999px;background:var(--line-strong);
+  box-shadow:0 0 0 4px var(--paper-soft);
 }
-.flow li:last-child b{
-  background:var(--money-soft);border-color:rgba(4,120,87,.25);color:var(--money);
+.chain-list .chain-start::before{background:var(--navy)}
+.chain-list .chain-end::before{background:var(--money)}
+.chain-list b{
+  flex:0 0 auto;font-family:var(--display);font-weight:400;font-size:1.75rem;
+  line-height:1;letter-spacing:-.02em;color:var(--navy);
 }
-.flow li::after{content:'\2192';color:var(--ink-muted);font-size:.875rem}
-.flow li:last-child::after{content:none}
-@media(min-width:768px){.flow li b{font-size:.875rem;padding:10px 18px}}
+.chain-list .chain-start b{font-family:var(--sans);font-size:1.0625rem;font-weight:600}
+.chain-list .chain-end b{color:var(--money)}
+.chain-list span{font-size:.875rem;line-height:1.45;color:var(--ink-soft)}
+
+@media(min-width:760px){
+  /* Tiles in a row with the arrow living in the gap, so a step never carries a
+     trailing arrow of its own. */
+  .chain-list{display:flex;align-items:stretch;gap:26px}
+  .chain-list li{
+    flex:1 1 0;display:block;padding:18px;border-left:0;
+    border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper);
+  }
+  .chain-list li::before{display:none}
+  .chain-list li::after{
+    content:'\2192';position:absolute;right:-19px;top:50%;transform:translateY(-50%);
+    color:var(--ink-muted);font-size:1rem;line-height:1;
+  }
+  .chain-list li:last-child::after{content:none}
+  .chain-list .chain-start{background:var(--paper-warm)}
+  .chain-list .chain-end{background:var(--money-soft);border-color:rgba(4,120,87,.25)}
+  .chain-list b{display:block;font-size:2.25rem}
+  .chain-list .chain-start b{font-size:1.0625rem}
+  .chain-list span{display:block;margin-top:7px}
+}
 
 /* ---------- video proof ----------
    Portrait 9:16, centred, sized to fill the phone. At 375px the frame is 335
    wide and ~596 tall, which is the aspect these were actually recorded in. */
 .center-head{max-width:38rem;margin-inline:auto;text-align:center}
-.vids{display:grid;gap:48px;justify-items:center;margin-top:36px}
-@media(min-width:860px){
-  .vids{grid-template-columns:repeat(2,1fr);gap:40px;align-items:start}
+
+/* One testimonial as one unit: video, quote and that client's own outcome grid.
+   The two grids used to stack after both videos, which left the reader to guess
+   which numbers belonged to which face. Stacked on a phone, video beside the
+   numbers from 900px where the grid has room to stay 2-up. */
+.tcase{
+  display:grid;gap:26px;justify-items:center;
+  margin-top:36px;padding-top:36px;border-top:1px solid var(--line);
 }
+.tcase:first-of-type{margin-top:36px;padding-top:0;border-top:0}
+@media(min-width:900px){
+  .tcase{
+    grid-template-columns:340px 1fr;gap:44px;
+    align-items:stretch;justify-items:stretch;
+    margin-top:44px;padding-top:44px;
+  }
+  .tcase:first-of-type{margin-top:40px}
+  /* One column of four beside a 9:16 video, stretched to the height of it. A 2x2
+     grid here left roughly 400px of dead space next to the portrait frame. */
+  .tcase-out{display:flex;flex-direction:column}
+  .tcase-out .stats-pair{flex:1;grid-template-columns:1fr;grid-auto-rows:1fr}
+  .tcase-out .stat{display:flex;flex-direction:column;justify-content:center}
+}
+.tcase-out{width:100%;min-width:0}
+
 .vcard{width:100%;max-width:340px;margin:0;text-align:center}
 .vframe{
   position:relative;width:100%;aspect-ratio:9/16;overflow:hidden;
@@ -502,26 +616,36 @@ h3,.h3{font-size:1.125rem}
 @media(min-width:600px){
   .cta-inline{flex-direction:row;align-items:center}
   .cta-inline .btn{width:auto}
+  .cta-center{justify-content:center}
 }
 
 /* ---------- comparison ----------
-   A table that needs sideways scrolling on a phone is a conversion cliff, so
-   mobile gets the four rows that actually win the deal and the full grid only
-   appears when there is room for it. */
-.wins{display:grid;gap:12px;margin-top:28px}
-.wins li{
-  position:relative;padding:18px 18px 18px 46px;
-  border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper);
+   A table that needs sideways scrolling on a phone is a conversion cliff, so the
+   full grid only appears when there is room for it. Below that width mobile gets
+   the alternatives one card at a time, each with what it actually costs and what
+   it leaves unsolved. The four generic wins cards this replaced threw away the
+   differentiation argument at exactly the widths most cold traffic arrives on. */
+.alts{display:grid;gap:12px;margin-top:28px}
+.alt{padding:18px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper-soft)}
+.alt-head{
+  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+  gap:4px 12px;margin-bottom:9px;
 }
-.wins li::before{
-  content:'';position:absolute;left:21px;top:20px;width:7px;height:13px;
-  border-right:2.5px solid var(--money);border-bottom:2.5px solid var(--money);
+.alt-head b{font-size:1rem;font-weight:600;letter-spacing:-.015em;color:var(--ink)}
+.alt-head span{font-size:.75rem;font-weight:600;color:var(--ink-muted)}
+.alt p{font-size:.875rem;line-height:1.6;color:var(--ink-soft)}
+.alt-us{background:var(--money-soft);border-color:rgba(4,120,87,.25)}
+.alt-us .alt-head span{color:var(--money)}
+.alt-pts{margin-top:13px;padding-top:13px;border-top:1px solid rgba(4,120,87,.2)}
+.alt-pts li{position:relative;padding-left:22px;font-size:.8125rem;line-height:1.5;
+  color:var(--ink-soft)}
+.alt-pts li+li{margin-top:7px}
+.alt-pts li::before{
+  content:'';position:absolute;left:3px;top:4px;width:5px;height:10px;
+  border-right:2px solid var(--money);border-bottom:2px solid var(--money);
   transform:rotate(45deg);
 }
-.wins b{display:block;margin-bottom:6px;font-size:.9375rem;font-weight:600;
-  line-height:1.4;color:var(--ink)}
-.wins span{display:block;font-size:.875rem;line-height:1.6;color:var(--ink-soft)}
-@media(min-width:820px){.wins{display:none}}
+@media(min-width:820px){.alts{display:none}}
 
 .tscroll{
   display:none;
@@ -543,7 +667,10 @@ h3,.h3{font-size:1.125rem}
 .tscroll tr:last-child th,.tscroll tr:last-child td{border-bottom:0}
 .tscroll .yes{color:var(--money);font-weight:600}
 .tscroll .no{color:var(--line-strong)}
-.tnote{margin-top:14px;font-size:.75rem;line-height:1.6;color:var(--ink-muted)}
+/* Costs live on the .alt cards below 820px, so this only needs to appear
+   alongside the table that does not carry them. */
+.tnote{display:none;margin-top:14px;font-size:.75rem;line-height:1.6;color:var(--ink-muted)}
+@media(min-width:820px){.tnote{display:block}}
 
 /* ---------- included, as an accordion ----------
    Forty bullets in a flat list is a wall on a phone. Six openable workstreams
@@ -594,6 +721,8 @@ h3,.h3{font-size:1.125rem}
   content:'';position:absolute;left:-5px;top:4px;width:9px;height:9px;border-radius:999px;
   background:var(--money);box-shadow:0 0 0 4px var(--paper);
 }
+/* the ring masks the rail behind the dot, so it has to match the section it sits on */
+.bg-soft .step::before{box-shadow:0 0 0 4px var(--paper-soft)}
 .step .kicker{display:block;margin-bottom:5px}
 .step h3{font-size:1.0625rem;margin-bottom:7px}
 .step p{font-size:.9375rem;line-height:1.65;color:var(--ink-soft)}
@@ -637,6 +766,30 @@ details[open]>summary .chev{transform:rotate(180deg)}
   position:relative;padding-left:24px;font-size:.875rem;color:rgba(255,255,255,.8);
 }
 .final-pts li::before{content:'\2713';position:absolute;left:0;top:0;color:#34d399;font-weight:600}
+@media(min-width:700px){.final-grid .final-pts{grid-template-columns:1fr;gap:10px}}
+
+/* The offer beside what the offer actually contains. An itemised deliverable is
+   what separates a diagnostic from a sales call, so it gets equal billing rather
+   than a line of fine print. */
+.final-grid{display:grid;gap:32px}
+@media(min-width:900px){
+  .final-grid{grid-template-columns:1fr .85fr;gap:52px;align-items:start}
+}
+.audit-card{
+  padding:24px 22px;border-radius:var(--r-lg);
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+}
+.audit-card .kicker{color:rgba(255,255,255,.55);margin-bottom:16px}
+.audit-card li{
+  position:relative;padding-left:26px;font-size:.9375rem;line-height:1.6;
+  color:rgba(255,255,255,.82);
+}
+.audit-card li+li{margin-top:13px}
+.audit-card li::before{
+  content:'';position:absolute;left:4px;top:6px;width:6px;height:11px;
+  border-right:2px solid #34d399;border-bottom:2px solid #34d399;
+  transform:rotate(45deg);
+}
 
 /* ---------- footer ----------
    Mobile keeps the two link lists side by side rather than stacking three full
@@ -672,6 +825,8 @@ details[open]>summary .chev{transform:rotate(180deg)}
   transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .25s ease;
 }
 .sticky-cta.hidden-cta{transform:translateY(120%);opacity:0;pointer-events:none}
+.sticky-note{display:block;margin-top:7px;text-align:center;font-size:.6875rem;
+  line-height:1.3;color:var(--ink-muted)}
 @media(min-width:900px){.sticky-cta{display:none}}
 body{padding-bottom:0}
 
