@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a2540">
+<title>Real Estate Revenue System, Built Around Follow Up Boss | Vocalxlabs</title>
+<meta name="description" content="Your CRM stores the opportunity. We build the system that works it. Instant response, real qualification, property behaviour, intent detection, database reactivation and revenue attribution, built around Follow Up Boss.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<link rel="canonical" href="https://vocalxlabs.com/real-estate-revenue-system/">
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<meta name="author" content="Vocalxlabs">
+
+<meta property="og:title" content="Your CRM stores the opportunity. We build the system that works it.">
+<meta property="og:description" content="A revenue layer built around the CRM your team already uses. Faster response, real qualification, property behaviour and revenue attribution. No second CRM for your agents.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vocalxlabs.com/real-estate-revenue-system/">
+<meta property="og:image" content="https://vocalxlabs.com/img/og-revenue-system.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The CRM stores the opportunity. We build the system that works the opportunity.">
+<meta property="og:site_name" content="Vocalxlabs">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Your CRM stores the opportunity. We build the system that works it.">
+<meta name="twitter:description" content="A revenue layer built around the CRM your team already uses. Keep Follow Up Boss. Make it work harder.">
+<meta name="twitter:image" content="https://vocalxlabs.com/img/og-revenue-system.png">
+
+<link rel="preload" as="font" type="font/woff2" href="/fonts/f5.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/f0.woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/styles.css">
+
+<style>
+/* ===========================================================================
+   Page-scoped components for the revenue system page.
+   Additive only. The shared design system in /assets/styles.css supplies the
+   palette, type scale, buttons, cards, header and footer, and is deliberately
+   not touched, because the homepage and 21 blog posts render from it too.
+   MOBILE FIRST, same as the parent sheet. Base rules target 375px.
+   =========================================================================== */
+
+/* ---------- header, wrap protection ----------
+   This page carries six nav items and a longer CTA than the homepage, so the
+   nav row was wrapping onto two lines at desktop. Labels are short, and
+   nothing in the bar is allowed to break mid-item. */
+.nav-links a,.nav-cta,.brand b,.brand span{white-space:nowrap}
+.nav{gap:10px}
+@media(min-width:900px){
+  .nav-links{gap:22px;padding-left:24px}
+  .nav-cta{margin-left:20px}
+}
+@media(min-width:1240px){.nav-links{gap:28px}}
+/* Buttons must never break a label across two lines. */
+.btn{white-space:nowrap}
+@media(max-width:400px){.btn{white-space:normal}}
+
+/* ---------- hero quick scan strip ----------
+   Four things the system does, readable in about two seconds, so the hero
+   works for someone who will not read the paragraph. */
+.quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.quick li{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--line);background:var(--paper);
+  font-size:.8125rem;font-weight:500;color:var(--ink);
+}
+.quick li::before{
+  content:'';flex:0 0 auto;width:6px;height:6px;border-radius:999px;background:var(--money);
+}
+
+/* ---------- conversation thread ----------
+   Used for the group text handoff, the reactivation messages and the
+   behavioural outreach example. Bubbles cap at 88% so the speaker always reads
+   as a side, even on a 375px screen. */
+.thread{
+  border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper);
+  overflow:hidden;box-shadow:var(--shadow);
+}
+.thread-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:13px 17px;border-bottom:1px solid var(--line);background:var(--paper-warm);
+}
+.thread-head .kicker{font-size:.6875rem}
+.thread-who{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;color:var(--ink-muted)}
+.thread-body{display:grid;gap:11px;padding:17px;background:var(--paper-soft)}
+.bub{max-width:88%;padding:12px 15px;border-radius:15px;font-size:.875rem;line-height:1.55}
+.bub small{
+  display:block;margin-bottom:4px;font-size:.6875rem;font-weight:600;
+  letter-spacing:.05em;text-transform:uppercase;opacity:.62;
+}
+.bub-lead{justify-self:start;background:var(--paper);border:1px solid var(--line);
+  border-bottom-left-radius:5px;color:var(--ink)}
+.bub-ai{justify-self:end;background:var(--navy);color:#fff;border-bottom-right-radius:5px}
+.bub-agent{justify-self:end;background:var(--money);color:#fff;border-bottom-right-radius:5px}
+.bub-join{
+  justify-self:center;max-width:100%;padding:6px 13px;border-radius:999px;
+  background:var(--paper-warm);border:1px solid var(--line);
+  font-size:.6875rem;color:var(--ink-muted);text-align:center;
+}
+.thread-foot{
+  display:flex;align-items:center;gap:9px;padding:13px 17px;
+  border-top:1px solid var(--line);background:var(--paper);
+  font-size:.75rem;line-height:1.5;color:var(--ink-muted);
+}
+
+/* ---------- agent briefing, key over value ---------- */
+.kv{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden}
+@media(min-width:520px){.kv{grid-template-columns:1fr 1fr}}
+.kv>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:12px 15px;background:var(--paper)}
+.kv span{font-size:.75rem;color:var(--ink-muted)}
+.kv b{font-size:.8125rem;font-weight:600;color:var(--ink);text-align:right}
+
+/* ---------- plus / equals stack ----------
+   Follow Up Boss, then us, then what the two add up to. Vertical at every
+   width, because the operator between the blocks is the whole point and a
+   horizontal version loses it under 900px. */
+.eq{display:grid;gap:0;max-width:44rem;margin-inline:auto}
+.eq-box{padding:22px;border:1px solid var(--line);border-radius:var(--r-lg);
+  background:var(--paper);text-align:center}
+.eq-box .kicker{display:block;margin-bottom:7px}
+.eq-box b{display:block;font-size:1.0625rem;font-weight:600;letter-spacing:-.02em}
+.eq-box p{margin-top:8px;font-size:.875rem;line-height:1.55;color:var(--ink-soft)}
+.eq-op{justify-self:center;display:grid;place-content:center;width:36px;height:36px;
+  font-size:1.25rem;font-weight:600;color:var(--ink-muted)}
+.eq-sum{background:var(--navy);border-color:var(--navy);color:var(--paper)}
+.eq-sum b{font-family:var(--display);font-weight:400;font-size:1.5rem;letter-spacing:-.02em}
+.eq-sum p{color:rgba(255,255,255,.72)}
+.eq-sum .kicker{color:rgba(255,255,255,.5)}
+@media(min-width:768px){.eq-sum b{font-size:1.875rem}}
+
+/* ---------- coverage bars ---------- */
+.cov{display:grid;gap:20px;padding:24px 22px;border:1px solid var(--line);
+  border-radius:var(--r-lg);background:var(--paper)}
+.cov-row b{display:block;font-size:.875rem;font-weight:600;color:var(--ink)}
+.cov-row>span{display:block;margin-top:3px;font-size:.75rem;color:var(--ink-muted)}
+.cov-bar{position:relative;height:12px;margin-top:12px;border-radius:999px;
+  background:var(--paper-warm);overflow:hidden}
+.cov-bar i{position:absolute;inset:0 auto 0 0;border-radius:999px;background:var(--line-strong)}
+.cov-now i{background:var(--danger);width:1.6%;min-width:5px}
+.cov-next i{background:var(--money);width:65%}
+.cov-foot{padding-top:18px;border-top:1px solid var(--line);
+  font-size:.8125rem;line-height:1.6;color:var(--ink-soft)}
+
+/* ---------- fork: the call that is lost vs the call that is kept ----------
+   Two columns, each a short vertical run, so a dead end reads as a dead end.
+   Borrows the before/after palette from the parent sheet. */
+.fork{display:grid;gap:14px}
+@media(min-width:800px){.fork{grid-template-columns:1fr 1fr;gap:18px}}
+.fork-col{padding:24px 22px;border:1px solid var(--line);border-radius:var(--r-lg)}
+.fork-lost{background:var(--paper-soft)}
+.fork-kept{background:var(--money-soft);border-color:rgba(4,120,87,.22)}
+.fork-col h3{margin-bottom:17px;font-size:1rem}
+.run li{position:relative;padding:0 0 18px 24px;border-left:1px solid var(--line-strong)}
+.run li:last-child{padding-bottom:0;border-left-color:transparent}
+.run li::before{content:'';position:absolute;left:-5px;top:5px;width:9px;height:9px;
+  border-radius:999px;background:var(--line-strong)}
+.run b{display:block;font-size:.9375rem;font-weight:600;color:var(--ink)}
+.run span{display:block;margin-top:3px;font-size:.8125rem;line-height:1.55;color:var(--ink-soft)}
+.fork-lost .run li:last-child b{color:var(--danger)}
+.fork-lost .run li:last-child::before{background:var(--danger)}
+.fork-kept .run li{border-left-color:rgba(4,120,87,.3)}
+.fork-kept .run li::before{background:var(--money)}
+.fork-kept .run li:last-child b{color:var(--money)}
+
+/* ---------- channel strip ---------- */
+.chan{padding:24px 22px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper)}
+.chan-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.chan-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--line);background:var(--paper-soft);
+  font-size:.8125rem;font-weight:600;color:var(--ink);white-space:nowrap}
+.chan-pill svg{width:14px;height:14px;color:var(--money);flex:0 0 auto}
+.chan-arrow{color:var(--ink-muted);font-size:.875rem}
+.chan-mem{margin-top:16px;padding:16px 18px;border-radius:var(--r);
+  background:var(--money-soft);border:1px solid rgba(4,120,87,.22)}
+.chan-mem .kicker{color:var(--money);margin-bottom:8px}
+.chan-mem p{font-size:.8125rem;line-height:1.6;color:var(--ink-soft)}
+.chan-mem p+p{margin-top:7px}
+.chan-mem b{color:var(--ink);font-weight:600}
+
+/* ---------- attribution dashboard ---------- */
+.dash{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper);
+  overflow:hidden;box-shadow:var(--shadow)}
+.dash-head{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 17px;border-bottom:1px solid var(--line);background:var(--paper-warm)}
+.dash-head .kicker{font-size:.6875rem}
+.dash-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.dash table{border-collapse:collapse;width:100%;min-width:620px;font-size:.8125rem}
+.dash th,.dash td{padding:12px 15px;text-align:right;border-bottom:1px solid var(--line);
+  white-space:nowrap}
+.dash thead th{font-size:.6875rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-muted);background:var(--paper-soft)}
+.dash tbody th{text-align:left;font-weight:600;color:var(--ink)}
+.dash td{color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.dash .rev{font-weight:600;color:var(--ink)}
+.dash .roi{font-weight:600;color:var(--money)}
+.dash .roi-low{font-weight:600;color:var(--danger)}
+.dash tfoot tr{background:var(--paper-soft)}
+.dash tfoot th,.dash tfoot td{border-top:1px solid var(--line-strong);border-bottom:0}
+.dash-note{padding:12px 17px;border-top:1px solid var(--line);
+  font-size:.75rem;line-height:1.5;color:var(--ink-muted)}
+
+/* ---------- the loop ----------
+   Twelve steps. A real twelve node circle is unreadable at any width, so this
+   is a numbered run that closes with an explicit return to step one. */
+.loop{display:grid;gap:11px;counter-reset:loopstep}
+@media(min-width:700px){.loop{grid-template-columns:repeat(2,1fr);gap:12px}}
+@media(min-width:1000px){.loop{grid-template-columns:repeat(3,1fr)}}
+.loop li{position:relative;display:flex;gap:13px;padding:17px 19px;
+  border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper)}
+.loop li::before{
+  counter-increment:loopstep;content:counter(loopstep,decimal-leading-zero);
+  flex:0 0 auto;padding-top:2px;
+  font-size:.6875rem;font-weight:600;letter-spacing:.06em;color:var(--money);
+}
+.loop b{display:block;font-size:.9375rem;font-weight:600;letter-spacing:-.015em}
+.loop span{display:block;margin-top:4px;font-size:.8125rem;line-height:1.5;color:var(--ink-soft)}
+.loop .loop-quiet{background:var(--paper-soft)}
+.loop .loop-win{background:var(--money-soft);border-color:rgba(4,120,87,.25)}
+.loop-close{display:flex;align-items:center;justify-content:center;gap:11px;
+  margin-top:12px;padding:17px 20px;border-radius:var(--r-lg);
+  background:var(--navy);color:var(--paper);text-align:center;font-size:.875rem;line-height:1.5}
+.loop-close svg{width:18px;height:18px;flex:0 0 auto;color:#34d399}
+
+/* ---------- qualification field chips ---------- */
+.qual{display:grid;gap:14px}
+@media(min-width:700px){.qual{grid-template-columns:1fr 1fr;gap:18px}}
+.qual-col{padding:22px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper)}
+.qual-col h3{margin-bottom:5px;font-size:1rem}
+.qual-col>p{font-size:.8125rem;line-height:1.55;color:var(--ink-muted)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
+.chips li{padding:6px 12px;border-radius:999px;border:1px solid var(--line);
+  background:var(--paper-soft);font-size:.8125rem;color:var(--ink-soft)}
+.qual-sell .chips li{background:var(--money-soft);border-color:rgba(4,120,87,.2)}
+
+/* ---------- lane: short cards under a heading ---------- */
+.lane{display:grid;gap:12px;margin-top:24px}
+@media(min-width:800px){.lane{grid-template-columns:repeat(3,1fr);gap:14px}}
+.lane>div{padding:20px;border:1px solid var(--line);border-radius:var(--r-lg);
+  background:var(--paper-soft)}
+.lane b{display:block;font-size:.9375rem;font-weight:600;margin-bottom:6px}
+.lane p{font-size:.8125rem;line-height:1.6;color:var(--ink-soft)}
+
+/* ---------- ops watchlist ---------- */
+.watch{display:grid;gap:12px}
+@media(min-width:700px){.watch{grid-template-columns:repeat(2,1fr);gap:14px}}
+@media(min-width:1000px){.watch{grid-template-columns:repeat(3,1fr)}}
+.watch>div{padding:22px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper)}
+.watch h3{margin-bottom:13px;font-size:.9375rem}
+.watch li{position:relative;padding-left:19px;font-size:.8125rem;line-height:1.6;color:var(--ink-soft)}
+.watch li+li{margin-top:8px}
+.watch li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;
+  border-radius:999px;background:var(--money)}
+
+/* ---------- technical trust rows ---------- */
+.stackrow{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden}
+.stackrow>div{display:grid;gap:4px;padding:17px 19px;background:var(--paper)}
+@media(min-width:700px){.stackrow>div{grid-template-columns:230px 1fr;gap:20px;align-items:baseline}}
+.stackrow b{font-size:.9375rem;font-weight:600;letter-spacing:-.015em}
+.stackrow span{font-size:.875rem;line-height:1.6;color:var(--ink-soft)}
+
+/* ---------- outcome ledger ---------- */
+.ledger{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--paper);
+  overflow:hidden}
+.ledger li{display:flex;gap:12px;padding:16px 19px;border-bottom:1px solid var(--line);
+  font-size:.9375rem;line-height:1.5;color:var(--ink-soft)}
+.ledger li:last-child{border-bottom:0}
+.ledger li svg{flex:0 0 auto;width:17px;height:17px;margin-top:2px;color:var(--money)}
+.ledger b{color:var(--ink);font-weight:600}
+
+/* ---------- big centred statement, dark ---------- */
+.slab{margin-top:34px;padding:32px 26px;border-radius:var(--r-xl);
+  background:var(--navy);color:var(--paper);text-align:center}
+.slab p{font-family:var(--display);font-size:1.5rem;line-height:1.25;letter-spacing:-.02em}
+.slab span{display:block;margin-top:14px;font-size:.9375rem;line-height:1.6;
+  color:rgba(255,255,255,.72);max-width:34rem;margin-inline:auto}
+@media(min-width:768px){.slab{padding:44px 40px}.slab p{font-size:2.125rem}}
+
+/* Two column text + visual, same breakpoint as the hero so the page keeps one
+   rhythm rather than inventing a second grid. */
+.pair{display:grid;gap:30px;align-items:start}
+@media(min-width:1024px){.pair{grid-template-columns:1fr 1fr;gap:56px}}
+
+/* ---------- mobile breathing room ----------
+   An earlier pass tightened these to buy vertical space and made the page feel
+   cramped on a phone. Length is now handled by shorter copy instead, so the
+   small screen keeps real padding, and stacked cards get a clear gap between
+   them so every border has air around it. */
+@media(max-width:767px){
+  .wrap{padding-inline:22px}
+  .pair{gap:26px}
+  .grid-2,.grid-3,.fork,.qual,.watch,.lane,.ba,.fit,.vs{gap:16px}
+  .loop{gap:12px}
+  .slab{margin-top:30px}
+  .thread,.rec,.dash,.cov,.chan{margin-inline:0}
+  .eq-op{height:32px}
+}
+/* Narrow phones keep the same generous side margin as every other phone. Only
+   the padding *inside* a card gives way, never the gap around its border. */
+@media(max-width:400px){
+  .qual-col,.watch>div,.fork-col,.eq-box,.chan,.cov{padding:20px 18px}
+  .loop li{padding:15px 16px}
+  .thread-body{padding:15px}
+  .ledger li{padding:15px 16px}
+}
+</style>
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://vocalxlabs.com/#org",
+   "name": "Vocalxlabs",
+   "alternateName": ["Vocal X Labs", "VocalX Labs"],
+   "url": "https://vocalxlabs.com/",
+   "logo": "https://vocalxlabs.com/img/logo.png",
+   "email": "team@vocalxlabs.com",
+   "telephone": "+1-708-773-7231",
+   "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "30 N Gould St Ste R",
+    "addressLocality": "Sheridan",
+    "addressRegion": "WY",
+    "postalCode": "82801",
+    "addressCountry": "US"
+   }
+  },
+  {
+   "@type": "Service",
+   "name": "Real estate revenue system built around the brokerage CRM",
+   "provider": {"@id": "https://vocalxlabs.com/#org"},
+   "serviceType": "AI engagement, behavioural intelligence and revenue infrastructure for real estate teams",
+   "areaServed": "US",
+   "audience": {
+    "@type": "Audience",
+    "audienceType": "Real estate brokerages, team owners and high volume teams using Follow Up Boss"
+   }
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://vocalxlabs.com/real-estate-revenue-system/",
+   "url": "https://vocalxlabs.com/real-estate-revenue-system/",
+   "name": "Real Estate Revenue System, Built Around Follow Up Boss",
+   "isPartOf": {"@id": "https://vocalxlabs.com/#website"},
+   "about": {"@id": "https://vocalxlabs.com/#org"},
+   "inLanguage": "en-US"
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://vocalxlabs.com/real-estate-revenue-system/#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Is this a replacement for Follow Up Boss?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Follow Up Boss stays the CRM and the system of record. We build the intelligence, engagement and revenue workflows around it, and everything important is written back to the record your agents already open."}
+    },
+    {
+     "@type": "Question",
+     "name": "Do my agents need another CRM?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Agents keep working in the CRM they already use. Conversations, transcripts, qualification, stage changes, property behaviour and appointments all land on the person record in Follow Up Boss."}
+    },
+    {
+     "@type": "Question",
+     "name": "Is this just an AI chatbot?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. A chatbot answers a message. This spans voice, SMS, email, CRM data, property behaviour, intent detection, agent handoff, database reactivation, inbound calls and revenue attribution, and most of it runs whether or not anyone opens a chat window."}
+    },
+    {
+     "@type": "Question",
+     "name": "Can it work with our existing lead sources?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes. The architecture works from the CRM as the central entry point. If the lead reaches Follow Up Boss it gets worked, whatever bought it: PPC, portals, Facebook, StreetText, your own site, open houses or referrals."}
+    },
+    {
+     "@type": "Question",
+     "name": "What happens to our old database?",
+     "acceptedAnswer": {"@type": "Answer", "text": "It usually becomes the largest opportunity in the account. We run broad reactivation across the dormant records first, then more personal reactivation based on what each contact was originally looking for and what they are doing now."}
+    },
+    {
+     "@type": "Question",
+     "name": "Will the AI know what happened previously?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes, where that history exists in the connected CRM and context layer. Nobody should have to explain themselves twice, whether the gap is between two channels or between two years."}
+    },
+    {
+     "@type": "Question",
+     "name": "What happens when someone calls back?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The inbound layer identifies the caller, finds the CRM record including alternate phone numbers, loads the existing context and continues the conversation. It can finish qualification, book, transfer to the right agent and write everything back."}
+    },
+    {
+     "@type": "Question",
+     "name": "Is this compliant?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Consent capture, opt-out handling, suppression, contact windows, carrier registration, Fair Housing guardrails and a timestamped audit trail are built in, and every account is registered in your name. We build to the standard your counsel expects rather than issuing legal guarantees."}
+    },
+    {
+     "@type": "Question",
+     "name": "Can we start with part of the system?",
+     "acceptedAnswer": {"@type": "Answer", "text": "The system is modular, so the build is designed around the infrastructure you already have and your growth priorities, with further layers added as the operation evolves. It is a sequence, not a menu. Speed to lead and qualification usually come first, and behavioural tracking goes in early because everything downstream depends on the data it collects."}
+    },
+    {
+     "@type": "Question",
+     "name": "How is this different from what Follow Up Boss already does natively?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Native CRM features solve part of the workflow: smart lists, automations, routing, activity filters and integrations. We connect those capabilities with custom AI engagement, behavioural intelligence and revenue workflows specific to how your team operates, and we keep them running in production."}
+    }
+   ]
+  }
+ ]
+}
+</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="header" data-header>
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Vocal X Labs home">
+      <img src="/img/logo.png" alt="" width="30" height="30">
+      <b>vocalxlabs</b><span>/ Revenue systems</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#problem">Problem</a>
+      <a href="#fub">Your CRM</a>
+      <a href="#intelligence">Intelligence</a>
+      <a href="#database">Database</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="https://calendly.com/vocalxlabs_fawaaz/discovery-call">
+      Build my map
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+    <button class="burger" data-menu aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="mobile-nav" data-mobile hidden aria-label="Mobile">
+    <a href="#problem">The problem</a>
+    <a href="#fub">Keep your CRM</a>
+    <a href="#speed">Speed to lead</a>
+    <a href="#intelligence">Intelligence</a>
+    <a href="#database">Your database</a>
+    <a href="#attribution">Attribution</a>
+    <a href="#loop">The full loop</a>
+    <a href="#faq">FAQ</a>
+    <a class="btn btn-primary btn-block" href="https://calendly.com/vocalxlabs_fawaaz/discovery-call">Build my revenue map</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-cols">
+
+      <div>
+        <div class="eyebrow">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          For brokerages running Follow Up Boss
+        </div>
+
+        <h1 style="margin-top:22px">
+          Your CRM is full of opportunities.<br>
+          <span class="money">Most teams work a fraction of them.</span>
+        </h1>
+
+        <p class="lead measure" style="margin-top:20px">
+          We build a revenue layer around the CRM you already run. Same team, same lead spend,
+          more of it turned into closings.
+        </p>
+
+        <ul class="quick">
+          <li>Responds in seconds</li>
+          <li>Qualifies properly</li>
+          <li>Spots real buying intent</li>
+          <li>Works your old database</li>
+        </ul>
+
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-block" href="https://calendly.com/vocalxlabs_fawaaz/discovery-call">
+            Build my revenue map
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-quiet btn-block" href="#problem">
+            See how it works
+          </a>
+        </div>
+
+        <p class="fine measure-sm" style="margin-top:18px">
+          <strong style="color:var(--ink-soft)">No second CRM for your agents.</strong>
+          Follow Up Boss stays the system of record.
+        </p>
+      </div>
+
+      <div style="width:100%;max-width:420px;margin-inline:auto">
+        <div class="rec">
+          <div class="rec-head">
+            <span class="kicker">Follow&nbsp;Up&nbsp;Boss &middot; person record</span>
+            <span class="rec-live"><span class="pulse-dot sm" aria-hidden="true"></span> Live</span>
+          </div>
+
+          <div class="rec-row">
+            <div class="rec-top">
+              <div>
+                <div class="rec-name">John R.</div>
+                <div class="rec-when">Zillow lead, February. Quiet 94 days.</div>
+              </div>
+              <span class="tag tag-quiet">What the CRM stores</span>
+            </div>
+            <ul class="rec-acts">
+              <li class="rec-act dim"><i aria-hidden="true"></i><span>Buyer &middot; Cherry Hill &middot; $500k to $550k</span></li>
+              <li class="rec-act dim"><i aria-hidden="true"></i><span>Two calls, no answer. One text, no reply.</span></li>
+              <li class="rec-act dim"><i aria-hidden="true"></i><span>Last note: &ldquo;follow up later&rdquo;</span></li>
+            </ul>
+          </div>
+
+          <div class="rec-row" style="background:var(--money-soft)">
+            <div class="rec-top">
+              <div><div class="rec-name">What the system did</div>
+                <div class="rec-when">Thursday, 8:12pm</div></div>
+              <span class="tag">Ready now</span>
+            </div>
+            <ul class="rec-acts">
+              <li class="rec-act"><i aria-hidden="true"></i><span>Back after 94 days. <b>4 views, 3 days</b></span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>Same street, band now <b>$600k</b></span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>Texted about <b>that</b> home. Replied in 6 min.</span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>Showing booked. Marcus briefed.</span></li>
+            </ul>
+          </div>
+
+          <div class="rec-foot">
+            <span class="pulse-dot sm" aria-hidden="true"></span>
+            <span>Same record. Same agent. Nothing new to log into.</span>
+          </div>
+        </div>
+        <p class="rec-note">Illustrative example</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CORE POSITIONING ===================== -->
+<section class="sec-tight bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">The whole idea, in one line</p>
+      <h2 class="h3" style="margin-top:12px;font-size:1.375rem;line-height:1.3">
+        Your CRM stores the opportunity.<br>
+        <span class="money">We build the system that works it.</span>
+      </h2>
+      <p class="lead" style="margin-top:14px">
+        Storing information is not the same as acting on it.
+      </p>
+    </div>
+
+    <div class="chain reveal" style="margin-top:26px">
+      <ol class="chain-list">
+        <li class="chain-start">
+          <b>Lead</b>
+          <span>Captured in the CRM</span>
+        </li>
+        <li>
+          <b style="font-family:var(--sans);font-size:1.0625rem;font-weight:600">Engaged</b>
+          <span>Voice and SMS, in seconds</span>
+        </li>
+        <li>
+          <b style="font-family:var(--sans);font-size:1.0625rem;font-weight:600">Understood</b>
+          <span>Qualified, watched for intent</span>
+        </li>
+        <li>
+          <b style="font-family:var(--sans);font-size:1.0625rem;font-weight:600">Handed over</b>
+          <span>Agent enters briefed</span>
+        </li>
+        <li class="chain-end">
+          <b style="font-family:var(--sans);font-size:1.0625rem;font-weight:600">Closed</b>
+          <span>Attributed to its source</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE PROBLEM ===================== -->
+<section id="problem" class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">Where the revenue goes</p>
+      <h2 style="margin-top:12px">The problem isn&rsquo;t that you don&rsquo;t have leads.</h2>
+      <p class="lead" style="margin-top:16px">
+        You already have more opportunity than your agents can work. It doesn&rsquo;t get lost to
+        a competitor. It gets buried.
+      </p>
+    </div>
+
+    <div class="pair" style="margin-top:32px">
+      <div class="reveal">
+        <ul class="signals">
+          <li>A callback nobody returned.</li>
+          <li>An inbound call that rang out at 6:40pm.</li>
+          <li>A lead who stopped replying in week two.</li>
+          <li>A buyer back on the site four months later.</li>
+          <li>The same home opened three times this week.</li>
+          <li>A seller quietly checking their value.</li>
+          <li>A stage nobody ever updated.</li>
+        </ul>
+        <p class="lead" style="margin-top:20px">
+          <strong style="color:var(--ink)">The revenue is already in your CRM.</strong>
+          Nothing turns it into a timely action.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <div class="fork" style="grid-template-columns:1fr">
+          <div class="fork-col fork-lost">
+            <h3><span style="color:var(--danger)">What happens now</span></h3>
+            <ul class="run">
+              <li><b>Leads enter</b><span>Portals, PPC, Facebook, your site.</span></li>
+              <li><b>Information piles up</b><span>Notes, tags, stages, page views.</span></li>
+              <li><b>Nobody can read all of it</b><span>Eight agents, thousands of records.</span></li>
+              <li><b>Opportunities get buried</b><span>Under your own data.</span></li>
+            </ul>
+          </div>
+          <div class="fork-col fork-kept">
+            <h3><span class="money">What we build</span></h3>
+            <ul class="run">
+              <li><b>Find the signal</b><span>Who is acting like a buyer today.</span></li>
+              <li><b>Create the action</b><span>Respond, qualify, nurture or route.</span></li>
+              <li><b>Track the outcome</b><span>Appointment, client, closing, source.</span></li>
+              <li><b>Repeat daily</b><span>Across the whole database.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="bridge reveal">
+      You are not short of opportunities.
+      <strong>You are short of a system that works them.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== DREAM OUTCOME ===================== -->
+<section class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">What changes</p>
+      <h2 style="margin-top:12px">Imagine your CRM told the team what matters next.</h2>
+    </div>
+
+    <ul class="ledger reveal" style="margin-top:28px;max-width:48rem">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Every lead answered in seconds</b>, then qualified properly.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>You see which homes they keep opening</b>, and when intent goes up.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>The agent arrives already briefed</b>, instead of starting from zero.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Callers are recognised</b>, even from a different number.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Quiet leads don&rsquo;t disappear.</b> They come back as signals.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>The CRM stays current</b> without anyone typing into it.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>You can finally see</b> which lead source produced revenue.</span></li>
+    </ul>
+
+    <p class="bridge reveal">
+      More of the right conversations.
+      <strong>More transactions from the database you already own.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== THE FUB OBJECTION ===================== -->
+<section id="fub" class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">The first question everyone asks</p>
+      <h2 style="margin-top:12px">&ldquo;We already have Follow Up Boss.&rdquo;</h2>
+      <p class="lead" style="margin-top:16px">
+        Good. We are not replacing it, and we would talk you out of replacing it.
+        <strong style="color:var(--ink)">Keep it. Make it work harder.</strong>
+      </p>
+    </div>
+
+    <div class="grid-3" style="margin-top:28px">
+      <article class="card card-soft reveal">
+        <h3>Conversation</h3>
+        <p>AI voice and SMS, inbound calls, one set of qualification rules, and nurture that
+        keeps running.</p>
+      </article>
+      <article class="card card-soft reveal">
+        <h3>Intelligence</h3>
+        <p>Property behaviour, repeat views, returning contacts, and the ranking that decides who
+        gets called first.</p>
+      </article>
+      <article class="card card-soft reveal">
+        <h3>Execution</h3>
+        <p>Briefed handoffs, appointments, database reactivation, attribution, and monitoring that
+        keeps it live.</p>
+      </article>
+    </div>
+
+    <div class="eq reveal" style="margin-top:32px">
+      <div class="eq-box">
+        <span class="kicker">Follow Up Boss</span>
+        <b>The system your team works in</b>
+        <p>Records, smart lists, routing, calendars. Stays exactly where it is.</p>
+      </div>
+      <div class="eq-op" aria-hidden="true">+</div>
+      <div class="eq-box">
+        <span class="kicker">Vocalxlabs</span>
+        <b>The layer that makes it actionable</b>
+        <p>Engagement, behaviour, intent, handoff, reactivation, attribution.</p>
+      </div>
+      <div class="eq-op" aria-hidden="true">=</div>
+      <div class="eq-box eq-sum">
+        <span class="kicker">The result</span>
+        <b>A more complete revenue engine</b>
+        <p>Native CRM features solve part of the workflow. We connect them to AI engagement and
+        revenue workflows built around how your team actually operates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRODUCTION NUMBERS ===================== -->
+<section class="sec-tight bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">From a live implementation</p>
+      <h2 class="h3" style="margin-top:12px;font-size:1.25rem">
+        Not a concept deck. Here is one of these running in production.
+      </h2>
+    </div>
+
+    <div class="stats stats-4 reveal" style="margin-top:22px">
+      <div class="stat">
+        <b class="tabular">2.4s<em>Speed to first contact</em></b>
+        <span>Lead lands, intro text goes out.</span>
+      </div>
+      <div class="stat">
+        <b class="tabular">21%<em>Reply rate</em></b>
+        <span>Of contacted leads, back in conversation.</span>
+      </div>
+      <div class="stat">
+        <b class="tabular">3,801<em>People ingested</em></b>
+        <span>The full database, not just new leads.</span>
+      </div>
+      <div class="stat">
+        <b class="tabular">35<em>Fields per call</em></b>
+        <span>Written back after every AI conversation.</span>
+      </div>
+    </div>
+
+    <p class="fine reveal" style="margin-top:16px;max-width:44rem">
+      One live account. Of those 3,801 people, only 121 had ever been contacted by the AI and 101
+      were active, which is the reactivation opportunity in a single number. Example metrics, not
+      a guarantee of results.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== SPEED TO LEAD ===================== -->
+<section id="speed" class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">Immediate response</p>
+      <h2 style="margin-top:12px">Every lead gets worked before it cools off.</h2>
+      <p class="lead" style="margin-top:16px">
+        The 9:40pm enquiry is comparing three brokerages. They answer whoever gets there first.
+      </p>
+    </div>
+
+    <div class="pair" style="margin-top:30px">
+      <div class="reveal">
+        <ul class="ledger">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Instant SMS intro</b>, naming what they enquired about.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>A qualification call in minutes</b>, not a voicemail.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Missed-call follow-up</b> by text, not four more dials.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Voice and text alternate</b>, so they answer on whichever they use.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Replies picked up in context</b>, at 11pm and on Sunday.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Nurture keeps going</b> when the answer is &ldquo;not for six months&rdquo;.</span></li>
+        </ul>
+
+        <p class="lead" style="margin-top:20px">
+          Agents stop chasing first replies. They get opportunities that are already organised.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <div class="thread">
+          <div class="thread-head">
+            <span class="kicker">New lead &middot; 9:41pm Thursday</span>
+            <span class="thread-who"><span class="pulse-dot sm" aria-hidden="true"></span> 2.4 seconds</span>
+          </div>
+          <div class="thread-body">
+            <div class="bub bub-ai"><small>Vocalxlabs AI</small>Hi John, this is Alex with Prime Realty. You just looked at 412 Maple Ave. Hoping to see it in person, or still early?</div>
+            <div class="bub bub-lead"><small>John, 9:47pm</small>Still early. We're probably 60 days out.</div>
+            <div class="bub bub-ai"><small>Vocalxlabs AI</small>Good time to start. Focused on Cherry Hill, or looking across a few areas? And do you have an agent helping you?</div>
+            <div class="bub bub-lead"><small>John, 9:49pm</small>Cherry Hill mostly. No agent yet.</div>
+          </div>
+          <div class="thread-foot">
+            <span class="pulse-dot sm" aria-hidden="true"></span>
+            <span>Qualified and written to the record before anyone opened a laptop.</span>
+          </div>
+        </div>
+        <p class="rec-note">Illustrative example</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUALIFICATION ===================== -->
+<section class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">Qualification</p>
+      <h2 style="margin-top:12px">Stop handing agents conversations. Hand them opportunities.</h2>
+      <p class="lead" style="margin-top:16px">
+        &ldquo;Are you still interested?&rdquo; is not qualification. This is.
+      </p>
+    </div>
+
+    <div class="qual" style="margin-top:28px">
+      <div class="qual-col reveal">
+        <h3>Buyer</h3>
+        <p>Captured before the agent&rsquo;s first call.</p>
+        <ul class="chips">
+          <li>Area</li><li>Timeline</li><li>Motivation</li><li>Property type</li>
+          <li>Must-haves</li><li>Budget</li><li>Representation</li><li>Financing</li>
+        </ul>
+      </div>
+      <div class="qual-col qual-sell reveal">
+        <h3>Seller</h3>
+        <p>What turns an enquiry into a listing appointment.</p>
+        <ul class="chips">
+          <li>Timeline</li><li>Motivation</li><li>Condition</li><li>Recent updates</li>
+          <li>Property details</li><li>Mortgage status</li><li>Next move</li><li>Priority</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ba" style="margin-top:24px">
+      <div class="ba-col ba-before reveal">
+        <h3><span style="color:var(--danger)">Before</span></h3>
+        <ul>
+          <li>&ldquo;Hey, what are you looking for?&rdquo;</li>
+          <li>A name, a number, a lead source.</li>
+          <li>A transcript to read, no summary.</li>
+          <li>Ten minutes of basic questions.</li>
+          <li>No idea if they are 30 days or 30 months out.</li>
+        </ul>
+      </div>
+      <div class="ba-col ba-after reveal">
+        <h3><span class="money">After</span></h3>
+        <ul>
+          <li>Buyer qualified, criteria understood.</li>
+          <li>Reason for the move known.</li>
+          <li>Timeline and representation clear.</li>
+          <li>The exact property they asked about.</li>
+          <li>A first call that opens on what matters to them.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GROUP TEXT HANDOFF ===================== -->
+<section class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">The handoff</p>
+      <h2 style="margin-top:12px">Don&rsquo;t throw the lead over the wall.</h2>
+      <p class="lead" style="margin-top:16px">
+        Most handoffs restart the conversation. We do it as a group text, so it continues.
+      </p>
+    </div>
+
+    <div class="pair" style="margin-top:30px">
+      <div class="reveal">
+        <div class="thread">
+          <div class="thread-head">
+            <span class="kicker">Group thread &middot; lead, AI and agent</span>
+            <span class="thread-who">Saturday 11:04am</span>
+          </div>
+          <div class="thread-body">
+            <div class="bub bub-lead"><small>John</small>Yes, I'd like to see it.</div>
+            <div class="bub bub-ai"><small>Vocalxlabs AI</small>Absolutely. I'm going to bring Sarah into the conversation. She works in this area and can coordinate the showing.</div>
+            <div class="bub bub-join">Sarah Mitchell joined the conversation</div>
+            <div class="bub bub-agent"><small>Sarah, agent</small>Hi John, Sarah here. I have the details from your conversation with the AI. I can help with that home and the other Cherry Hill options.</div>
+            <div class="bub bub-lead"><small>John</small>Perfect. Saturday afternoon works.</div>
+          </div>
+          <div class="thread-foot">
+            <span class="pulse-dot sm" aria-hidden="true"></span>
+            <span>One conversation. Never passed from system to system.</span>
+          </div>
+        </div>
+        <p class="rec-note">Illustrative example</p>
+      </div>
+
+      <div class="reveal">
+        <div class="rec">
+          <div class="rec-head">
+            <span class="kicker">Agent briefing &middot; sent before Sarah replied</span>
+          </div>
+          <div class="rec-row">
+            <div class="rec-top">
+              <div>
+                <div class="rec-name">John R.</div>
+                <div class="rec-when">Qualified over 3 days, 2 channels</div>
+              </div>
+              <span class="tag">Showing requested</span>
+            </div>
+            <div class="kv" style="margin-top:12px">
+              <div><span>Side</span><b>Buyer</b></div>
+              <div><span>Area</span><b>Cherry Hill</b></div>
+              <div><span>Budget</span><b>$500k&ndash;$550k</b></div>
+              <div><span>Beds</span><b>4</b></div>
+              <div><span>Timeline</span><b>30&ndash;60 days</b></div>
+              <div><span>Agent</span><b>None yet</b></div>
+              <div><span>Motivation</span><b>School district</b></div>
+              <div><span>Financing</span><b>Pre-approval started</b></div>
+            </div>
+          </div>
+          <div class="rec-row" style="background:var(--money-soft)">
+            <div class="rec-top">
+              <div><div class="rec-name">Why now</div></div>
+              <span class="tag">High intent</span>
+            </div>
+            <ul class="rec-acts">
+              <li class="rec-act"><i aria-hidden="true"></i><span>Asked for <b>218 Kings Highway</b> by name</span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>Opened it on <b>three separate days</b></span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>Two similar homes saved Thursday night</span></li>
+            </ul>
+          </div>
+          <div class="rec-foot">
+            <span class="pulse-dot sm" aria-hidden="true"></span>
+            <span>The difference between a lead and an appointment.</span>
+          </div>
+        </div>
+        <p class="rec-note">Illustrative example</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BEHAVIOURAL INTELLIGENCE ===================== -->
+<section id="intelligence" class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">The biggest gap in most accounts</p>
+      <h2 style="margin-top:12px">
+        Stop relying on what leads tell you.<br class="d-br">
+        <span class="money">See what they actually do.</span>
+      </h2>
+      <p class="lead" style="margin-top:16px">
+        Most CRM data is what someone said once, months ago. This is what they did this week.
+      </p>
+    </div>
+
+    <div class="pair" style="margin-top:30px">
+      <div class="reveal">
+        <div class="cov">
+          <div class="cov-row">
+            <b>What one real account captured</b>
+            <span>312 leads in 30 days. 5 had any property activity.</span>
+            <div class="cov-bar cov-now"><i></i></div>
+            <span style="margin-top:8px;color:var(--danger);font-weight:600">1.6% coverage</span>
+          </div>
+          <div class="cov-row">
+            <b>What the rebuilt tracking targets</b>
+            <span>Behaviour on the majority of leads, not the exception.</span>
+            <div class="cov-bar cov-next"><i></i></div>
+            <span style="margin-top:8px;color:var(--money);font-weight:600">60&ndash;70% coverage</span>
+          </div>
+          <p class="cov-foot">
+            Roughly <strong style="color:var(--ink)">45 times more behavioural data</strong> on the
+            same lead flow. Lead spend doesn&rsquo;t change. Visibility does.
+          </p>
+        </div>
+        <p class="rec-note" style="text-align:left">One production account, before and after the tracking rebuild.</p>
+
+        <h3 style="margin-top:28px">What gets tracked</h3>
+        <ul class="chips" style="margin-top:12px">
+          <li>Properties viewed</li><li>Searches</li><li>Towns</li>
+          <li>Price bands</li><li>Beds</li><li>Property type</li><li>Repeat views</li>
+          <li>Separate days</li><li>Time on listing</li><li>Return visits</li>
+          <li>Search changes</li>
+        </ul>
+
+        <div class="card" style="margin-top:24px;background:var(--paper)">
+          <h3>We don&rsquo;t start from zero</h3>
+          <p>Existing contacts get a fresh property search link. When they use it, tracking starts
+          immediately and recovers history where it exists. A database that has never produced a
+          signal can start within days.</p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="rec">
+          <div class="rec-head">
+            <span class="kicker">Property activity &middot; Sarah K.</span>
+            <span class="rec-live"><span class="pulse-dot sm" aria-hidden="true"></span> This week</span>
+          </div>
+          <div class="rec-row">
+            <ul class="rec-acts">
+              <li class="rec-act"><i aria-hidden="true"></i><span><b>Mon 8:14pm</b> &middot; 88 Kings Highway, 4 min</span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span><b>Wed 7:02pm</b> &middot; same home, saved it</span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span><b>Wed 7:09pm</b> &middot; new search, beds raised to 4</span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span><b>Fri 9:31pm</b> &middot; same home, third day</span></li>
+            </ul>
+          </div>
+          <div class="rec-row" style="background:var(--money-soft)">
+            <ul class="rec-acts">
+              <li class="rec-act"><i aria-hidden="true"></i><span>Three views in one sitting is <b>curiosity</b></span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>Monday, Wednesday and Friday is <b>a decision</b></span></li>
+            </ul>
+          </div>
+          <div class="rec-foot">
+            <span class="pulse-dot sm" aria-hidden="true"></span>
+            <span>Recency, repetition, spread across days. That is what predicts.</span>
+          </div>
+        </div>
+
+        <div class="thread" style="margin-top:16px">
+          <div class="thread-head">
+            <span class="kicker">What the AI does with it</span>
+            <span class="thread-who">Saturday 10:02am</span>
+          </div>
+          <div class="thread-body">
+            <div class="bub bub-ai"><small>Vocalxlabs AI</small>Hi Sarah, I noticed you've been back looking at the home on Kings Highway a few times this week. Would you like me to help you get in to see it?</div>
+            <div class="bub bub-lead"><small>Sarah</small>Yes actually. Is Sunday possible?</div>
+          </div>
+          <div class="thread-foot">
+            <span class="pulse-dot sm" aria-hidden="true"></span>
+            <span>Not a newsletter. The actual house she keeps returning to.</span>
+          </div>
+        </div>
+        <p class="rec-note">Illustrative example</p>
+      </div>
+    </div>
+
+    <p class="bridge reveal">
+      Stop treating every record tagged &ldquo;buyer&rdquo; as equal.
+      <strong>Start seeing actual buying behaviour.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== INTENT + NEXT BEST ACTION ===================== -->
+<section class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">Prioritisation</p>
+      <h2 style="margin-top:12px">Know who deserves attention right now.</h2>
+      <p class="lead" style="margin-top:16px">
+        A score is a vanity number. The action attached to it is not.
+      </p>
+    </div>
+
+    <div class="pair" style="margin-top:30px">
+      <div class="reveal">
+        <h3>The signals it reads</h3>
+        <ul class="chips" style="margin-top:14px">
+          <li>Returning after 30+ days</li><li>Repeated views</li>
+          <li>Activity across days</li><li>New search area</li>
+          <li>Major price change</li><li>Showing request</li><li>Asked for an agent</li>
+          <li>Engagement</li><li>Timeline</li><li>Qualification completeness</li>
+        </ul>
+        <p class="lead" style="margin-top:20px">
+          All of that is already happening in your account. Nobody is watching it across four
+          thousand records, every day.
+        </p>
+        <p class="lead" style="margin-top:14px">
+          <strong style="color:var(--ink)">Same leads. Different order.</strong>
+          That is most of the gain.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <div class="rec">
+          <div class="rec-head">
+            <span class="kicker">Intent &middot; Priya N.</span>
+            <span class="rec-live"><span class="pulse-dot sm" aria-hidden="true"></span> 6 min ago</span>
+          </div>
+          <div class="rec-row">
+            <div class="rec-top">
+              <div>
+                <div class="rec-name">High intent</div>
+                <div class="rec-when">Was sitting in a drip with 3,900 others</div>
+              </div>
+              <span class="tag">Act today</span>
+            </div>
+            <ul class="rec-acts">
+              <li class="rec-act"><i aria-hidden="true"></i><span>Returned after <b>45 days</b> silent</span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>Same property, <b>3 different days</b></span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>New active search in <b>Cherry Hill</b></span></li>
+              <li class="rec-act"><i aria-hidden="true"></i><span>Timeline <b>under 60 days</b></span></li>
+            </ul>
+          </div>
+          <div class="rec-row" style="background:var(--money-soft)">
+            <div class="rec-top">
+              <div><div class="rec-name">Next best action</div></div>
+              <span class="tag">Call now</span>
+            </div>
+            <ul class="rec-acts">
+              <li class="rec-act"><i aria-hidden="true"></i><span>Route to the <b>Cherry Hill</b> agent, top of list</span></li>
+              <li class="rec-act dim"><i aria-hidden="true"></i><span>No contact in 2 hours, AI re-engages</span></li>
+              <li class="rec-act dim"><i aria-hidden="true"></i><span>Nothing by tomorrow, team lead alerted</span></li>
+            </ul>
+          </div>
+          <div class="rec-foot">
+            <span class="pulse-dot sm" aria-hidden="true"></span>
+            <span>The number is not the product. The action is.</span>
+          </div>
+        </div>
+        <p class="rec-note">Illustrative example</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DATABASE REACTIVATION ===================== -->
+<section id="database" class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">The cheapest inventory you own</p>
+      <h2 style="margin-top:12px">
+        Your old database isn&rsquo;t dead.<br class="d-br">
+        <span class="money">It&rsquo;s being ignored.</span>
+      </h2>
+      <p class="lead" style="margin-top:16px">
+        3,000 contacts is 3,000 relationships you already paid for. Every one raised their hand
+        once.
+      </p>
+    </div>
+
+    <div class="grid-2" style="margin-top:28px;align-items:start">
+      <article class="card reveal" style="background:var(--paper)">
+        <span class="card-num">01</span>
+        <h3>Broad reactivation</h3>
+        <p style="margin-bottom:14px">Working the dormant database properly, at volume. Every
+        reply is qualified and routed like a fresh lead.</p>
+        <ul class="chips">
+          <li>Segmentation</li><li>Contact history</li><li>Lead type</li>
+          <li>Prior engagement</li><li>DNC and opt-outs</li><li>Deliverability</li>
+          <li>Timing</li><li>Follow-up logic</li><li>CRM updates</li>
+        </ul>
+      </article>
+
+      <article class="card reveal" style="background:var(--money-soft);border-color:rgba(4,120,87,.25)">
+        <span class="card-num" style="color:var(--money)">02</span>
+        <h3>Intelligent reactivation</h3>
+        <p style="margin-bottom:14px">Once behaviour and history are available, each contact gets
+        reactivated around their own interests.</p>
+        <div class="kv">
+          <div><span>Contact</span><b>John</b></div>
+          <div><span>Was searching</span><b>Cherry Hill</b></div>
+          <div><span>Band</span><b>$500k&ndash;$550k</b></div>
+          <div><span>Beds</span><b>4+</b></div>
+          <div><span>Viewed</span><b>123 Main St</b></div>
+          <div><span>Outcome</span><b>Never purchased</b></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="pair" style="margin-top:26px">
+      <div class="reveal">
+        <div class="thread">
+          <div class="thread-head">
+            <span class="kicker">Generic</span>
+            <span class="thread-who">What most teams send</span>
+          </div>
+          <div class="thread-body">
+            <div class="bub bub-ai" style="background:var(--ink-muted)"><small>Generic</small>Are you still looking to buy?</div>
+            <div class="bub bub-join">No reply</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="thread">
+          <div class="thread-head">
+            <span class="kicker">Knows who he is</span>
+            <span class="thread-who"><span class="pulse-dot sm" aria-hidden="true"></span> Same contact</span>
+          </div>
+          <div class="thread-body">
+            <div class="bub bub-ai"><small>Vocalxlabs AI</small>Hey John, you were looking around Cherry Hill in the $500k to $550k range, including homes like 123 Main St. There are new options in that range now. Still considering a move?</div>
+            <div class="bub bub-lead"><small>John</small>We paused last year but we're starting to look again.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread reveal" style="margin-top:16px;max-width:44rem">
+      <div class="thread-head">
+        <span class="kicker">Stronger again, when fresh activity appears</span>
+        <span class="thread-who"><span class="pulse-dot sm" aria-hidden="true"></span> Behaviour triggered</span>
+      </div>
+      <div class="thread-body">
+        <div class="bub bub-ai"><small>Vocalxlabs AI</small>Hey John, I noticed you're back looking at homes around Cherry Hill. Starting to look again? I can send a few close matches based on what you've been viewing.</div>
+      </div>
+      <div class="thread-foot">
+        <span class="pulse-dot sm" aria-hidden="true"></span>
+        <span>Nobody had to notice he came back. The system did.</span>
+      </div>
+    </div>
+
+    <div class="slab reveal">
+      <p>A lead doesn&rsquo;t need to reply today to be worth money.</p>
+      <span>They can come back in three months or a year. Your database stops being a list you
+      exported once and becomes a monitored pool of future transactions.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INBOUND AI ===================== -->
+<section class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">Inbound</p>
+      <h2 style="margin-top:12px">The lead who calls back shouldn&rsquo;t get voicemail.</h2>
+      <p class="lead" style="margin-top:16px">
+        Someone who calls you has already raised their hand. It is the most expensive call in the
+        building to miss, and often they call from a number your CRM has never seen.
+      </p>
+    </div>
+
+    <div class="fork reveal" style="margin-top:30px">
+      <div class="fork-col fork-lost">
+        <h3><span style="color:var(--danger)">Today</span></h3>
+        <ul class="run">
+          <li><b>Incoming call, 6:40pm</b><span>Spoke to your AI last week, calling from a work phone.</span></li>
+          <li><b>No answer</b><span>Agents showing, office closed.</span></li>
+          <li><b>No message left</b><span>No record it ever happened.</span></li>
+          <li><b>Opportunity lost</b><span>They call the next brokerage.</span></li>
+        </ul>
+      </div>
+      <div class="fork-col fork-kept">
+        <h3><span class="money">After</span></h3>
+        <ul class="run">
+          <li><b>Incoming call, 6:40pm</b><span>Answered on the first ring, including Sunday.</span></li>
+          <li><b>Contact recognised</b><span>Matched to the record, alternate number resolved.</span></li>
+          <li><b>Context loaded</b><span>Prior conversations, agent, what was already asked.</span></li>
+          <li><b>Conversation continues</b><span>Booked, transferred, written back.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lane reveal">
+      <div>
+        <b>Identify and match</b>
+        <p>Caller matched to the CRM, alternate numbers resolved to one person instead of a
+        duplicate record.</p>
+      </div>
+      <div>
+        <b>Pick up where it stopped</b>
+        <p>Prior conversations and campaign context loaded. Incomplete qualification continued,
+        not restarted.</p>
+      </div>
+      <div>
+        <b>Finish the job</b>
+        <p>Book, transfer live to the right agent, and write the call and outcome back to Follow
+        Up Boss.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SELLER INTELLIGENCE ===================== -->
+<section class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">The listing side</p>
+      <h2 style="margin-top:12px">Turn seller conversations into listings.</h2>
+      <p class="lead" style="margin-top:16px">
+        A homeowner who answers eight questions and gets nothing back has been interviewed, not
+        helped.
+      </p>
+    </div>
+
+    <div class="pair" style="margin-top:30px">
+      <div class="reveal">
+        <h3>They get a valuation, not a questionnaire</h3>
+        <p class="lead" style="margin-top:12px">
+          During the conversation the seller receives an estimated value, nearby comparable sales
+          and a sense of their equity position. Then a clear path to your agent.
+        </p>
+        <p class="lead" style="margin-top:14px">
+          <strong style="color:var(--ink)">The seller side becomes a product, not a form.</strong>
+        </p>
+        <p class="fine" style="margin-top:16px">
+          This is an estimated valuation, not an appraisal, and it says so to the homeowner every
+          time. Final pricing comes from your licensed agent, which is exactly why they want the
+          appointment.
+        </p>
+
+        <h3 style="margin-top:28px">And both sides feed each other</h3>
+        <p class="lead" style="margin-top:12px">
+          Every listing you win becomes inventory to put in front of buyers already in your
+          database searching that street and price band.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <div class="rec">
+          <div class="rec-head">
+            <span class="kicker">Seller flow</span>
+            <span class="rec-live"><span class="pulse-dot sm" aria-hidden="true"></span> Live</span>
+          </div>
+          <div class="rec-row">
+            <ul class="run" style="margin-top:2px">
+              <li><b>Seller enters their property</b><span>From an ad, your site, or a reactivated contact.</span></li>
+              <li><b>AI collects the key facts</b><span>Timeline, motivation, condition, mortgage, next move.</span></li>
+              <li><b>Property intelligence runs</b><span>Matched against recent nearby sales.</span></li>
+              <li><b>They get value and comps</b><span>Estimate, comparables, likely equity.</span></li>
+              <li><b>Listing conversation opens</b><span>Now they want your agent&rsquo;s opinion.</span></li>
+              <li><b>Agent appointment</b><span>Routed by territory, fully briefed.</span></li>
+            </ul>
+          </div>
+          <div class="rec-foot">
+            <span class="pulse-dot sm" aria-hidden="true"></span>
+            <span>They get something valuable for the information they gave you.</span>
+          </div>
+        </div>
+        <p class="rec-note">Illustrative example</p>
+      </div>
+    </div>
+
+    <div class="chain reveal">
+      <p class="kicker">Why the listing side pays twice</p>
+      <ol class="chain-list">
+        <li class="chain-start"><b>Seller lead</b><span>A valuation enquiry</span></li>
+        <li><b style="font-family:var(--sans);font-size:1.0625rem;font-weight:600">Listing</b><span>Won at the appointment</span></li>
+        <li><b style="font-family:var(--sans);font-size:1.0625rem;font-weight:600">Inventory</b><span>Something to show</span></li>
+        <li class="chain-end"><b style="font-family:var(--sans);font-size:1.0625rem;font-weight:600">Buyer deals</b><span>From buyers you already have</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OMNICHANNEL ===================== -->
+<section class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">Shared context</p>
+      <h2 style="margin-top:12px">One conversation across text, calls and email.</h2>
+      <p class="lead" style="margin-top:16px">
+        Most CRMs split the history between channels. These three share one memory.
+      </p>
+    </div>
+
+    <div class="pair" style="margin-top:28px">
+      <div class="reveal">
+        <div class="chan">
+          <div class="chan-row">
+            <span class="chan-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>SMS</span>
+            <span class="chan-arrow" aria-hidden="true">&rarr;</span>
+            <span class="chan-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Voice</span>
+            <span class="chan-arrow" aria-hidden="true">&rarr;</span>
+            <span class="chan-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>Email</span>
+            <span class="chan-arrow" aria-hidden="true">&rarr;</span>
+            <span class="chan-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Voice</span>
+          </div>
+          <div class="chan-mem">
+            <p class="kicker">One shared context</p>
+            <p>Over text: <b>&ldquo;Cherry Hill, under $550k.&rdquo;</b></p>
+            <p>Two weeks later, by email: <b>&ldquo;Also considering Marlton, we can go to $600k.&rdquo;</b></p>
+            <p>When they call, the voice AI already knows both.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <ul class="ledger">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Budget, area and timeline update once</b>, and are true everywhere.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>The lead never repeats themselves.</b></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>The right channel at the right moment</b>, with the full history behind it.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Your agent gets one picture</b>, not three separate conversations.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REVENUE ATTRIBUTION ===================== -->
+<section id="attribution" class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">What the owner needs to see</p>
+      <h2 style="margin-top:12px">
+        Stop measuring leads.<br class="d-br">
+        <span class="money">Measure what produces revenue.</span>
+      </h2>
+      <p class="lead" style="margin-top:16px">
+        You know what your leads cost. Can you say what they became?
+      </p>
+    </div>
+
+    <div class="dash reveal" style="margin-top:26px">
+      <div class="dash-head">
+        <span class="kicker">Revenue by lead source &middot; trailing 90 days</span>
+        <span class="thread-who"><span class="pulse-dot sm" aria-hidden="true"></span> Illustrative</span>
+      </div>
+      <div class="dash-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col" style="text-align:left">Source</th>
+              <th scope="col">Leads</th>
+              <th scope="col">Qualified</th>
+              <th scope="col">Appts</th>
+              <th scope="col">Clients</th>
+              <th scope="col">Closings</th>
+              <th scope="col">Revenue</th>
+              <th scope="col">ROI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Portal leads</th>
+              <td>412</td><td>168</td><td>44</td><td>19</td><td>7</td>
+              <td class="rev">$63,000</td><td class="roi">3.1x</td>
+            </tr>
+            <tr>
+              <th scope="row">Google PPC</th>
+              <td>218</td><td>96</td><td>31</td><td>14</td><td>6</td>
+              <td class="rev">$58,500</td><td class="roi">4.4x</td>
+            </tr>
+            <tr>
+              <th scope="row">Facebook</th>
+              <td>604</td><td>121</td><td>22</td><td>7</td><td>2</td>
+              <td class="rev">$17,000</td><td class="roi-low">0.9x</td>
+            </tr>
+            <tr>
+              <th scope="row">Reactivated database</th>
+              <td>1,940</td><td>203</td><td>58</td><td>26</td><td>11</td>
+              <td class="rev">$104,500</td><td class="roi">11.6x</td>
+            </tr>
+            <tr>
+              <th scope="row">Inbound calls</th>
+              <td>147</td><td>89</td><td>37</td><td>18</td><td>8</td>
+              <td class="rev">$76,000</td><td class="roi">9.2x</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Total</th>
+              <td>3,321</td><td>677</td><td>192</td><td>84</td><td>34</td>
+              <td class="rev">$319,000</td><td class="roi">4.7x</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <p class="dash-note">Illustrative figures, shown to explain the reporting shape.</p>
+    </div>
+
+    <div class="grid-2" style="margin-top:24px">
+      <article class="card reveal" style="background:var(--paper)">
+        <h3>Questions it answers</h3>
+        <p style="margin-bottom:12px">The ones you answer with an opinion today.</p>
+        <ul class="chips">
+          <li>Which source produces transactions</li>
+          <li>Which produces higher value clients</li>
+          <li>Which agents convert best</li>
+          <li>Which territories outperform</li>
+          <li>Revenue from reactivated leads</li>
+        </ul>
+      </article>
+      <article class="card reveal" style="background:var(--paper)">
+        <h3>What changes because of it</h3>
+        <p>In the table above, Facebook produces four times the lead volume of PPC and a third of
+        the revenue. That is a budget decision you can only make when somebody joins those two ends
+        together. You stop funding the source that fills the CRM and start funding the one that
+        fills the closing table.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTINUOUS OPTIMISATION ===================== -->
+<section class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">After it goes live</p>
+      <h2 style="margin-top:12px">It doesn&rsquo;t get installed and forgotten.</h2>
+      <p class="lead" style="margin-top:16px">
+        Numbers get flagged. Deliverability drifts. A webhook fails quietly on a Tuesday. Somebody
+        has to be watching.
+      </p>
+    </div>
+
+    <div class="watch reveal" style="margin-top:28px">
+      <div>
+        <h3>Deliverability</h3>
+        <ul>
+          <li>Failed SMS</li>
+          <li>Undeliverable numbers</li>
+          <li>Suppression lists</li>
+          <li>Opt-out handling</li>
+          <li>Email deliverability</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Phone reputation</h3>
+        <ul>
+          <li>Spam flag detection</li>
+          <li>Caller reputation</li>
+          <li>Number health</li>
+          <li>Answer patterns</li>
+          <li>Rotation when a number burns</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Reliability and flow</h3>
+        <ul>
+          <li>Failed calls and messages</li>
+          <li>Webhook and CRM sync failures</li>
+          <li>Scheduling and routing errors</li>
+          <li>Leads stuck, wrong stage moves</li>
+          <li>Handoffs firing early or late</li>
+          <li>AI edge cases</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pair" style="margin-top:28px">
+      <div class="reveal">
+        <p class="lead">
+          Real conversations produce new edge cases every week. We fix the workflows underneath
+          instead of treating the first build as finished.
+        </p>
+        <p class="lead" style="margin-top:14px">
+          Changes are tested before they reach live leads.
+        </p>
+      </div>
+      <div class="reveal">
+        <div class="stats stats-pair">
+          <div class="stat">
+            <b class="tabular">371<em>Regression scenarios</em></b>
+            <span>Run against every change before it ships.</span>
+          </div>
+          <div class="stat">
+            <b class="tabular">35<em>Fields per call</em></b>
+            <span>Structured analysis written back automatically.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AGENTS ===================== -->
+<section class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">What your roster will ask</p>
+      <h2 style="margin-top:12px">This isn&rsquo;t about replacing your agents.</h2>
+      <p class="lead" style="margin-top:16px">
+        It removes the work that keeps them away from revenue. A licensed agent is the most
+        expensive person you can put on admin.
+      </p>
+    </div>
+
+    <div class="ba" style="margin-top:28px">
+      <div class="ba-col ba-before reveal">
+        <h3><span style="color:var(--danger)">Their week now</span></h3>
+        <ul>
+          <li>Calling leads who never answer</li>
+          <li>Asking the same five questions</li>
+          <li>Reading transcripts to find one fact</li>
+          <li>Chasing old leads with nothing to say</li>
+          <li>Re-entering data into the CRM</li>
+          <li>Guessing who deserves attention</li>
+          <li>Remembering a call from six weeks ago</li>
+          <li>Manually updating stages</li>
+        </ul>
+      </div>
+      <div class="ba-col ba-after reveal">
+        <h3><span class="money">What the system takes</span></h3>
+        <ul>
+          <li>First engagement, on every lead</li>
+          <li>Qualification, voice and text</li>
+          <li>Behaviour monitoring, whole database</li>
+          <li>Reactivation, continuously</li>
+          <li>Context, held and handed over</li>
+          <li>The handoff, at the right moment</li>
+          <li>CRM updates, written automatically</li>
+          <li>Prioritisation, refreshed daily</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="bridge reveal">
+      Less time working the database.
+      <strong>More time working the opportunities.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== ONE SYSTEM, NOT ANOTHER DASHBOARD ===================== -->
+<section class="sec rule-top">
+  <div class="wrap">
+    <div class="pair">
+      <div class="reveal">
+        <p class="kicker">Adoption</p>
+        <h2 style="margin-top:12px">Your agents don&rsquo;t need another login.</h2>
+        <p class="lead" style="margin-top:16px">
+          Every tool that fails in a brokerage fails the same way. It asks an agent to open
+          something new, and within three weeks nobody does.
+        </p>
+        <p class="lead" style="margin-top:14px">
+          <strong style="color:var(--ink)">So we don&rsquo;t ask.</strong>
+          The layer runs in the background. The only thing that changes for an agent is what sits
+          at the top of their list.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <p class="kicker">Written back to the record</p>
+        <ul class="chips" style="margin-top:14px">
+          <li>Conversations</li><li>Qualification</li><li>Calls</li><li>Transcripts</li>
+          <li>Outcomes</li><li>Assignment</li><li>Stage changes</li>
+          <li>Property behaviour</li><li>Intent signals</li><li>Appointments</li>
+        </ul>
+        <div class="card" style="margin-top:20px;background:var(--paper-soft)">
+          <h3>Reporting goes to owners, not agents</h3>
+          <p>The person making a budget decision sees the numbers. The person making a call sees
+          the call.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE FULL LOOP ===================== -->
+<section id="loop" class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">One connected loop</p>
+      <h2 style="margin-top:12px">How it all runs together.</h2>
+      <p class="lead" style="margin-top:16px">
+        Every section above is one piece. This is the shape they make connected.
+      </p>
+    </div>
+
+    <ol class="loop reveal" style="margin-top:28px">
+      <li><div><b>Lead enters</b><span>Captured the moment it lands, any source.</span></div></li>
+      <li><div><b>AI engages</b><span>SMS and voice, in seconds.</span></div></li>
+      <li><div><b>AI qualifies</b><span>The right questions, in context.</span></div></li>
+      <li><div><b>Behaviour understood</b><span>Properties, searches, repeat views.</span></div></li>
+      <li><div><b>Intent rises</b><span>Signals read, lead moves up the list.</span></div></li>
+      <li><div><b>Agent enters</b><span>Group text, appointment or live transfer.</span></div></li>
+      <li><div><b>CRM stays current</b><span>Without anyone typing it in.</span></div></li>
+      <li class="loop-quiet"><div><b>Lead goes quiet</b><span>Most do. Where most systems stop.</span></div></li>
+      <li class="loop-quiet"><div><b>Relationship stays alive</b><span>Nurture and intelligent reactivation.</span></div></li>
+      <li class="loop-quiet"><div><b>Lead returns</b><span>Eight months later. A new signal.</span></div></li>
+      <li class="loop-win"><div><b>Agent gets it</b><span>When it is worth their time.</span></div></li>
+      <li class="loop-win"><div><b>Transaction closes</b><span>Revenue attributed to its source.</span></div></li>
+    </ol>
+
+    <div class="loop-close reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+      <span>Then it starts again. Every closing tells you more about the path that created it.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FINAL OUTCOME ===================== -->
+<section class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">The whole point</p>
+      <h2 style="margin-top:12px">What the brokerage actually gets.</h2>
+    </div>
+
+    <ul class="ledger reveal" style="margin-top:26px;max-width:48rem">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>More opportunities from the same lead spend.</b></span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>More conversations with people showing real intent.</b></span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>More qualified appointments</b>, with the criteria attached.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Response in seconds</b>, not hours.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Fewer leads lost after handoff.</b></span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Less manual CRM work</b>, and a CRM that is actually current.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Real value out of the database you already own.</b></span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>More seller opportunities</b>, with a valuation worth trading information for.</span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Clarity on which sources produce revenue.</b></span></li>
+    </ul>
+
+    <div class="slab reveal">
+      <p>The goal isn&rsquo;t more AI.<br>It&rsquo;s more closed business.</p>
+      <span>We build the infrastructure around your CRM so your team responds faster, spots intent
+      earlier, and spends more time where revenue is actually created.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHO THIS IS FOR ===================== -->
+<section class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">Fit</p>
+      <h2 style="margin-top:12px">Built for teams that already have the leads.</h2>
+      <p class="lead" style="margin-top:16px">
+        This pays for itself on volume. Below a certain size it doesn&rsquo;t, and we would rather
+        say so here than on a call.
+      </p>
+    </div>
+
+    <div class="fit" style="margin-top:28px">
+      <div class="fit-col fit-yes reveal">
+        <h3>A good fit</h3>
+        <ul>
+          <li>Five or more agents</li>
+          <li>Running Follow Up Boss</li>
+          <li>Buying paid leads</li>
+          <li>1,000+ contacts in the CRM</li>
+          <li>A big old database nobody has worked</li>
+          <li>Speed to lead genuinely matters</li>
+          <li>Agents spending the week chasing</li>
+          <li>An owner who wants lead spend tied to revenue</li>
+        </ul>
+      </div>
+      <div class="fit-col fit-no reveal">
+        <h3>Not a fit</h3>
+        <ul>
+          <li>Solo agents with low lead volume</li>
+          <li>No existing CRM to build around</li>
+          <li>Anyone shopping for a chatbot subscription</li>
+          <li>Teams wanting to replace agents, not free them</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TECHNICAL TRUST ===================== -->
+<section class="sec rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">For the technical buyer</p>
+      <h2 style="margin-top:12px">Built around what you already run.</h2>
+      <p class="lead" style="margin-top:16px">
+        Nothing here asks you to move. Every account we set up is registered in your name.
+      </p>
+    </div>
+
+    <div class="stackrow reveal" style="margin-top:26px">
+      <div><b>Follow Up Boss</b><span>System of record. Contacts, stages, assignment, smart lists and calendars stay where they are.</span></div>
+      <div><b>Voice AI</b><span>Real-time qualification, outbound calling, inbound answering, live transfer.</span></div>
+      <div><b>SMS</b><span>Immediate engagement, follow-up, group handoff and nurture, on registered numbers.</span></div>
+      <div><b>Email</b><span>The third channel, sharing the same lead context as text and voice.</span></div>
+      <div><b>Website activity</b><span>Which listings, how often, how recently, and what changed in the search.</span></div>
+      <div><b>CRM APIs and webhooks</b><span>Two-way sync, with failures monitored rather than discovered a month later.</span></div>
+      <div><b>Compliance controls</b><span>Consent, opt-outs, suppression, contact windows, carrier registration, Fair Housing, audit trail.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="sec bg-soft rule-top">
+  <div class="wrap">
+    <div class="reveal measure">
+      <p class="kicker">Questions</p>
+      <h2 style="margin-top:12px">Before you book.</h2>
+    </div>
+
+    <div class="faq reveal" style="margin-top:26px;max-width:46rem">
+      <details>
+        <summary>Is this a replacement for Follow Up Boss?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>No. Follow Up Boss stays the CRM and the system of record. We build the intelligence, engagement and revenue workflows around it, and everything important is written back to the record your agents already open.</p></div>
+      </details>
+
+      <details>
+        <summary>Do my agents need another CRM?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>No. Agents keep working where they already work. Conversations, transcripts, qualification, stage changes, property behaviour and appointments all land on the person record in Follow Up Boss.</p></div>
+      </details>
+
+      <details>
+        <summary>Is this just an AI chatbot?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>No. A chatbot answers a message. This spans voice, SMS, email, CRM data, property behaviour, intent detection, agent handoff, database reactivation, inbound calls and revenue attribution, and most of it runs whether or not anyone opens a chat window.</p></div>
+      </details>
+
+      <details>
+        <summary>How is this different from what Follow Up Boss does natively?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>Native features solve part of the workflow: smart lists, automations, lead routing, activity filters and integrations. We connect those capabilities with custom AI engagement, behavioural intelligence and revenue workflows specific to how your team operates, and we keep them running in production. A well configured CRM is a real head start, and it still needs a person to work it every day.</p></div>
+      </details>
+
+      <details>
+        <summary>Can it work with our existing lead sources?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>Yes. The architecture works from the CRM as the central entry point. If the lead reaches Follow Up Boss it gets worked, whatever bought it: PPC, portals, Facebook, StreetText, your own site, open houses or referrals.</p></div>
+      </details>
+
+      <details>
+        <summary>What happens to our old database?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>It usually becomes the largest opportunity in the account. We run broad reactivation across the dormant records first, then more personal reactivation based on what each contact was originally looking for and what they are doing now.</p><p>You already paid to acquire those relationships. Working them again costs a fraction of buying new ones.</p></div>
+      </details>
+
+      <details>
+        <summary>Will the AI know what happened previously?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>Yes, where that history exists in the connected CRM and context layer. Nobody should have to explain themselves twice, whether the gap is between two channels or between two years.</p></div>
+      </details>
+
+      <details>
+        <summary>What happens when someone calls back?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>The inbound layer identifies the caller, finds the CRM record including alternate phone numbers, loads the existing context and continues the conversation instead of treating them as new. It can finish qualification, book, transfer to the right agent and write everything back.</p></div>
+      </details>
+
+      <details>
+        <summary>Is this compliant?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>Consent capture, opt-out handling, suppression, contact windows, carrier registration, Fair Housing guardrails and a timestamped audit trail are built in, and every account and number is registered in your name so your compliance posture is yours to control.</p><p>We build to the standard your counsel expects. We do not issue blanket legal guarantees, and anyone who does should worry you.</p></div>
+      </details>
+
+      <details>
+        <summary>Can we start with part of the system?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="faq-a"><p>The system is modular, so the build is designed around the infrastructure you already have and your growth priorities. That is a sequence, not a menu. Speed to lead and qualification usually come first because they move numbers fastest, and behavioural tracking goes in early because everything downstream depends on the data it starts collecting.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FINAL CTA ===================== -->
+<section id="map" class="sec final">
+  <div class="wrap">
+    <div class="final-grid">
+      <div>
+        <p class="kicker" style="color:rgba(255,255,255,.55)">The next step</p>
+        <h2 style="margin-top:12px">See what your CRM <br class="d-br">could be generating.</h2>
+        <p class="lead" style="margin-top:16px">
+          We go through your lead flow, database and follow-up process, then show you where the
+          biggest opportunities are being lost.
+        </p>
+
+        <ul class="final-pts">
+          <li>No CRM replacement</li>
+          <li>No agent retraining</li>
+          <li>No chatbot package</li>
+        </ul>
+
+        <div class="hero-ctas">
+          <a class="btn btn-money btn-block" href="https://calendly.com/vocalxlabs_fawaaz/discovery-call">
+            Build my revenue map
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-block" href="/contact/" style="border:1px solid rgba(255,255,255,.22);color:#fff">
+            Talk to Vocalxlabs
+          </a>
+        </div>
+
+        <p class="fine" style="margin-top:18px">
+          If the numbers don&rsquo;t work at your size, we will say so on the call rather than
+          build something that never pays for itself.
+        </p>
+      </div>
+
+      <aside class="audit-card">
+        <p class="kicker">What we map out with you</p>
+        <ul>
+          <li>Contacts nobody has touched in 90 days, and what you paid for them</li>
+          <li>Your real speed to first contact, by source and by hour</li>
+          <li>How much property behaviour you capture, and how much you miss</li>
+          <li>Where opportunities die: by source, by stage, by agent</li>
+          <li>What the unanswered inbound calls are worth</li>
+          <li>Which layer to build first, and what it should return</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand">
+        <a class="brand" href="/">
+          <img src="/img/logo.png" alt="" width="30" height="30">
+          <b>vocalxlabs</b>
+        </a>
+        <p class="fine">AI-first for Follow Up Boss.</p>
+      </div>
+      <div class="foot-links">
+        <div>
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="/ai-calling/">AI calling</a></li>
+            <li><a href="/ai-texting/">AI texting</a></li>
+            <li><a href="/lead-reactivation/">Lead reactivation</a></li>
+            <li><a href="/lead-routing/">Lead routing</a></li>
+            <li><a href="/resimpli/">ReSimpli AI</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/case-studies/timothy-fub-implementation/">Case study</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/blog/">Guides</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>&copy; 2026 VOCALXLABS LLC &middot; 30 N Gould St Ste R, Sheridan, WY 82801 &middot;
+        <a href="/terms/">Terms</a></p>
+      <p>Not affiliated with, endorsed by, or a reseller of Follow Up Boss or Zillow Group.
+        Product screens shown are illustrative examples used to explain the workflow. Example
+        production metrics come from a live implementation and are not a guarantee of results.
+        Valuation output is an estimate, not an appraisal, and final pricing guidance comes from a
+        licensed professional.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-cta hidden-cta" data-sticky>
+  <a class="btn btn-money btn-block" href="https://calendly.com/vocalxlabs_fawaaz/discovery-call">
+    Build my revenue map
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+  <span class="sticky-note">Built around your CRM &middot; no second system</span>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var header = document.querySelector('[data-header]');
+  var sticky = document.querySelector('[data-sticky]');
+  var end    = document.getElementById('map');
+
+  function onScroll(){
+    var y = window.pageYOffset || document.documentElement.scrollTop;
+    if(header) header.classList.toggle('scrolled', y > 8);
+    if(sticky){
+      /* Hide only once the final CTA's own button is genuinely on screen, so the
+         persistent CTA is never pulled at the moment intent peaks. */
+      var past = y > 560, atEnd = false;
+      if(end) atEnd = end.getBoundingClientRect().top < window.innerHeight * 0.35;
+      sticky.classList.toggle('hidden-cta', !past || atEnd);
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll, {passive:true});
+  onScroll();
+
+  /* mobile nav */
+  var burger = document.querySelector('[data-menu]');
+  var mnav   = document.querySelector('[data-mobile]');
+  if(burger && mnav){
+    burger.addEventListener('click', function(){
+      var open = mnav.hasAttribute('hidden');
+      if(open){ mnav.removeAttribute('hidden'); } else { mnav.setAttribute('hidden',''); }
+      burger.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('menu-open', open);
+    });
+    mnav.addEventListener('click', function(e){
+      if(e.target.closest('a')){
+        mnav.setAttribute('hidden','');
+        burger.setAttribute('aria-expanded','false');
+        document.body.classList.remove('menu-open');
+      }
+    });
+  }
+
+  /* reveal on scroll, with a fallback for environments where IO never fires */
+  var items = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    items.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0.06});
+    items.forEach(function(el){ io.observe(el); });
+    setTimeout(function(){
+      document.querySelectorAll('.reveal:not(.in)').forEach(function(el){
+        if(el.getBoundingClientRect().top < window.innerHeight) el.classList.add('in');
+      });
+    }, 2500);
+  }
+})();
+</script>
+</body>
+</html>
